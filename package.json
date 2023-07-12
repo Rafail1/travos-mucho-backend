@@ -1,0 +1,19 @@
+{
+  "name": "travos-mucho-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafail1/travos-mucho-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rafail1/travos-mucho-backend/issues"
+  },
+  "homepage": "https://github.com/Rafail1/travos-mucho-backend#readme"
+}
