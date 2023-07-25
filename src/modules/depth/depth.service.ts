@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { response } from 'express';
 import { firstValueFrom } from 'rxjs';
 import { WebSocketClient } from 'websocket';
+import { DatabaseService } from '../database/database.service';
 
 /**
  * How to manage a local order book correctly
@@ -23,21 +24,19 @@ const DEPTH_INTERVAL = 100;
 const BUFFER_LENGTH = 500;
 @Injectable()
 export class DepthService {
-  private intervals: Record<string, NodeJS.Timer> = {};
-  private orderBooks: Record<string, any> = {};
   private getWsDepthUrl = (symbol: string) =>
     `wss://fstream.binance.com/stream?streams=${symbol}@depth@${DEPTH_INTERVAL}ms`;
   private httpDepthUrl = (symbol: string, limit = 1000) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
 
-  constructor(private httpService: HttpService) {}
+  private subscriptions: Record<string, boolean> = {};
+
+  constructor(
+    private httpService: HttpService,
+    private databaseService: DatabaseService,
+  ) {}
 
   async subscribeBook(symbol: string) {
-    if (this.intervals[symbol]) {
-      Logger.warn(`subscription already exists, ${symbol}`);
-      return;
-    }
-
     const buffer: Array<any> = [];
     this.connectWs(symbol, async (depth) => {
       if (buffer.length && buffer[buffer.length - 1].u !== depth.pu) {
@@ -48,7 +47,7 @@ export class DepthService {
 
       buffer.push(depth);
       if (buffer.length > BUFFER_LENGTH) {
-        this.flush(symbol, buffer);
+        this.flush(buffer.splice(0));
       }
     });
 
@@ -56,51 +55,66 @@ export class DepthService {
   }
 
   private async setOrderBook(symbol: string) {
-    this.orderBooks[symbol] = await firstValueFrom(
+    const snapshot = await firstValueFrom(
       this.httpService.get(this.httpDepthUrl(symbol)),
-    ).then((response) => response.data);
+    ).then((response) => ({ ...response.data, symbol }));
+    await this.databaseService.orderBookSnapshot.create({ data: snapshot });
   }
 
-  private flush(symbol: string, buffer: any[]) {
-    const { lastUpdateId, asks, bids } = this.orderBooks[symbol];
+  /**
+   *
+   * @param buffer splice of buffer (don't need to splice it again)
+   */
+  private async flush(buffer: any[]) {
+    // const { lastUpdateId, asks, bids } = this.orderBooks[symbol];
 
-    const eventItems = [];
-    for (let i = 0; i < buffer.length; i++) {
-      const bufferItem = buffer[i];
-      if (bufferItem.u < lastUpdateId) {
-        continue;
-      } else if (bufferItem.U <= lastUpdateId && bufferItem.u >= lastUpdateId) {
-        eventItems.concat(buffer.slice(i));
-        break;
-      } else {
-        Logger.warn('first event not first in array');
-        continue;
-      }
-    }
+    // const eventItems = [];
+    // for (let i = 0; i < buffer.length; i++) {
+    //   const bufferItem = buffer[i];
+    //   if (bufferItem.u < lastUpdateId) {
+    //     continue;
+    //   } else if (bufferItem.U <= lastUpdateId && bufferItem.u >= lastUpdateId) {
+    //     eventItems.concat(buffer.slice(i));
+    //     break;
+    //   } else {
+    //     Logger.warn('first event not first in array');
+    //     continue;
+    //   }
+    // }
 
-    if (!eventItems.length) {
-      Logger.error('no events to flush');
-      buffer.splice(0);
-      return;
-    }
+    // if (!eventItems.length) {
+    //   Logger.error('no events to flush');
+    //   return;
+    // }
+    await this.databaseService.depthUpdates.createMany({ data: buffer });
 
-    // go througth eventItems, calculate orderBook, set orderBook, save snapshot and buffer, clear buffer
+    // save buffer, clear buffer, make snapshot, save snapshot
   }
 
   private connectWs(symbol: string, cb: (message) => void) {
+    if (this.subscriptions[symbol]) {
+      Logger.warn(`subscription already exists, ${symbol}`);
+      return;
+    }
+    this.subscriptions[symbol] = true;
+
     const client = new WebSocketClient();
 
     client.on('connectFailed', function (error) {
-      console.log('Connect Error: ' + error.toString());
+      Logger.log(`Connect Error ${symbol}: ${error.toString()}`);
+      this.subscriptions[symbol] = false;
+      setTimeout(() => {
+        this.subscribeBook(symbol, cb);
+      }, 2000);
     });
 
     client.on('connect', function (connection) {
-      console.log('WebSocket Client Connected');
+      Logger.log(`WebSocket Client Connected ${symbol}`);
       connection.on('error', function (error) {
-        console.log('Connection Error: ' + error.toString());
+        Logger.error(`Connection Error ${symbol}: ${error.toString()}`);
       });
       connection.on('close', function () {
-        console.log('echo-protocol Connection Closed');
+        Logger.warn(`Connection Closed ${symbol}`);
       });
       connection.on('message', function (message) {
         cb(message);

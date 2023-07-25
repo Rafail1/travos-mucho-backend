@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model OrderBookSnapshot {
+  lastUpdateId Int      @id
+  symbol       String // symbol
+  E            DateTime // Message output time
+  T            DateTime // Transaction time
+  bids         Json
+  asks         Json
+}
+
+model DepthUpdates {
+  u  Int      @id // Final update ID in event
+  E  DateTime // Event time
+  T  DateTime // Transaction time 
+  s  String // Symbol
+  U  Int // First update ID in event
+  pu Int // Final update Id in last stream(ie `u` in last stream)
+  b  Json
+  a  Json
+}
