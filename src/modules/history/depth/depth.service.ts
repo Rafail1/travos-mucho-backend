@@ -1,9 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { response } from 'express';
 import { firstValueFrom } from 'rxjs';
 import { WebSocketClient } from 'websocket';
-import { DatabaseService } from '../database/database.service';
+import { DatabaseService } from '../../database/database.service';
 
 /**
  * How to manage a local order book correctly
