@@ -29,3 +29,15 @@ model DepthUpdates {
   b  Json
   a  Json
 }
+
+model AggTrades {
+  a Int      @id // Aggregate trade ID
+  E DateTime // Event time
+  s String // Symbol
+  p String // Price
+  q String // Quantity
+  f Int // First trade ID
+  l Int // Last trade ID
+  T DateTime // Trade time
+  m Boolean // Is the buyer the market maker?
+}
