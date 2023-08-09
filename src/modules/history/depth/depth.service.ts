@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
-import { WebSocketClient } from 'websocket';
+import { client as WebSocketClient } from 'websocket';
 import { DatabaseService } from '../../database/database.service';
 
 /**
@@ -35,28 +35,32 @@ export class DepthService {
     private databaseService: DatabaseService,
   ) {}
 
-  async subscribeBook(symbol: string) {
+  async subscribe(symbol: string) {
     const buffer: Array<any> = [];
     this.connectWs(symbol, async (depth) => {
       if (buffer.length && buffer[buffer.length - 1].u !== depth.pu) {
         Logger.warn('sequence broken');
         buffer.splice(0);
-        this.setOrderBook(symbol);
+        await this.setOrderBook(symbol);
       }
 
       buffer.push(depth);
       if (buffer.length > BUFFER_LENGTH) {
-        this.flush(buffer.splice(0));
+        await this.flush(buffer.splice(0));
       }
     });
 
     await this.setOrderBook(symbol);
   }
 
+  unsubscribe(symbol: string) {
+    delete this.subscriptions[symbol];
+  }
+
   private async setOrderBook(symbol: string) {
     const snapshot = await firstValueFrom(
       this.httpService.get(this.httpDepthUrl(symbol)),
-    ).then((response) => ({ ...response.data, symbol }));
+    ).then(({ data }) => ({ ...data, symbol }));
     await this.databaseService.orderBookSnapshot.create({ data: snapshot });
   }
 
@@ -65,29 +69,7 @@ export class DepthService {
    * @param buffer splice of buffer (don't need to splice it again)
    */
   private async flush(buffer: any[]) {
-    // const { lastUpdateId, asks, bids } = this.orderBooks[symbol];
-
-    // const eventItems = [];
-    // for (let i = 0; i < buffer.length; i++) {
-    //   const bufferItem = buffer[i];
-    //   if (bufferItem.u < lastUpdateId) {
-    //     continue;
-    //   } else if (bufferItem.U <= lastUpdateId && bufferItem.u >= lastUpdateId) {
-    //     eventItems.concat(buffer.slice(i));
-    //     break;
-    //   } else {
-    //     Logger.warn('first event not first in array');
-    //     continue;
-    //   }
-    // }
-
-    // if (!eventItems.length) {
-    //   Logger.error('no events to flush');
-    //   return;
-    // }
     await this.databaseService.depthUpdates.createMany({ data: buffer });
-
-    // save buffer, clear buffer, make snapshot, save snapshot
   }
 
   private connectWs(symbol: string, cb: (message) => void) {
@@ -116,7 +98,7 @@ export class DepthService {
         Logger.warn(`Connection Closed ${symbol}`);
       });
       connection.on('message', function (message) {
-        cb(message);
+        cb(JSON.parse(message.utf8Data).data);
       });
     });
 

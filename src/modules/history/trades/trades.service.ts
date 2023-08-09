@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { WebSocketClient } from 'websocket';
+import { client as WebSocketClient } from 'websocket';
 import { DatabaseService } from '../../database/database.service';
 
 const BUFFER_LENGTH = 1000;
@@ -12,14 +12,18 @@ export class TradesService {
 
   constructor(private databaseService: DatabaseService) {}
 
-  async subscribeTrades(symbol: string) {
+  async subscribe(symbol: string) {
     const buffer: Array<any> = [];
-    this.connectWs(symbol, (aggTrade) => {
+    this.connectWs(symbol, async ({ e, ...aggTrade }) => {
       buffer.push(aggTrade);
       if (buffer.length > BUFFER_LENGTH) {
-        this.flush(buffer.splice(0));
+        await this.flush(buffer.splice(0));
       }
     });
+  }
+
+  unsubscribe(symbol: string) {
+    delete this.subscriptions[symbol];
   }
 
   /**
@@ -58,7 +62,7 @@ export class TradesService {
         Logger.warn(`Connection Closed ${symbol}`);
       });
       connection.on('message', function (message) {
-        cb(message);
+        cb(JSON.parse(message.utf8Data).data);
       });
     });
 

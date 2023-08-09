@@ -6,5 +6,6 @@ import { DepthService } from './depth.service';
 @Module({
   imports: [HttpModule, DatabaseModule],
   providers: [DepthService],
+  exports: [DepthService],
 })
 export class DepthModule {}

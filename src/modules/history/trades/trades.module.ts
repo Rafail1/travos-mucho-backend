@@ -6,5 +6,6 @@ import { TradesService } from './trades.service';
 @Module({
   imports: [HttpModule, DatabaseModule],
   providers: [TradesService],
+  exports: [TradesService],
 })
 export class TradesModule {}
