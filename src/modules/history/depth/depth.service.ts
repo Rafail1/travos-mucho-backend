@@ -100,6 +100,10 @@ export class DepthService {
       connection.on('message', function (message) {
         cb(JSON.parse(message.utf8Data).data);
       });
+      connection.on('ping', (cancel: () => void, binaryPayload: Buffer) => {
+        Logger.log(`Received ping message ${symbol}`);
+        connection.pong(binaryPayload);
+      });
     });
 
     client.connect(this.getWsDepthUrl(symbol));

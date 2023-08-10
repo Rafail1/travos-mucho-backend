@@ -10,7 +10,7 @@ export class AppController {
     if (!symbol) {
       throw Error('symbol required');
     }
-    this.appService.subscribe(symbol);
+    this.appService.subscribe(symbol.toLowerCase());
   }
 
   @Get('stop')
@@ -18,6 +18,6 @@ export class AppController {
     if (!symbol) {
       throw Error('symbol required');
     }
-    this.appService.unsubscribe(symbol);
+    this.appService.unsubscribe(symbol.toLowerCase());
   }
 }
