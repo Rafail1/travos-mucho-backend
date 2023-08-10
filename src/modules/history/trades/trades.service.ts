@@ -51,6 +51,9 @@ export class TradesService {
   async subscribe(symbol: string) {
     const buffer: Array<any> = [];
     this.connectWs(symbol, async (aggTrade: IAggTrade) => {
+      if (!this.subscriptions[symbol]) {
+        return;
+      }
       buffer.push(new AggTrade(aggTrade));
       if (buffer.length > BUFFER_LENGTH) {
         await this.flush(buffer.splice(0));
@@ -59,7 +62,7 @@ export class TradesService {
   }
 
   unsubscribe(symbol: string) {
-    this.subscriptions[symbol].abort();
+    this.subscriptions[symbol]?.abort();
     this.subscriptions[symbol] = null;
   }
 
@@ -83,7 +86,7 @@ export class TradesService {
 
     this.subscriptions[symbol].on('connectFailed', function (error) {
       Logger.log(`Connect Error ${symbol}: ${error.toString()}`);
-      this.subscriptions[symbol] = false;
+      this.subscriptions[symbol] = null;
       setTimeout(() => {
         this.subscribeTrades(symbol, cb);
       }, 2000);
@@ -98,11 +101,15 @@ export class TradesService {
         Logger.warn(`Connection Closed ${symbol}`);
       });
       connection.on('message', function (message) {
-        cb(JSON.parse(message.utf8Data).data);
+        if (this.subscriptions[symbol]) {
+          cb(JSON.parse(message.utf8Data).data);
+        }
       });
       connection.on('ping', (cancel: () => void, binaryPayload: Buffer) => {
         Logger.log(`Received ping message ${symbol}`);
-        connection.pong(binaryPayload);
+        if (this.subscriptions[symbol]) {
+          connection.pong(binaryPayload);
+        }
       });
     });
 
