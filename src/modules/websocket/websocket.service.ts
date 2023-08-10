@@ -1,0 +1,182 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { AggTrades } from '@prisma/client';
+import {
+  client as WebSocketClient,
+  connection as WebSocketConnection,
+} from 'websocket';
+
+export class AggTrade {
+  private fields: AggTrades;
+
+  constructor(data: IAggTrade) {
+    this.fields = {
+      ...data,
+      E: new Date(data.E),
+      T: new Date(data.T),
+    };
+  }
+}
+
+export interface IAggTrade {
+  /** ex: aggTrade  // Event type */
+  e: string;
+  /**  ex: 1822767676; // Aggregate trade ID */
+  a: number;
+  /**  ex: 1691652206099; // Event time */
+  E: number;
+  /**  ex: 4000633105; // First trade ID */
+  f: number;
+  /**  ex: 4000633105; // Last trade ID */
+  l: number;
+  /**  ex: true; // Is the buyer the market maker? */
+  m: boolean;
+  /**  ex: '29550.20'; // Price */
+  p: string;
+  /**  ex: '0.018'; // Quantity */
+  q: string;
+  /**  ex: 'BTCUSDT'; // Symbol */
+  s: string;
+  /**  ex: 1691652205944; // Trade time */
+  T: number;
+}
+
+export interface IDepth {
+  e: string; // Event type // depthUpdate
+  E: number; // Event time
+  T: number; // Transaction time
+  s: string; // Symbol
+  U: number; // First update ID in event
+  u: number; // Final update ID in event
+  pu: number; // Final update Id in last stream(ie `u` in last stream)
+  // Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]
+  b: Array<[string, string]>;
+  // Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity]
+  a: Array<[string, string]>;
+}
+
+@Injectable()
+export class WebSocketService {
+  private subscribed = false;
+  private subscribing = false;
+  private client: WebSocketClient;
+  private connection: WebSocketConnection;
+  private wsUrl = 'wss://fstream.binance.com/stream';
+  private messageId = 1;
+  private subscriptions = new Map<string, () => void>();
+
+  constructor() {
+    if (this.subscribing) {
+      return;
+    }
+
+    if (this.subscribed) {
+      Logger.warn(`subscription already exists`);
+      return;
+    }
+
+    this.subscribing = true;
+
+    this.client = new WebSocketClient();
+
+    this.client.on('connectFailed', function (error) {
+      Logger.log(`Connect Error: ${error.toString()}`);
+      this.subscribed = false;
+      this.subscribing = false;
+      setTimeout(() => {
+        this.connect();
+      }, 2000);
+    });
+
+    this.client.on('connect', (connection: WebSocketConnection) => {
+      this.connection = connection;
+      this.subscribed = true;
+      this.subscribing = false;
+      Logger.log(`WebSocket Client Connected`);
+      connection.on('error', (error) => {
+        Logger.error(`Connection Error: ${error.toString()}`);
+      });
+      connection.on('close', () => {
+        this.subscribed = false;
+        this.subscribing = false;
+        Logger.warn(`Connection Closed`);
+      });
+      connection.on('message', (message) => {
+        try {
+          const { data, stream } = JSON.parse(message.utf8Data);
+          switch (data?.e) {
+            case 'aggTrade':
+            case 'depthUpdate':
+              if (!this.subscriptions[stream]) {
+                Logger.warn(`not cancelled subscription stream`);
+                return;
+              }
+              this.subscriptions[stream](data);
+              return;
+            default:
+              Logger.warn(`unknown event ${message.utf8Data}`);
+          }
+        } catch (e) {
+          Logger.debug(message);
+          Logger.error(e);
+        }
+      });
+
+      connection.on('ping', (cancel: () => void, binaryPayload: Buffer) => {
+        Logger.log(`Received ping message`);
+        connection.pong(binaryPayload);
+      });
+    });
+
+    this.client.connect(this.wsUrl);
+  }
+
+  public subscribe(
+    symbol: string,
+    aggTradeCallback: (data: IAggTrade) => void,
+    depthCallback: (data: IDepth) => void,
+  ): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (this.subscriptions[`${symbol}@aggTrade`]) {
+        Logger.warn(`subscribing twice ${symbol}`);
+        return;
+      }
+
+      this.connection.send(
+        JSON.stringify({
+          method: 'SUBSCRIBE',
+          params: [`${symbol}@aggTrade`, `${symbol}@depth@100ms`],
+          id: this.messageId++,
+        }),
+        (err) => {
+          if (err) {
+            return reject(err);
+          }
+          this.subscriptions[`${symbol}@aggTrade`] = aggTradeCallback;
+          this.subscriptions[`${symbol}@depth@100ms`] = depthCallback;
+          return resolve();
+        },
+      );
+    });
+  }
+
+  public unsubscribe(symbol: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.connection.send(
+        JSON.stringify({
+          method: 'UNSUBSCRIBE',
+          params: [`${symbol}@aggTrade`, `${symbol}@depth@100ms`],
+          id: this.messageId++,
+        }),
+        (err) => {
+          if (err) {
+            return reject(err);
+          }
+
+          delete this.subscriptions[`${symbol}@aggTrade`];
+          delete this.subscriptions[`${symbol}@depth@100ms`];
+          return resolve();
+        },
+      );
+    });
+  }
+}
