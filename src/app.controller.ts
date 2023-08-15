@@ -20,4 +20,9 @@ export class AppController {
     }
     this.appService.unsubscribe(symbol.toLowerCase());
   }
+
+  @Get('test')
+  test() {
+    this.appService.test();
+  }
 }

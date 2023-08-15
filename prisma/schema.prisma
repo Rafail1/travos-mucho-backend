@@ -2,16 +2,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [uuidOssp(map: "uuid-ossp")]
 }
 
 model OrderBookSnapshot {
-  lastUpdateId Int      @id
+  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  lastUpdateId BigInt
   symbol       String // symbol
   E            DateTime // Message output time
   T            DateTime // Transaction time
@@ -20,24 +23,26 @@ model OrderBookSnapshot {
 }
 
 model DepthUpdates {
-  u  Int      @id // Final update ID in event
+  id String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  u  BigInt // Final update ID in event
   E  DateTime // Event time
   T  DateTime // Transaction time 
   s  String // Symbol
-  U  Int // First update ID in event
-  pu Int // Final update Id in last stream(ie `u` in last stream)
+  U  BigInt // First update ID in event
+  pu BigInt // Final update Id in last stream(ie `u` in last stream)
   b  Json
   a  Json
 }
 
 model AggTrades {
-  a Int      @id // Aggregate trade ID
-  E DateTime // Event time
-  s String // Symbol
-  p String // Price
-  q String // Quantity
-  f Int // First trade ID
-  l Int // Last trade ID
-  T DateTime // Trade time
-  m Boolean // Is the buyer the market maker?
+  id String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  a  BigInt // Aggregate trade ID
+  E  DateTime // Event time
+  s  String // Symbol
+  p  String // Price
+  q  String // Quantity
+  f  BigInt // First trade ID
+  l  BigInt // Last trade ID
+  T  DateTime // Trade time
+  m  Boolean // Is the buyer the market maker?
 }

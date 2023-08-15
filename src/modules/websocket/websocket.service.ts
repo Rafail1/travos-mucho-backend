@@ -1,14 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AggTrades } from '@prisma/client';
+import { Prisma, DepthUpdates, OrderBookSnapshot } from '@prisma/client';
 import {
   client as WebSocketClient,
   connection as WebSocketConnection,
 } from 'websocket';
 
 export class AggTrade {
-  private fields: AggTrades;
+  public fields: Prisma.AggTradesCreateInput;
 
-  constructor(data: IAggTrade) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor({ e, ...data }: IAggTrade) {
     this.fields = {
       ...data,
       E: new Date(data.E),
@@ -41,17 +42,65 @@ export interface IAggTrade {
 }
 
 export interface IDepth {
-  e: string; // Event type // depthUpdate
+  /** Event type // depthUpdate */
+  e: string;
+  /** Event time */
   E: number; // Event time
-  T: number; // Transaction time
-  s: string; // Symbol
-  U: number; // First update ID in event
-  u: number; // Final update ID in event
-  pu: number; // Final update Id in last stream(ie `u` in last stream)
-  // Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]
+  /** Transaction time */
+  T: number;
+  /**Symbol */
+  s: string;
+  /** First update ID in event */
+  U: number;
+  /**Final update ID in event */
+  u: number;
+  /** Final update Id in last stream(ie `u` in last stream) */
+  pu: number;
+  /**  Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]*/
   b: Array<[string, string]>;
-  // Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity]
+  /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */
   a: Array<[string, string]>;
+}
+
+export class Depth {
+  public fields: Prisma.DepthUpdatesCreateInput;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor({ e, ...data }: IDepth) {
+    this.fields = {
+      ...data,
+      E: new Date(data.E),
+      T: new Date(data.T),
+    };
+  }
+}
+
+export interface ISnapshot {
+  /** Event time */
+  E: number; // Event time
+  /** Transaction time */
+  T: number;
+  /** uniq id */
+  lastUpdateId: number;
+  /** Symbol */
+  symbol: string; // symbol
+  /**  Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]*/
+  bids: Array<[string, string]>;
+  /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */
+  asks: Array<[string, string]>;
+}
+
+export class Snapshot {
+  public fields: Prisma.OrderBookSnapshotCreateInput;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(data: ISnapshot) {
+    this.fields = {
+      ...data,
+      E: new Date(data.E),
+      T: new Date(data.T),
+    };
+  }
 }
 
 @Injectable()
@@ -102,7 +151,7 @@ export class WebSocketService {
       });
       connection.on('message', (message) => {
         try {
-          const { data, stream } = JSON.parse(message.utf8Data);
+          const { data, stream, id, result } = JSON.parse(message.utf8Data);
           switch (data?.e) {
             case 'aggTrade':
             case 'depthUpdate':
@@ -111,6 +160,8 @@ export class WebSocketService {
                 return;
               }
               this.subscriptions[stream](data);
+              return;
+            case undefined && Number.isInteger(id) && result === null:
               return;
             default:
               Logger.warn(`unknown event ${message.utf8Data}`);
@@ -141,6 +192,10 @@ export class WebSocketService {
         return;
       }
 
+      if (!this.connection) {
+        return reject('Connection not ready');
+      }
+
       this.connection.send(
         JSON.stringify({
           method: 'SUBSCRIBE',
@@ -153,6 +208,8 @@ export class WebSocketService {
           }
           this.subscriptions[`${symbol}@aggTrade`] = aggTradeCallback;
           this.subscriptions[`${symbol}@depth@100ms`] = depthCallback;
+          Logger.log(`subscribed to ${symbol}`);
+
           return resolve();
         },
       );
