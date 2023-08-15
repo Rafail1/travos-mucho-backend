@@ -103,7 +103,7 @@ export class TradesService {
       Logger.verbose(`setOrderBook ${symbol}`);
       const snapshot = await firstValueFrom(
         this.httpService.get(this.httpDepthUrl(symbol)),
-      ).then(({ data }) => ({ ...data, symbol }));
+      ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
 
       await this.databaseService.orderBookSnapshot.create({
         data: new Snapshot(snapshot).fields,

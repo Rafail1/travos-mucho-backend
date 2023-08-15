@@ -113,7 +113,11 @@ export class WebSocketService {
   private messageId = 1;
   private subscriptions = new Map<string, () => void>();
 
-  constructor() {
+  connstructor() {
+    this.connect();
+  }
+
+  connect() {
     if (this.subscribing) {
       return;
     }
@@ -127,7 +131,7 @@ export class WebSocketService {
 
     this.client = new WebSocketClient();
 
-    this.client.on('connectFailed', function (error) {
+    this.client.on('connectFailed', (error) => {
       Logger.log(`Connect Error: ${error.toString()}`);
       this.subscribed = false;
       this.subscribing = false;
@@ -136,19 +140,37 @@ export class WebSocketService {
       }, 2000);
     });
 
-    this.client.on('connect', (connection: WebSocketConnection) => {
+    this.client.on('connect', async (connection: WebSocketConnection) => {
       this.connection = connection;
       this.subscribed = true;
       this.subscribing = false;
       Logger.log(`WebSocket Client Connected`);
+
+      const oldSubscriptionSymbols = [...this.subscriptions.keys()]
+        .map((item) => item.split('@')[0])
+        .filter((item, idx, arr) => arr.indexOf(item) === idx);
+
+      for (const symbol of oldSubscriptionSymbols) {
+        const aggTradeCallback = this.subscriptions[`${symbol}@aggTrade`];
+        const depthCallback = this.subscriptions[`${symbol}@depth@100ms`];
+        await this.subscribeAggTrade(symbol, aggTradeCallback).then(() =>
+          this.subscribeDepth(symbol, depthCallback),
+        );
+      }
+
       connection.on('error', (error) => {
         Logger.error(`Connection Error: ${error.toString()}`);
       });
+
       connection.on('close', () => {
         this.subscribed = false;
         this.subscribing = false;
         Logger.warn(`Connection Closed`);
+        setTimeout(() => {
+          this.connect();
+        }, 2000);
       });
+
       connection.on('message', (message) => {
         try {
           const { data, stream, id, result } = JSON.parse(message.utf8Data);
@@ -196,23 +218,14 @@ export class WebSocketService {
         return reject('Connection not ready');
       }
 
-      this.connection.send(
-        JSON.stringify({
-          method: 'SUBSCRIBE',
-          params: [`${symbol}@aggTrade`, `${symbol}@depth@100ms`],
-          id: this.messageId++,
-        }),
-        (err) => {
-          if (err) {
-            return reject(err);
-          }
-          this.subscriptions[`${symbol}@aggTrade`] = aggTradeCallback;
-          this.subscriptions[`${symbol}@depth@100ms`] = depthCallback;
-          Logger.log(`subscribed to ${symbol}`);
-
-          return resolve();
-        },
-      );
+      this.subscribeAggTrade(symbol, aggTradeCallback)
+        .then(() => this.subscribeDepth(symbol, depthCallback))
+        .then(() => {
+          resolve();
+        })
+        .catch((e) => {
+          reject(e);
+        });
     });
   }
 
@@ -231,6 +244,48 @@ export class WebSocketService {
 
           delete this.subscriptions[`${symbol}@aggTrade`];
           delete this.subscriptions[`${symbol}@depth@100ms`];
+          return resolve();
+        },
+      );
+    });
+  }
+
+  private subscribeAggTrade(symbol, cb) {
+    return new Promise<void>((resolve, reject) => {
+      this.connection.send(
+        JSON.stringify({
+          method: 'SUBSCRIBE',
+          params: [`${symbol}@aggTrade`],
+          id: this.messageId++,
+        }),
+        (err) => {
+          if (err) {
+            return reject(err);
+          }
+          this.subscriptions[`${symbol}@aggTrade`] = cb;
+          Logger.log(`subscribed to aggTrade ${symbol}`);
+
+          return resolve();
+        },
+      );
+    });
+  }
+
+  private subscribeDepth(symbol, cb) {
+    return new Promise<void>((resolve, reject) => {
+      this.connection.send(
+        JSON.stringify({
+          method: 'SUBSCRIBE',
+          params: [`${symbol}@depth@100ms`],
+          id: this.messageId++,
+        }),
+        (err) => {
+          if (err) {
+            return reject(err);
+          }
+          this.subscriptions[`${symbol}@depth@100ms`] = cb;
+          Logger.log(`subscribed to depth ${symbol}`);
+
           return resolve();
         },
       );
