@@ -14,6 +14,7 @@ const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 @Injectable()
 export class TradesService {
+  private borders = new Map<string, { min: number; max: number }>();
   private httpDepthUrl = (symbol: string, limit = 1000) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
 
@@ -104,12 +105,33 @@ export class TradesService {
       const snapshot = await firstValueFrom(
         this.httpService.get(this.httpDepthUrl(symbol)),
       ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
+      const data = new Snapshot(snapshot).fields;
+      this.setBorders({
+        symbol,
+        asks: data.asks as Array<[string, string]>,
+        bids: data.bids as Array<[string, string]>,
+      });
 
       await this.databaseService.orderBookSnapshot.create({
-        data: new Snapshot(snapshot).fields,
+        data,
       });
     } catch (e) {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     }
+  }
+
+  private setBorders({
+    symbol,
+    asks,
+    bids,
+  }: {
+    symbol: string;
+    asks: Array<[string, string]>;
+    bids: Array<[string, string]>;
+  }) {
+    this.borders.set(symbol, {
+      min: Number(bids[bids.length - 1][0]),
+      max: Number(asks[asks.length - 1][0]),
+    });
   }
 }

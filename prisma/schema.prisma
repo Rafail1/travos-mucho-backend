@@ -18,8 +18,8 @@ model OrderBookSnapshot {
   symbol       String // symbol
   E            DateTime // Message output time
   T            DateTime // Transaction time
-  bids         Json
-  asks         Json
+  bids         Json[]
+  asks         Json[]
 }
 
 model DepthUpdates {
