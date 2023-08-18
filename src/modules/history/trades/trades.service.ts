@@ -17,6 +17,7 @@ export class TradesService {
   private borders = new Map<string, { min: number; max: number }>();
   private httpDepthUrl = (symbol: string, limit = 1000) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
+  private orderBookSetting = new Map<string, boolean>();
 
   constructor(
     private httpService: HttpService,
@@ -34,6 +35,25 @@ export class TradesService {
           aggTradesBuffer.push(new AggTrade(aggTrade).fields);
 
           Logger.verbose(`aggTradesBuffer: ${aggTradesBuffer.length}`);
+          if (this.borders[symbol]) {
+            const topBorderIdx = Math.floor(
+              (this.borders[symbol].max.length / 100) * 75,
+            );
+
+            const lowBorderIdx = Math.floor(
+              (this.borders[symbol].min.length / 100) * 75,
+            );
+
+            if (
+              Number(aggTrade.p) >
+                Number(this.borders[symbol].max[topBorderIdx][0]) ||
+              Number(aggTrade.p) <
+                Number(this.borders[symbol].min[lowBorderIdx][0])
+            ) {
+              this.setOrderBook(symbol);
+            }
+          }
+
           if (aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
             await this.flushAggTrades(aggTradesBuffer.splice(0));
           }
@@ -46,13 +66,13 @@ export class TradesService {
             depthBuffer[depthBuffer.length - 2].u !== depth.pu
           ) {
             Logger.warn('sequence broken');
-            await this.flushDepth(depthBuffer.splice(0));
-            await this.setOrderBook(symbol);
+            this.flushDepth(depthBuffer.splice(0));
+            this.setOrderBook(symbol);
           }
 
           Logger.verbose(`depthBuffer: ${depthBuffer.length}`);
           if (depthBuffer.length > DEPTH_BUFFER_LENGTH) {
-            await this.flushDepth(depthBuffer.splice(0));
+            this.flushDepth(depthBuffer.splice(0));
           }
         },
       );
@@ -101,6 +121,11 @@ export class TradesService {
 
   private async setOrderBook(symbol: string) {
     try {
+      if (this.orderBookSetting.has(symbol)) {
+        return;
+      }
+
+      this.orderBookSetting[symbol] = true;
       Logger.verbose(`setOrderBook ${symbol}`);
       const snapshot = await firstValueFrom(
         this.httpService.get(this.httpDepthUrl(symbol)),
@@ -117,6 +142,8 @@ export class TradesService {
       });
     } catch (e) {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
+    } finally {
+      this.orderBookSetting.delete(symbol);
     }
   }
 
