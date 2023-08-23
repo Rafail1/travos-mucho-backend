@@ -106,16 +106,18 @@ export class Snapshot {
 const MAX_SUBSCRIBERS = 190;
 @Injectable()
 export class WebSocketService {
-  private connections = new Map<string, Connection>();
+  private connectionsMap = new Map<string, Connection>();
+  private connections = new Set<Connection>();
 
   async getConnection(symbol: string) {
-    if (this.connections.has(symbol)) {
-      return this.connections.get(symbol);
+    if (this.connectionsMap.has(symbol)) {
+      return this.connectionsMap.get(symbol);
     } else {
       let connectionFound = false;
-      for (const [, connection] of this.connections.entries()) {
+      for (const connection of this.connections.values()) {
         if (connection.subscribersCount() < MAX_SUBSCRIBERS) {
           connectionFound = true;
+          this.connectionsMap.set(symbol, connection);
           return connection;
         }
         Logger.debug('connection is full');
@@ -125,7 +127,8 @@ export class WebSocketService {
         Logger.debug('creating new connection');
         const connection = new Connection();
         await connection.connect();
-        this.connections.set(symbol, connection);
+        this.connections.add(connection);
+        this.connectionsMap.set(symbol, connection);
         return connection;
       }
     }
@@ -293,7 +296,7 @@ export class Connection {
             return reject(err);
           }
           this.subscriptions.set(`${symbol}@aggTrade`, cb);
-          Logger.log(`subscribed to aggTrade ${symbol}`);
+          Logger.debug(`subscribed to aggTrade ${symbol}`);
 
           return resolve();
         },
@@ -315,7 +318,7 @@ export class Connection {
             return reject(err);
           }
           this.subscriptions.set(`${symbol}@depth@100ms`, cb);
-          Logger.log(`subscribed to depth ${symbol}`);
+          Logger.debug(`subscribed to depth ${symbol}`);
 
           return resolve();
         },
