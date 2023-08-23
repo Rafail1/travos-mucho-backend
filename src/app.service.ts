@@ -1,16 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { TradesService } from './modules/history/trades/trades.service';
+import { StarterService } from './modules/starter/starter.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly tradesService: TradesService) {}
+  constructor(private readonly starterService: StarterService) {}
 
   subscribe(symbol: string): void {
-    this.tradesService.subscribe(symbol);
+    this.starterService.subscribe(symbol);
   }
 
   unsubscribe(symbol: string): void {
-    this.tradesService.unsubscribe(symbol);
+    this.starterService.unsubscribe(symbol);
+  }
+
+  subscribeAll() {
+    this.starterService.subscribeAll();
   }
 
   async test() {
@@ -26,7 +30,7 @@ export class AppService {
       'maticusdt',
       '1000shibusdt',
     ]) {
-      await this.tradesService.subscribe(symbol);
+      await this.starterService.subscribe(symbol);
       await new Promise<void>((resolve) => {
         setTimeout(() => resolve(), 200);
       });

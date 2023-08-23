@@ -18,6 +18,7 @@ export class TradesService {
   private httpDepthUrl = (symbol: string, limit = 1000) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
   private orderBookSetting = new Map<string, boolean>();
+  private subscribedSymbols = new Set();
 
   constructor(
     private httpService: HttpService,
@@ -28,8 +29,11 @@ export class TradesService {
   async subscribe(symbol: string) {
     const aggTradesBuffer: Array<any> = [];
     const depthBuffer: Array<any> = [];
+
+    this.subscribedSymbols.add(symbol);
     try {
-      await this.webSocketService.subscribe(
+      const connection = await this.webSocketService.getConnection(symbol);
+      await connection.subscribe(
         symbol,
         async (aggTrade: IAggTrade) => {
           aggTradesBuffer.push(new AggTrade(aggTrade).fields);
@@ -90,7 +94,10 @@ export class TradesService {
   }
 
   unsubscribe(symbol: string) {
-    this.webSocketService.unsubscribe(symbol);
+    this.webSocketService.getConnection(symbol).then((connection) => {
+      connection.unsubscribe(symbol);
+    });
+    this.subscribedSymbols.delete(symbol);
   }
 
   /**
@@ -156,6 +163,13 @@ export class TradesService {
     asks: Array<[string, string]>;
     bids: Array<[string, string]>;
   }) {
+    if (!bids.length || !asks.length) {
+      this.borders.delete(symbol);
+      this.unsubscribe(symbol);
+      Logger.warn(`symbol ${symbol} have empty borders`);
+      return;
+    }
+
     this.borders.set(symbol, {
       min: Number(bids[bids.length - 1][0]),
       max: Number(asks[asks.length - 1][0]),

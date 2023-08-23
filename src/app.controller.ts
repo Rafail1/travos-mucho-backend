@@ -13,6 +13,11 @@ export class AppController {
     this.appService.subscribe(symbol.toLowerCase());
   }
 
+  @Get('subscribe-all')
+  subscribeAll() {
+    this.appService.subscribeAll();
+  }
+
   @Get('stop')
   stop(@Query('symbol') symbol: string) {
     if (!symbol) {

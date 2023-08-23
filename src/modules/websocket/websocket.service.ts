@@ -102,9 +102,36 @@ export class Snapshot {
     };
   }
 }
-
+const MAX_SUBSCRIBERS = 190;
 @Injectable()
 export class WebSocketService {
+  private connections = new Map<string, Connection>();
+
+  async getConnection(symbol: string) {
+    if (this.connections.has(symbol)) {
+      return this.connections.get(symbol);
+    } else {
+      let connectionFound = false;
+      for (const [, connection] of this.connections.entries()) {
+        if (connection.subscribersCount() < MAX_SUBSCRIBERS) {
+          connectionFound = true;
+          return connection;
+        }
+        Logger.debug('connection is full');
+      }
+
+      if (!connectionFound) {
+        Logger.debug('creating new connection');
+        const connection = new Connection();
+        await connection.connect();
+        this.connections.set(symbol, connection);
+        return connection;
+      }
+    }
+  }
+}
+
+export class Connection {
   private subscribed = false;
   private subscribing = false;
   private client: WebSocketClient;
@@ -113,8 +140,8 @@ export class WebSocketService {
   private messageId = 1;
   private subscriptions = new Map<string, () => void>();
 
-  connstructor() {
-    this.connect();
+  subscribersCount() {
+    return this.subscriptions.size;
   }
 
   connect() {
@@ -139,68 +166,69 @@ export class WebSocketService {
         this.connect();
       }, 2000);
     });
-
-    this.client.on('connect', async (connection: WebSocketConnection) => {
-      this.connection = connection;
-      this.subscribed = true;
-      this.subscribing = false;
-      Logger.log(`WebSocket Client Connected`);
-
-      const oldSubscriptionSymbols = [...this.subscriptions.keys()]
-        .map((item) => item.split('@')[0])
-        .filter((item, idx, arr) => arr.indexOf(item) === idx);
-
-      for (const symbol of oldSubscriptionSymbols) {
-        const aggTradeCallback = this.subscriptions[`${symbol}@aggTrade`];
-        const depthCallback = this.subscriptions[`${symbol}@depth@100ms`];
-        await this.subscribeAggTrade(symbol, aggTradeCallback).then(() =>
-          this.subscribeDepth(symbol, depthCallback),
-        );
-      }
-
-      connection.on('error', (error) => {
-        Logger.error(`Connection Error: ${error.toString()}`);
-      });
-
-      connection.on('close', () => {
-        this.subscribed = false;
+    return new Promise<void>((resolve) => {
+      this.client.on('connect', async (connection: WebSocketConnection) => {
+        this.connection = connection;
+        this.subscribed = true;
         this.subscribing = false;
-        Logger.warn(`Connection Closed`);
-        setTimeout(() => {
-          this.connect();
-        }, 2000);
-      });
+        Logger.log(`WebSocket Client Connected`);
 
-      connection.on('message', (message) => {
-        try {
-          const { data, stream, id, result } = JSON.parse(message.utf8Data);
-          switch (data?.e) {
-            case 'aggTrade':
-            case 'depthUpdate':
-              if (!this.subscriptions[stream]) {
-                Logger.warn(`not cancelled subscription stream`);
-                return;
-              }
-              this.subscriptions[stream](data);
-              return;
-            case undefined && Number.isInteger(id) && result === null:
-              return;
-            default:
-              Logger.warn(`unknown event ${message.utf8Data}`);
-          }
-        } catch (e) {
-          Logger.debug(message);
-          Logger.error(e);
+        const oldSubscriptionSymbols = [...this.subscriptions.keys()]
+          .map((item) => item.split('@')[0])
+          .filter((item, idx, arr) => arr.indexOf(item) === idx);
+
+        for (const symbol of oldSubscriptionSymbols) {
+          const aggTradeCallback = this.subscriptions[`${symbol}@aggTrade`];
+          const depthCallback = this.subscriptions[`${symbol}@depth@100ms`];
+          await this.subscribeAggTrade(symbol, aggTradeCallback).then(() =>
+            this.subscribeDepth(symbol, depthCallback),
+          );
         }
+        resolve();
+        connection.on('error', (error) => {
+          Logger.error(`Connection Error: ${error.toString()}`);
+        });
+
+        connection.on('close', () => {
+          this.subscribed = false;
+          this.subscribing = false;
+          Logger.warn(`Connection Closed`);
+          setTimeout(() => {
+            this.connect();
+          }, 2000);
+        });
+
+        connection.on('message', (message) => {
+          try {
+            const { data, stream, id, result } = JSON.parse(message.utf8Data);
+            switch (data?.e) {
+              case 'aggTrade':
+              case 'depthUpdate':
+                if (!this.subscriptions[stream]) {
+                  Logger.warn(`not cancelled subscription stream`);
+                  return;
+                }
+                this.subscriptions[stream](data);
+                return;
+              case undefined && Number.isInteger(id) && result === null:
+                return;
+              default:
+                Logger.warn(`unknown event ${message.utf8Data}`);
+            }
+          } catch (e) {
+            Logger.debug(message);
+            Logger.error(e);
+          }
+        });
+
+        connection.on('ping', (cancel: () => void, binaryPayload: Buffer) => {
+          Logger.log(`Received ping message`);
+          connection.pong(binaryPayload);
+        });
       });
 
-      connection.on('ping', (cancel: () => void, binaryPayload: Buffer) => {
-        Logger.log(`Received ping message`);
-        connection.pong(binaryPayload);
-      });
+      this.client.connect(this.wsUrl);
     });
-
-    this.client.connect(this.wsUrl);
   }
 
   public subscribe(
