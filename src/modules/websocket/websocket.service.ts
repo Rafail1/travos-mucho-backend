@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, DepthUpdates, OrderBookSnapshot } from '@prisma/client';
+import { sleep } from 'src/utils/sleep';
 import {
   client as WebSocketClient,
   connection as WebSocketConnection,
@@ -138,7 +139,7 @@ export class Connection {
   private connection: WebSocketConnection;
   private wsUrl = 'wss://fstream.binance.com/stream';
   private messageId = 1;
-  private subscriptions = new Map<string, () => void>();
+  private subscriptions = new Map<string, (data) => void>();
 
   subscribersCount() {
     return this.subscriptions.size;
@@ -166,6 +167,7 @@ export class Connection {
         this.connect();
       }, 2000);
     });
+
     return new Promise<void>((resolve) => {
       this.client.on('connect', async (connection: WebSocketConnection) => {
         this.connection = connection;
@@ -178,11 +180,10 @@ export class Connection {
           .filter((item, idx, arr) => arr.indexOf(item) === idx);
 
         for (const symbol of oldSubscriptionSymbols) {
-          const aggTradeCallback = this.subscriptions[`${symbol}@aggTrade`];
-          const depthCallback = this.subscriptions[`${symbol}@depth@100ms`];
-          await this.subscribeAggTrade(symbol, aggTradeCallback).then(() =>
-            this.subscribeDepth(symbol, depthCallback),
-          );
+          const aggTradeCallback = this.subscriptions.get(`${symbol}@aggTrade`);
+          const depthCallback = this.subscriptions.get(`${symbol}@depth@100ms`);
+          await this.subscribeAggTrade(symbol, aggTradeCallback);
+          await this.subscribeDepth(symbol, depthCallback);
         }
         resolve();
         connection.on('error', (error) => {
@@ -204,11 +205,11 @@ export class Connection {
             switch (data?.e) {
               case 'aggTrade':
               case 'depthUpdate':
-                if (!this.subscriptions[stream]) {
+                if (!this.subscriptions.has(stream)) {
                   Logger.warn(`not cancelled subscription stream`);
                   return;
                 }
-                this.subscriptions[stream](data);
+                this.subscriptions.get(stream)(data);
                 return;
               case undefined && Number.isInteger(id) && result === null:
                 return;
@@ -237,7 +238,7 @@ export class Connection {
     depthCallback: (data: IDepth) => void,
   ): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      if (this.subscriptions[`${symbol}@aggTrade`]) {
+      if (this.subscriptions.has(`${symbol}@aggTrade`)) {
         Logger.warn(`subscribing twice ${symbol}`);
         return;
       }
@@ -249,10 +250,10 @@ export class Connection {
       this.subscribeAggTrade(symbol, aggTradeCallback)
         .then(() => this.subscribeDepth(symbol, depthCallback))
         .then(() => {
-          resolve();
+          return resolve();
         })
         .catch((e) => {
-          reject(e);
+          return reject(e);
         });
     });
   }
@@ -270,15 +271,16 @@ export class Connection {
             return reject(err);
           }
 
-          delete this.subscriptions[`${symbol}@aggTrade`];
-          delete this.subscriptions[`${symbol}@depth@100ms`];
+          this.subscriptions.delete(`${symbol}@aggTrade`);
+          this.subscriptions.delete(`${symbol}@depth@100ms`);
           return resolve();
         },
       );
     });
   }
 
-  private subscribeAggTrade(symbol, cb) {
+  private async subscribeAggTrade(symbol, cb) {
+    await sleep(100);
     return new Promise<void>((resolve, reject) => {
       this.connection.send(
         JSON.stringify({
@@ -290,7 +292,7 @@ export class Connection {
           if (err) {
             return reject(err);
           }
-          this.subscriptions[`${symbol}@aggTrade`] = cb;
+          this.subscriptions.set(`${symbol}@aggTrade`, cb);
           Logger.log(`subscribed to aggTrade ${symbol}`);
 
           return resolve();
@@ -299,7 +301,8 @@ export class Connection {
     });
   }
 
-  private subscribeDepth(symbol, cb) {
+  private async subscribeDepth(symbol, cb) {
+    await sleep(100);
     return new Promise<void>((resolve, reject) => {
       this.connection.send(
         JSON.stringify({
@@ -311,7 +314,7 @@ export class Connection {
           if (err) {
             return reject(err);
           }
-          this.subscriptions[`${symbol}@depth@100ms`] = cb;
+          this.subscriptions.set(`${symbol}@depth@100ms`, cb);
           Logger.log(`subscribed to depth ${symbol}`);
 
           return resolve();

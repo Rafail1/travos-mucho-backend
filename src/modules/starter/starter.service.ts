@@ -30,10 +30,10 @@ export class StarterService {
   }
 
   subscribe(symbol: string) {
-    this.tradesService.subscribe(symbol);
+    return this.tradesService.subscribe(symbol);
   }
 
   unsubscribe(symbol: string) {
-    this.tradesService.unsubscribe(symbol);
+    return this.tradesService.unsubscribe(symbol);
   }
 }
