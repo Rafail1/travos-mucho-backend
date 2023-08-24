@@ -21,15 +21,15 @@ export class AppService {
     this.starterService.subscribeAll();
   }
 
-  getAggTradesHistory(symbol: string, from: Date, to: Date) {
+  getAggTradesHistory(symbol: string, time: Date) {
     return this.database.aggTrades.findMany({
       where: {
         AND: [
           {
-            E: { gte: from },
+            E: { gte: time },
           },
           {
-            E: { lt: to },
+            E: { lt: new Date(time.getTime() + 1000 * 60 * 10) },
           },
         ],
         s: symbol,
@@ -37,15 +37,15 @@ export class AppService {
     });
   }
 
-  async getDepthHistory(symbol: string, from: Date, to: Date) {
+  async getDepthHistory(symbol: string, time: Date) {
     const depth = await this.database.depthUpdates.findMany({
       where: {
         AND: [
           {
-            E: { gte: from },
+            E: { gte: time },
           },
           {
-            E: { lt: to },
+            E: { lt: new Date(time.getTime() + 1000 * 60 * 10) },
           },
         ],
         s: symbol,
@@ -63,15 +63,14 @@ export class AppService {
         lastUpdateId: { lte: depth[0].U },
         AND: [
           {
-            E: { gte: from },
+            E: { gte: time },
           },
           {
-            E: { lt: to },
+            E: { lt: new Date(time.getTime() + 1000 * 60 * 10) },
           },
         ],
         symbol,
       },
-      take: 1,
       orderBy: { lastUpdateId: 'desc' },
     });
 
@@ -80,6 +79,6 @@ export class AppService {
       return [];
     }
 
-    // logic for data merge
+    return { snapshot, depth };
   }
 }
