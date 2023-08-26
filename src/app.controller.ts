@@ -26,8 +26,13 @@ export class AppController {
     this.appService.unsubscribe(symbol.toLowerCase());
   }
 
-  @Get('test')
-  test() {
-    this.appService.test();
+  @Get('agg-trades')
+  getAggTrades(@Query('symbol') symbol: string, @Query('time') time: Date) {
+    return this.appService.getAggTradesHistory(symbol, time);
+  }
+
+  @Get('depth')
+  getDepth(@Query('symbol') symbol: string, @Query('time') time: Date) {
+    return this.appService.getDepthHistory(symbol, time);
   }
 }
