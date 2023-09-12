@@ -77,15 +77,11 @@ export class TradesService {
           Logger.verbose(`depthBuffer: ${depthBuffer.length}`);
           if (depthBuffer.length > DEPTH_BUFFER_LENGTH) {
             this.flushDepth(depthBuffer.splice(0));
+            this.setOrderBook(symbol);
           }
         },
       );
 
-      setInterval(() => {
-        this.setOrderBook(symbol).catch((e) => {
-          Logger.error(e?.message);
-        });
-      }, 1000 * 60 * 10);
       this.setOrderBook(symbol);
     } catch (e) {
       Logger.error(e?.message);

@@ -27,12 +27,20 @@ export class AppController {
   }
 
   @Get('agg-trades')
-  getAggTrades(@Query('symbol') symbol: string, @Query('time') time: Date) {
-    return this.appService.getAggTradesHistory(symbol, time);
+  getAggTrades(@Query('symbol') symbol: string, @Query('time') time: string) {
+    return this.appService.getAggTradesHistory(symbol, new Date(time));
   }
 
   @Get('depth')
-  getDepth(@Query('symbol') symbol: string, @Query('time') time: Date) {
-    return this.appService.getDepthHistory(symbol, time);
+  getDepth(@Query('symbol') symbol: string, @Query('time') time: string) {
+    return this.appService.getDepthHistory(symbol, new Date(time));
+  }
+
+  @Get('depth-updates')
+  getDepthUpdates(
+    @Query('symbol') symbol: string,
+    @Query('time') time: string,
+  ) {
+    return this.appService.getDepthUpdates(symbol, new Date(time));
   }
 }
