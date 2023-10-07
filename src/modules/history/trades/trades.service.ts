@@ -12,13 +12,15 @@ import {
 
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
+const SNAPSHOT_INTERVAL = 30 * 1000;
 @Injectable()
 export class TradesService {
   private borders = new Map<string, { min: number; max: number }>();
-  private httpDepthUrl = (symbol: string, limit = 1000) =>
+  private httpDepthUrl = (symbol: string, limit = 200) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
+  private snapshotTimeout: NodeJS.Timeout;
 
   constructor(
     private httpService: HttpService,
@@ -41,11 +43,11 @@ export class TradesService {
           Logger.verbose(`aggTradesBuffer: ${aggTradesBuffer.length}`);
           if (this.borders[symbol]) {
             const topBorderIdx = Math.floor(
-              (this.borders[symbol].max.length / 100) * 75,
+              (this.borders[symbol].max.length / 100) * 60,
             );
 
             const lowBorderIdx = Math.floor(
-              (this.borders[symbol].min.length / 100) * 75,
+              (this.borders[symbol].min.length / 100) * 60,
             );
 
             if (
@@ -77,7 +79,6 @@ export class TradesService {
           Logger.verbose(`depthBuffer: ${depthBuffer.length}`);
           if (depthBuffer.length > DEPTH_BUFFER_LENGTH) {
             this.flushDepth(depthBuffer.splice(0));
-            this.setOrderBook(symbol);
           }
         },
       );
@@ -124,6 +125,9 @@ export class TradesService {
 
   private async setOrderBook(symbol: string) {
     try {
+      if (this.snapshotTimeout) {
+        clearTimeout(this.snapshotTimeout);
+      }
       if (this.orderBookSetting.has(symbol)) {
         return;
       }
@@ -147,6 +151,9 @@ export class TradesService {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     } finally {
       this.orderBookSetting.delete(symbol);
+      this.snapshotTimeout = setTimeout(() => {
+        this.setOrderBook(symbol);
+      }, SNAPSHOT_INTERVAL);
     }
   }
 
