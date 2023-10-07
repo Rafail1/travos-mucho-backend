@@ -103,7 +103,7 @@ export class AppService {
   }
 
   private mapStakan(stakan: Array<[string, string]>) {
-    return stakan.reduce((acc, [price, value]) => {
+    return stakan?.reduce((acc, [price, value]) => {
       return {
         ...acc,
         [price]: value,
@@ -111,7 +111,7 @@ export class AppService {
     }, {});
   }
 
-  private calculateDepth(snapshot, depth) {
+  private calculateDepth(depth, snapshot) {
     const asks = this.mapStakan(<Array<[string, string]>>snapshot.asks);
     const bids = this.mapStakan(<Array<[string, string]>>snapshot.bids);
     for (const item of depth) {
