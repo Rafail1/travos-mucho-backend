@@ -345,14 +345,17 @@ export class Connection {
   private listenMessageQueue() {
     interval(400).subscribe(() => {
       if (this.messageQueue.length) {
-        const { data, cb } = this.messageQueue[0];
+        const { data } = this.messageQueue[0];
         console.log(data.id);
       }
-      if (this.messageQueue.length && this.connection.state === 'open') {
+      if (this.connection.state !== 'open') {
+        console.log(this.connection.state);
+      }
+      if (this.messageQueue.length) {
         const { data, cb } = this.messageQueue.shift();
         this.connection.send(JSON.stringify(data), cb);
       } else {
-        console.log(this.connection.state);
+        console.log('no messages');
       }
     });
   }
