@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, DepthUpdates, OrderBookSnapshot } from '@prisma/client';
+import { interval } from 'rxjs';
 import { sleep } from 'src/utils/sleep';
 import {
   client as WebSocketClient,
@@ -104,7 +105,7 @@ export class Snapshot {
     };
   }
 }
-const MAX_SUBSCRIBERS = 100;
+const MAX_SUBSCRIBERS = 190;
 @Injectable()
 export class WebSocketService {
   private connectionsMap = new Map<string, Connection>();
@@ -130,6 +131,7 @@ export class WebSocketService {
         await connection.connect();
         this.connections.add(connection);
         this.connectionsMap.set(symbol, connection);
+        Logger.debug('connection created');
         return connection;
       }
     }
@@ -137,6 +139,7 @@ export class WebSocketService {
 }
 
 export class Connection {
+  private messageQueue = [];
   private subscribed = false;
   private subscribing = false;
   private client: WebSocketClient;
@@ -151,6 +154,7 @@ export class Connection {
 
   connect() {
     if (this.subscribing) {
+      Logger.warn(`subscription already subscribing`);
       return;
     }
 
@@ -175,6 +179,7 @@ export class Connection {
     return new Promise<void>((resolve) => {
       this.client.on('connect', async (connection: WebSocketConnection) => {
         this.connection = connection;
+        this.listenMessageQueue();
         this.subscribed = true;
         this.subscribing = false;
         Logger.log(`WebSocket Client Connected`);
@@ -182,7 +187,6 @@ export class Connection {
         const oldSubscriptionSymbols = [...this.subscriptions.keys()]
           .map((item) => item.split('@')[0])
           .filter((item, idx, arr) => arr.indexOf(item) === idx);
-
         for (const symbol of oldSubscriptionSymbols) {
           const aggTradeCallback = this.subscriptions.get(`${symbol}@aggTrade`);
           const depthCallback = this.subscriptions.get(
@@ -250,15 +254,18 @@ export class Connection {
       }
 
       if (!this.connection) {
+        Logger.warn(`Connection not ready ${symbol}`);
         return reject('Connection not ready');
       }
 
       this.subscribeAggTrade(symbol, aggTradeCallback)
         .then(() => this.subscribeDepth(symbol, depthCallback))
         .then(() => {
+          Logger.log(`subscribeAggTrade resolve ${symbol}`);
           return resolve();
         })
         .catch((e) => {
+          Logger.error(`subscribeAggTrade reject ${e}`);
           return reject(e);
         });
     });
@@ -266,15 +273,15 @@ export class Connection {
 
   public unsubscribe(symbol: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      this.connection.send(
-        JSON.stringify({
+      this.send(
+        {
           method: 'UNSUBSCRIBE',
           params: [
             `${symbol}@aggTrade`,
             `${symbol}@depth@${DEPTH_UPDATE_GAP}ms`,
           ],
           id: this.messageId++,
-        }),
+        },
         (err) => {
           if (err) {
             return reject(err);
@@ -289,16 +296,16 @@ export class Connection {
   }
 
   private async subscribeAggTrade(symbol, cb) {
-    await sleep(150);
     return new Promise<void>((resolve, reject) => {
-      this.connection.send(
-        JSON.stringify({
+      this.send(
+        {
           method: 'SUBSCRIBE',
           params: [`${symbol}@aggTrade`],
           id: this.messageId++,
-        }),
+        },
         (err) => {
           if (err) {
+            Logger.error(`${JSON.stringify(err)} ${symbol}`);
             return reject(err);
           }
           this.subscriptions.set(`${symbol}@aggTrade`, cb);
@@ -311,14 +318,13 @@ export class Connection {
   }
 
   private async subscribeDepth(symbol, cb) {
-    await sleep(100);
     return new Promise<void>((resolve, reject) => {
-      this.connection.send(
-        JSON.stringify({
+      this.send(
+        {
           method: 'SUBSCRIBE',
           params: [`${symbol}@depth@${DEPTH_UPDATE_GAP}ms`],
           id: this.messageId++,
-        }),
+        },
         (err) => {
           if (err) {
             return reject(err);
@@ -329,6 +335,25 @@ export class Connection {
           return resolve();
         },
       );
+    });
+  }
+
+  private send(data, cb) {
+    this.messageQueue.push({ data, cb });
+  }
+
+  private listenMessageQueue() {
+    interval(400).subscribe(() => {
+      if (this.messageQueue.length) {
+        const { data, cb } = this.messageQueue[0];
+        console.log(data.id);
+      }
+      if (this.messageQueue.length && this.connection.state === 'open') {
+        const { data, cb } = this.messageQueue.shift();
+        this.connection.send(JSON.stringify(data), cb);
+      } else {
+        console.log(this.connection.state);
+      }
     });
   }
 }

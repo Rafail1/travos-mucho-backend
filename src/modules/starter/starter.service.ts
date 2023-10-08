@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { TradesService } from '../history/trades/trades.service';
+import { sleep } from 'src/utils/sleep';
 
 @Injectable()
 export class StarterService {
@@ -26,6 +27,7 @@ export class StarterService {
       }
 
       await this.subscribe(symbol.toLowerCase());
+      await sleep(100);
     }
   }
 
