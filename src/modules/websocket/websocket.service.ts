@@ -354,8 +354,6 @@ export class Connection {
       if (this.messageQueue.length) {
         const { data, cb } = this.messageQueue.shift();
         this.connection.send(JSON.stringify(data), cb);
-      } else {
-        console.log('no messages');
       }
     });
   }
