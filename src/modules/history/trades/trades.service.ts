@@ -154,7 +154,7 @@ export class TradesService {
       this.orderBookSetting.delete(symbol);
       this.snapshotTimeout = setTimeout(() => {
         this.setOrderBook(symbol);
-      }, SNAPSHOT_INTERVAL);
+      }, SNAPSHOT_INTERVAL - (Date.now() % SNAPSHOT_INTERVAL));
     }
   }
 
