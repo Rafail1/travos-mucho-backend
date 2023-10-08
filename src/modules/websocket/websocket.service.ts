@@ -104,7 +104,7 @@ export class Snapshot {
     };
   }
 }
-const MAX_SUBSCRIBERS = 190;
+const MAX_SUBSCRIBERS = 100;
 @Injectable()
 export class WebSocketService {
   private connectionsMap = new Map<string, Connection>();
@@ -121,7 +121,7 @@ export class WebSocketService {
           this.connectionsMap.set(symbol, connection);
           return connection;
         }
-        Logger.debug('connection is full');
+        Logger.debug(`connection is full ${this.connections.size}`);
       }
 
       if (!connectionFound) {
@@ -289,7 +289,7 @@ export class Connection {
   }
 
   private async subscribeAggTrade(symbol, cb) {
-    await sleep(100);
+    await sleep(150);
     return new Promise<void>((resolve, reject) => {
       this.connection.send(
         JSON.stringify({
