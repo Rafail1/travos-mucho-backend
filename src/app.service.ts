@@ -42,19 +42,21 @@ export class AppService {
   async getDepthUpdates(symbol: string, time: Date, lastUpdateId?: bigint) {
     const where: Prisma.DepthUpdatesWhereInput = {
       s: symbol,
-      AND: [
-        {
-          E: { lt: new Date(time.getTime() + TIME_WINDOW) },
-        },
-      ],
+      AND: [],
     };
     if (lastUpdateId) {
       (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
-        U: { gte: lastUpdateId },
+        U: { lte: lastUpdateId },
+      });
+      (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
+        u: { gte: lastUpdateId },
       });
     } else {
       (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
         E: { gte: new Date(time.getTime()) },
+      });
+      (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
+        E: { lte: new Date(time.getTime() + TIME_WINDOW) },
       });
     }
     return this.database.depthUpdates.findMany({
@@ -82,13 +84,9 @@ export class AppService {
       return [];
     }
 
-    const { asks, bids } = this.calculateDepth(depth, snapshot);
-
     return {
       depth,
-      lastUpdateId: snapshot.lastUpdateId,
-      asks,
-      bids,
+      snapshot,
     };
   }
 
@@ -109,30 +107,5 @@ export class AppService {
         [price]: value,
       };
     }, {});
-  }
-
-  private calculateDepth(depth, snapshot) {
-    const asks = this.mapStakan(<Array<[string, string]>>snapshot.asks);
-    const bids = this.mapStakan(<Array<[string, string]>>snapshot.bids);
-    for (const item of depth) {
-      if (item.U === snapshot.lastUpdateId) {
-        break;
-      }
-
-      const updateAsks = <Array<[string, string]>>item.a;
-      const updateBids = <Array<[string, string]>>item.b;
-      if (updateAsks.length) {
-        for (const ask of updateAsks) {
-          asks[ask[0]] = ask[1];
-        }
-      }
-
-      if (updateBids.length) {
-        for (const bid of updateBids) {
-          bids[bid[0]] = bid[1];
-        }
-      }
-    }
-    return { asks, bids };
   }
 }

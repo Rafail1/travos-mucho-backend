@@ -32,10 +32,7 @@ export class AppController {
   }
 
   @Get('depth')
-  getDepth(
-    @Query('symbol') symbol: string,
-    @Query('time') time: string,
-  ) {
+  getDepth(@Query('symbol') symbol: string, @Query('time') time: string) {
     return this.appService.getDepthHistory(symbol, new Date(time));
   }
 

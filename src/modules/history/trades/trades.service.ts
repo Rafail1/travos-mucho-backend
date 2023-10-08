@@ -16,7 +16,7 @@ const SNAPSHOT_INTERVAL = 30 * 1000;
 @Injectable()
 export class TradesService {
   private borders = new Map<string, { min: number; max: number }>();
-  private httpDepthUrl = (symbol: string, limit = 200) =>
+  private httpDepthUrl = (symbol: string, limit = 100) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();

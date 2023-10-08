@@ -5,6 +5,7 @@ import {
   client as WebSocketClient,
   connection as WebSocketConnection,
 } from 'websocket';
+export const DEPTH_UPDATE_GAP = 250;
 
 export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
@@ -184,7 +185,9 @@ export class Connection {
 
         for (const symbol of oldSubscriptionSymbols) {
           const aggTradeCallback = this.subscriptions.get(`${symbol}@aggTrade`);
-          const depthCallback = this.subscriptions.get(`${symbol}@depth@100ms`);
+          const depthCallback = this.subscriptions.get(
+            `${symbol}@depth@${DEPTH_UPDATE_GAP}ms`,
+          );
           await this.subscribeAggTrade(symbol, aggTradeCallback);
           await this.subscribeDepth(symbol, depthCallback);
         }
@@ -266,7 +269,10 @@ export class Connection {
       this.connection.send(
         JSON.stringify({
           method: 'UNSUBSCRIBE',
-          params: [`${symbol}@aggTrade`, `${symbol}@depth@100ms`],
+          params: [
+            `${symbol}@aggTrade`,
+            `${symbol}@depth@${DEPTH_UPDATE_GAP}ms`,
+          ],
           id: this.messageId++,
         }),
         (err) => {
@@ -275,7 +281,7 @@ export class Connection {
           }
 
           this.subscriptions.delete(`${symbol}@aggTrade`);
-          this.subscriptions.delete(`${symbol}@depth@100ms`);
+          this.subscriptions.delete(`${symbol}@depth@${DEPTH_UPDATE_GAP}ms`);
           return resolve();
         },
       );
@@ -310,14 +316,14 @@ export class Connection {
       this.connection.send(
         JSON.stringify({
           method: 'SUBSCRIBE',
-          params: [`${symbol}@depth@100ms`],
+          params: [`${symbol}@depth@${DEPTH_UPDATE_GAP}ms`],
           id: this.messageId++,
         }),
         (err) => {
           if (err) {
             return reject(err);
           }
-          this.subscriptions.set(`${symbol}@depth@100ms`, cb);
+          this.subscriptions.set(`${symbol}@depth@${DEPTH_UPDATE_GAP}ms`, cb);
           Logger.debug(`subscribed to depth ${symbol}`);
 
           return resolve();
