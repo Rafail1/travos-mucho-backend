@@ -13,6 +13,7 @@ import {
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const SNAPSHOT_INTERVAL = 30 * 1000;
+const BORDER_PERCENTAGE = 0.5;
 @Injectable()
 export class TradesService {
   private borders = new Map<string, { min: number; max: number }>();
@@ -43,11 +44,11 @@ export class TradesService {
           Logger.verbose(`aggTradesBuffer: ${aggTradesBuffer.length}`);
           if (this.borders[symbol]) {
             const topBorderIdx = Math.floor(
-              (this.borders[symbol].max.length / 100) * 60,
+              this.borders[symbol].max.length * BORDER_PERCENTAGE,
             );
 
             const lowBorderIdx = Math.floor(
-              (this.borders[symbol].min.length / 100) * 60,
+              this.borders[symbol].min.length * BORDER_PERCENTAGE,
             );
 
             if (
