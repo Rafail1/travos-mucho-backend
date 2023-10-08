@@ -343,7 +343,7 @@ export class Connection {
   }
 
   private listenMessageQueue() {
-    interval(400).subscribe(() => {
+    interval(200).subscribe(() => {
       if (this.messageQueue.length) {
         const { data } = this.messageQueue[0];
         console.log(data.id);
