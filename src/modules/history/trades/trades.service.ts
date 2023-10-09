@@ -6,6 +6,7 @@ import {
   AggTrade,
   Depth,
   IAggTrade,
+  IDepth,
   Snapshot,
   WebSocketService,
 } from '../../websocket/websocket.service';
@@ -65,7 +66,7 @@ export class TradesService {
             await this.flushAggTrades(aggTradesBuffer.splice(0));
           }
         },
-        async (depth) => {
+        async (depth: IDepth) => {
           depthBuffer.push(new Depth(depth).fields);
 
           if (

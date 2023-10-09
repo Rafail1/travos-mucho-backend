@@ -1,12 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, DepthUpdates, OrderBookSnapshot } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { interval } from 'rxjs';
-import { sleep } from 'src/utils/sleep';
 import {
   client as WebSocketClient,
   connection as WebSocketConnection,
 } from 'websocket';
-export const DEPTH_UPDATE_GAP = 250;
+export const DEPTH_UPDATE_GAP = 100;
 
 export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
@@ -192,7 +191,7 @@ export class Connection {
           const depthCallback = this.subscriptions.get(
             `${symbol}@depth@${DEPTH_UPDATE_GAP}ms`,
           );
-          await this.subscribeAggTrade(symbol, aggTradeCallback);
+          // await this.subscribeAggTrade(symbol, aggTradeCallback);
           await this.subscribeDepth(symbol, depthCallback);
         }
         resolve();
