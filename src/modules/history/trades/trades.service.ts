@@ -73,7 +73,7 @@ export class TradesService {
             depthBuffer.length > 1 &&
             depthBuffer[depthBuffer.length - 2].u !== depth.pu
           ) {
-            Logger.warn('sequence broken');
+            Logger.warn(`sequence broken ${symbol}`);
             this.flushDepth(depthBuffer.splice(0));
             this.setOrderBook(symbol);
           }
