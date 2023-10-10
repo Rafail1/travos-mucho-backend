@@ -349,8 +349,7 @@ export class Connection {
       }
       if (this.connection.state !== 'open') {
         console.log(this.connection.state);
-      }
-      if (this.messageQueue.length) {
+      } else if (this.messageQueue.length) {
         const { data, cb } = this.messageQueue.shift();
         this.connection.send(JSON.stringify(data), cb);
       }

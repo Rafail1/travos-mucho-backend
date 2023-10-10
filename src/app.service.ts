@@ -39,29 +39,30 @@ export class AppService {
     return result;
   }
 
-  async getDepthUpdates(symbol: string, time: Date, lastUpdateId?: bigint) {
+  async getDepthUpdates(symbol: string, time: Date, lastUpdateId: bigint) {
     const where: Prisma.DepthUpdatesWhereInput = {
       s: symbol,
-      AND: [],
+      U: { lte: lastUpdateId },
+      u: { gte: lastUpdateId },
     };
-    if (lastUpdateId) {
-      (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
-        U: { lte: lastUpdateId },
-      });
-      (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
-        u: { gte: lastUpdateId },
-      });
-    } else {
-      (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
-        E: { gte: new Date(time.getTime()) },
-      });
-      (<Prisma.DepthUpdatesWhereInput[]>where.AND).push({
-        E: { lte: new Date(time.getTime() + TIME_WINDOW) },
-      });
-    }
-    return this.database.depthUpdates.findMany({
+
+    const update = await this.database.depthUpdates.findFirstOrThrow({
       where,
       orderBy: { U: 'asc' },
+    });
+    if (!update) {
+      Logger.error(`update not found ${symbol}`);
+    }
+
+    return this.database.depthUpdates.findMany({
+      where: {
+        s: symbol,
+        AND: [
+          { E: { gte: update.E } },
+          { E: { lte: new Date(time.getTime() + TIME_WINDOW) } },
+        ],
+      },
+      orderBy: { E: 'asc' },
     });
   }
 
@@ -98,14 +99,5 @@ export class AppService {
       },
       orderBy: { lastUpdateId: 'desc' },
     });
-  }
-
-  private mapStakan(stakan: Array<[string, string]>) {
-    return stakan?.reduce((acc, [price, value]) => {
-      return {
-        ...acc,
-        [price]: value,
-      };
-    }, {});
   }
 }
