@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, interval } from 'rxjs';
 import { DatabaseService } from '../../database/database.service';
 import {
   AggTrade,
@@ -13,8 +13,8 @@ import {
 
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
-const SNAPSHOT_INTERVAL = 30 * 1000;
-const BORDER_PERCENTAGE = 0.5;
+const SNAPSHOT_INTERVAL = 40 * 1000;
+const BORDER_PERCENTAGE = 0.75;
 @Injectable()
 export class TradesService {
   private borders = new Map<string, { min: number; max: number }>();
@@ -23,12 +23,14 @@ export class TradesService {
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
   private snapshotTimeout: NodeJS.Timeout;
-
+  private messageQueue = [];
   constructor(
     private httpService: HttpService,
     private databaseService: DatabaseService,
     private webSocketService: WebSocketService,
-  ) {}
+  ) {
+    this.listenMessageQueue();
+  }
 
   async subscribe(symbol: string) {
     const aggTradesBuffer: Array<any> = [];
@@ -135,23 +137,26 @@ export class TradesService {
       }
 
       this.orderBookSetting[symbol] = true;
-      Logger.verbose(`setOrderBook ${symbol}`);
-      const snapshot = await firstValueFrom(
-        this.httpService.get(this.httpDepthUrl(symbol)),
-      ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
-      const data = new Snapshot(snapshot).fields;
-      this.setBorders({
+      Logger.debug(`setOrderBook ${symbol}`);
+      this.messageQueue.push({
         symbol,
-        asks: data.asks as Array<[string, string]>,
-        bids: data.bids as Array<[string, string]>,
-      });
+        cb: (data) => {
+          this.setBorders({
+            symbol,
+            asks: data.asks as Array<[string, string]>,
+            bids: data.bids as Array<[string, string]>,
+          });
 
-      await this.databaseService.orderBookSnapshot.create({
-        data,
+          this.databaseService.orderBookSnapshot.create({
+            data,
+          });
+        },
       });
     } catch (e) {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     } finally {
+      Logger.debug(`set timeout setOrderBook ${symbol}`);
+
       this.orderBookSetting.delete(symbol);
       this.snapshotTimeout = setTimeout(() => {
         this.setOrderBook(symbol);
@@ -178,6 +183,19 @@ export class TradesService {
     this.borders.set(symbol, {
       min: Number(bids[bids.length - 1][0]),
       max: Number(asks[asks.length - 1][0]),
+    });
+  }
+
+  private listenMessageQueue() {
+    interval(105).subscribe(async () => {
+      if (this.messageQueue.length) {
+        const { symbol, cb } = this.messageQueue.shift();
+        const snapshot = await firstValueFrom(
+          this.httpService.get(this.httpDepthUrl(symbol)),
+        ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
+        const data = new Snapshot(snapshot).fields;
+        cb(data);
+      }
     });
   }
 }

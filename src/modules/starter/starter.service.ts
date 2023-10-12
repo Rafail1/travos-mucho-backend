@@ -27,7 +27,6 @@ export class StarterService {
       }
 
       await this.subscribe(symbol.toLowerCase());
-      await sleep(100);
     }
   }
 
