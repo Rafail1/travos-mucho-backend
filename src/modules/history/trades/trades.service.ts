@@ -142,7 +142,6 @@ export class TradesService {
             asks: data.asks as Array<[string, string]>,
             bids: data.bids as Array<[string, string]>,
           });
-          Logger.debug(`setOrderBook ${symbol}`);
           await this.databaseService.orderBookSnapshot.create({
             data,
           });
@@ -151,7 +150,6 @@ export class TradesService {
     } catch (e) {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     } finally {
-      Logger.debug(`set timeout setOrderBook ${symbol}`);
       this.orderBookSetting.delete(symbol);
     }
   }
