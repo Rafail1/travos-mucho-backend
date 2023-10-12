@@ -13,7 +13,7 @@ import {
 
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
-const SNAPSHOT_INTERVAL = 100 * 1000;
+const SNAPSHOT_INTERVAL = 90 * 1000;
 const BORDER_PERCENTAGE = 0.75;
 @Injectable()
 export class TradesService {
@@ -134,17 +134,16 @@ export class TradesService {
       }
 
       this.orderBookSetting[symbol] = true;
-      Logger.debug(`setOrderBook ${symbol}`);
       this.messageQueue.push({
         symbol,
-        cb: (data) => {
+        cb: async (data) => {
           this.setBorders({
             symbol,
             asks: data.asks as Array<[string, string]>,
             bids: data.bids as Array<[string, string]>,
           });
-
-          this.databaseService.orderBookSnapshot.create({
+          Logger.debug(`setOrderBook ${symbol}`);
+          await this.databaseService.orderBookSnapshot.create({
             data,
           });
         },
@@ -187,10 +186,15 @@ export class TradesService {
           this.httpService.get(this.httpDepthUrl(symbol)),
         ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
         const data = new Snapshot(snapshot).fields;
-        setTimeout(() => {
-          this.setOrderBook(symbol);
-        }, SNAPSHOT_INTERVAL);
-        cb(data);
+        cb(data)
+          .catch(() => {
+            return;
+          })
+          .then(() => {
+            setTimeout(() => {
+              this.setOrderBook(symbol);
+            }, SNAPSHOT_INTERVAL);
+          });
       }
     });
   }
