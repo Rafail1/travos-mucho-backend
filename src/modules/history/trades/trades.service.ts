@@ -13,7 +13,7 @@ import {
 
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
-const SNAPSHOT_INTERVAL = 40 * 1000;
+const SNAPSHOT_INTERVAL = 100 * 1000;
 const BORDER_PERCENTAGE = 0.75;
 @Injectable()
 export class TradesService {
@@ -22,7 +22,6 @@ export class TradesService {
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
-  private snapshotTimeout: NodeJS.Timeout;
   private messageQueue = [];
   constructor(
     private httpService: HttpService,
@@ -181,7 +180,7 @@ export class TradesService {
   }
 
   private listenMessageQueue() {
-    interval(105).subscribe(async () => {
+    interval(250).subscribe(async () => {
       if (this.messageQueue.length) {
         const { symbol, cb } = this.messageQueue.shift();
         const snapshot = await firstValueFrom(
@@ -190,7 +189,7 @@ export class TradesService {
         const data = new Snapshot(snapshot).fields;
         setTimeout(() => {
           this.setOrderBook(symbol);
-        }, SNAPSHOT_INTERVAL - (Date.now() % SNAPSHOT_INTERVAL));
+        }, SNAPSHOT_INTERVAL);
         cb(data);
       }
     });
