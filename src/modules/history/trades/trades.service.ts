@@ -60,6 +60,7 @@ export class TradesService {
               Number(aggTrade.p) <
                 Number(this.borders[symbol].min[lowBorderIdx][0])
             ) {
+              Logger.debug('out of borders');
               this.setOrderBook(symbol);
             }
           }
@@ -129,9 +130,6 @@ export class TradesService {
 
   private async setOrderBook(symbol: string) {
     try {
-      if (this.snapshotTimeout) {
-        clearTimeout(this.snapshotTimeout);
-      }
       if (this.orderBookSetting.has(symbol)) {
         return;
       }
@@ -156,11 +154,7 @@ export class TradesService {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     } finally {
       Logger.debug(`set timeout setOrderBook ${symbol}`);
-
       this.orderBookSetting.delete(symbol);
-      this.snapshotTimeout = setTimeout(() => {
-        this.setOrderBook(symbol);
-      }, SNAPSHOT_INTERVAL - (Date.now() % SNAPSHOT_INTERVAL));
     }
   }
 
@@ -194,6 +188,9 @@ export class TradesService {
           this.httpService.get(this.httpDepthUrl(symbol)),
         ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
         const data = new Snapshot(snapshot).fields;
+        setTimeout(() => {
+          this.setOrderBook(symbol);
+        }, SNAPSHOT_INTERVAL - (Date.now() % SNAPSHOT_INTERVAL));
         cb(data);
       }
     });
