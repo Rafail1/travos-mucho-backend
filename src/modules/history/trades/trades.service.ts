@@ -14,11 +14,13 @@ import {
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const SNAPSHOT_INTERVAL = 90 * 1000;
+const DEPTH_LIMIT = 500;
 const BORDER_PERCENTAGE = 0.75;
+const MESSAGE_QUEUE_INTERVAL = 250;
 @Injectable()
 export class TradesService {
   private borders = new Map<string, { min: number; max: number }>();
-  private httpDepthUrl = (symbol: string, limit = 500) =>
+  private httpDepthUrl = (symbol: string, limit = DEPTH_LIMIT) =>
     `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
@@ -177,22 +179,28 @@ export class TradesService {
   }
 
   private listenMessageQueue() {
-    interval(250).subscribe(async () => {
+    interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
       if (this.messageQueue.length) {
         const { symbol, cb } = this.messageQueue.shift();
         const snapshot = await firstValueFrom(
           this.httpService.get(this.httpDepthUrl(symbol)),
-        ).then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }));
-        const data = new Snapshot(snapshot).fields;
-        cb(data)
-          .catch(() => {
-            return;
-          })
-          .then(() => {
-            setTimeout(() => {
-              this.setOrderBook(symbol);
-            }, SNAPSHOT_INTERVAL);
+        )
+          .then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }))
+          .catch((e) => {
+            Logger.error(e?.message);
           });
+        if (snapshot) {
+          const data = new Snapshot(snapshot).fields;
+          cb(data)
+            .catch(() => {
+              return;
+            })
+            .then(() => {
+              setTimeout(() => {
+                this.setOrderBook(symbol);
+              }, SNAPSHOT_INTERVAL);
+            });
+        }
       }
     });
   }
