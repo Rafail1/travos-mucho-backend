@@ -202,7 +202,7 @@ export class Connection {
         connection.on('close', (e: any) => {
           this.subscribed = false;
           this.subscribing = false;
-          console.warn(JSON.stringify(e));
+          Logger.error(JSON.stringify(e));
           Logger.warn(`Connection Closed`);
           setTimeout(() => {
             this.connect();
