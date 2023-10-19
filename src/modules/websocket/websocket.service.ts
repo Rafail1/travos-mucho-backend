@@ -199,9 +199,10 @@ export class Connection {
           Logger.error(`Connection Error: ${error.toString()}`);
         });
 
-        connection.on('close', () => {
+        connection.on('close', (e: any) => {
           this.subscribed = false;
           this.subscribing = false;
+          console.warn(JSON.stringify(e));
           Logger.warn(`Connection Closed`);
           setTimeout(() => {
             this.connect();
@@ -345,10 +346,10 @@ export class Connection {
     interval(250).subscribe(() => {
       if (this.messageQueue.length) {
         const { data } = this.messageQueue[0];
-        console.log(data.id);
+        Logger.log(data.id);
       }
       if (this.connection.state !== 'open') {
-        console.log(this.connection.state);
+        Logger.warn(this.connection.state);
       } else if (this.messageQueue.length) {
         const { data, cb } = this.messageQueue.shift();
         this.connection.send(JSON.stringify(data), cb);

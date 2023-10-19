@@ -62,7 +62,7 @@ export class TradesService {
                 Number(this.borders[symbol].min[lowBorderIdx][0])
             ) {
               Logger.debug('out of borders');
-              this.setOrderBook(symbol);
+              this.setOrderBook(symbol, true);
             }
           }
 
@@ -79,7 +79,7 @@ export class TradesService {
           ) {
             Logger.warn(`sequence broken ${symbol}`);
             this.flushDepth(depthBuffer.splice(0));
-            this.setOrderBook(symbol);
+            this.setOrderBook(symbol, true);
           }
 
           Logger.verbose(`depthBuffer: ${depthBuffer.length}`);
@@ -129,14 +129,14 @@ export class TradesService {
     }
   }
 
-  private async setOrderBook(symbol: string) {
+  private async setOrderBook(symbol: string, priority = false) {
     try {
       if (this.orderBookSetting.has(symbol)) {
         return;
       }
 
       this.orderBookSetting[symbol] = true;
-      this.messageQueue.push({
+      const obj = {
         symbol,
         cb: async (data) => {
           this.setBorders({
@@ -148,7 +148,12 @@ export class TradesService {
             data,
           });
         },
-      });
+      };
+      if (priority) {
+        this.messageQueue.unshift(obj);
+      } else {
+        this.messageQueue.push(obj);
+      }
     } catch (e) {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     } finally {
