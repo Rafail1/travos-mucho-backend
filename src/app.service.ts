@@ -45,25 +45,25 @@ export class AppService {
       U: { lte: lastUpdateId },
       u: { gte: lastUpdateId },
     };
+    try {
+      const update = await this.database.depthUpdates.findFirstOrThrow({
+        where,
+        orderBy: { U: 'asc' },
+      });
 
-    const update = await this.database.depthUpdates.findFirstOrThrow({
-      where,
-      orderBy: { U: 'asc' },
-    });
-    if (!update) {
-      Logger.error(`update not found ${symbol}`);
+      return this.database.depthUpdates.findMany({
+        where: {
+          s: symbol,
+          AND: [
+            { E: { gte: update.E } },
+            { E: { lte: new Date(time.getTime() + TIME_WINDOW) } },
+          ],
+        },
+        orderBy: { E: 'asc' },
+      });
+    } catch (e) {
+      return [];
     }
-
-    return this.database.depthUpdates.findMany({
-      where: {
-        s: symbol,
-        AND: [
-          { E: { gte: update.E } },
-          { E: { lte: new Date(time.getTime() + TIME_WINDOW) } },
-        ],
-      },
-      orderBy: { E: 'asc' },
-    });
   }
 
   async getDepthHistory(symbol: string, time: Date) {
