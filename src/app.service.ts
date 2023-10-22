@@ -91,6 +91,10 @@ export class AppService {
     };
   }
 
+  getCluster(symbol: string, arg1: Date, arg2: Date) {
+    throw new Error('Method not implemented.');
+  }
+
   private getSnapshot(symbol: string, time: Date) {
     return this.database.orderBookSnapshot.findFirst({
       where: {

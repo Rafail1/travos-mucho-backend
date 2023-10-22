@@ -35,4 +35,13 @@ export class AppController {
   getDepth(@Query('symbol') symbol: string, @Query('time') time: string) {
     return this.appService.getDepthHistory(symbol, new Date(time));
   }
+
+  @Get('cluster')
+  getCluster(
+    @Query('symbol') symbol: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
+  ) {
+    return this.appService.getCluster(symbol, new Date(from), new Date(to));
+  }
 }
