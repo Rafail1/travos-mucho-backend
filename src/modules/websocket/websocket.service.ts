@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { interval } from 'rxjs';
+import { filter, interval } from 'rxjs';
 import {
   client as WebSocketClient,
   connection as WebSocketConnection,
 } from 'websocket';
-export const DEPTH_UPDATE_GAP = 100;
+export const DEPTH_UPDATE_GAP = 1000;
 
 export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
@@ -146,12 +146,14 @@ export class Connection {
   private wsUrl = 'wss://fstream.binance.com/stream';
   private messageId = 1;
   private subscriptions = new Map<string, (data) => void>();
+  private waitingForSendedMessage = false;
 
   subscribersCount() {
     return this.subscriptions.size;
   }
 
   connect() {
+    Logger.verbose(`connecting`);
     if (this.subscribing) {
       Logger.warn(`subscription already subscribing`);
       return;
@@ -191,7 +193,7 @@ export class Connection {
           const depthCallback = this.subscriptions.get(
             `${symbol}@depth@${DEPTH_UPDATE_GAP}ms`,
           );
-          // await this.subscribeAggTrade(symbol, aggTradeCallback);
+          await this.subscribeAggTrade(symbol, aggTradeCallback);
           await this.subscribeDepth(symbol, depthCallback);
         }
         resolve();
@@ -222,6 +224,7 @@ export class Connection {
                 this.subscriptions.get(stream)(data);
                 return;
               case undefined && Number.isInteger(id) && result === null:
+                this.waitingForSendedMessage = false;
                 return;
               default:
                 Logger.warn(`unknown event ${message.utf8Data}`);
@@ -343,17 +346,18 @@ export class Connection {
   }
 
   private listenMessageQueue() {
-    interval(250).subscribe(() => {
-      if (this.messageQueue.length) {
-        const { data } = this.messageQueue[0];
-        Logger.log(data.id);
-      }
-      if (this.connection.state !== 'open') {
-        Logger.warn(this.connection.state);
-      } else if (this.messageQueue.length) {
-        const { data, cb } = this.messageQueue.shift();
-        this.connection.send(JSON.stringify(data), cb);
-      }
-    });
+    interval(250)
+      .pipe(filter(() => this.waitingForSendedMessage === false))
+      .subscribe(() => {
+        if (this.connection.state !== 'open') {
+          Logger.warn(this.connection.state);
+        } else if (this.messageQueue.length) {
+          const { data, cb } = this.messageQueue.shift();
+          this.waitingForSendedMessage = data.id;
+
+          Logger.log(data.id);
+          this.connection.send(JSON.stringify(data), cb);
+        }
+      });
   }
 }

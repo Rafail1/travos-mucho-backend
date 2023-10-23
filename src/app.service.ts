@@ -91,8 +91,13 @@ export class AppService {
     };
   }
 
-  getCluster(symbol: string, arg1: Date, arg2: Date) {
-    throw new Error('Method not implemented.');
+  getCluster(symbol: string, from: Date, to: Date) {
+    this.database.$queryRaw`
+    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", '2023-10-22') AS min5_slot
+    FROM feautures."AggTrades"
+    WHERE s = ${symbol}
+    and "E" between ${from} and ${to}
+    GROUP BY min5_slot, p, m`;
   }
 
   private getSnapshot(symbol: string, time: Date) {

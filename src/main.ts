@@ -6,7 +6,7 @@ async function bootstrap() {
     return this.toString();
   };
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn', 'log'],
+    logger: ['error', 'warn', 'log', 'debug'],
     cors: true,
   });
   await app.listen(3000);
