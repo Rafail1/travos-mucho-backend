@@ -346,7 +346,7 @@ export class Connection {
   }
 
   private listenMessageQueue() {
-    interval(250)
+    interval(1000)
       .pipe(filter(() => this.waitingForSendedMessage === false))
       .subscribe(() => {
         if (this.connection.state !== 'open') {
