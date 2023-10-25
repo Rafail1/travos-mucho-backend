@@ -104,7 +104,7 @@ export class Snapshot {
     };
   }
 }
-const MAX_SUBSCRIBERS = 190;
+const MAX_SUBSCRIBERS = 50;
 @Injectable()
 export class WebSocketService {
   private connectionsMap = new Map<string, Connection>();
@@ -234,15 +234,21 @@ export class Connection {
             Logger.error(e);
           }
         });
-
-        connection.on('ping', (cancel: () => void, binaryPayload: Buffer) => {
-          Logger.log(`Received ping message`);
-          connection.pong(binaryPayload);
-        });
+        this.pingPong(connection);
       });
 
       this.client.connect(this.wsUrl);
     });
+  }
+
+  pingPong(connection: WebSocketConnection) {
+    setTimeout(() => {
+      if (connection.state === 'open') {
+        Logger.debug('Send pong message');
+        connection.pong();
+        this.pingPong(connection);
+      }
+    }, 60000 * 5);
   }
 
   public subscribe(
