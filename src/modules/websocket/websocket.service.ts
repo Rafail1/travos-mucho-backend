@@ -5,7 +5,7 @@ import {
   client as WebSocketClient,
   connection as WebSocketConnection,
 } from 'websocket';
-export const DEPTH_UPDATE_GAP = 1000;
+export const DEPTH_UPDATE_GAP = 100;
 
 export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
