@@ -7,7 +7,7 @@ const TIME_WINDOW = 1000 * 30;
 export class AppService {
   constructor(
     private readonly starterService: StarterService,
-    private database: DatabaseService,
+    private databaseService: DatabaseService,
   ) {}
 
   subscribe(symbol: string): void {
@@ -23,7 +23,7 @@ export class AppService {
   }
 
   async getAggTradesHistory(symbol: string, time: Date) {
-    const result = await this.database.aggTrades.findMany({
+    const result = await this.databaseService.aggTrades.findMany({
       where: {
         AND: [
           {
@@ -46,12 +46,12 @@ export class AppService {
       u: { gte: lastUpdateId },
     };
     try {
-      const update = await this.database.depthUpdates.findFirstOrThrow({
+      const update = await this.databaseService.depthUpdates.findFirstOrThrow({
         where,
         orderBy: { U: 'asc' },
       });
 
-      return this.database.depthUpdates.findMany({
+      return this.databaseService.depthUpdates.findMany({
         where: {
           s: symbol,
           AND: [
@@ -92,7 +92,7 @@ export class AppService {
   }
 
   getCluster(symbol: string, from: Date, to: Date) {
-    this.database.$queryRaw`
+    this.databaseService.$queryRaw`
     SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", '2023-10-22') AS min5_slot
     FROM feautures."AggTrades"
     WHERE s = ${symbol}
@@ -101,7 +101,7 @@ export class AppService {
   }
 
   private getSnapshot(symbol: string, time: Date) {
-    return this.database.orderBookSnapshot.findFirst({
+    return this.databaseService.orderBookSnapshot.findFirst({
       where: {
         E: { lte: time },
         symbol,

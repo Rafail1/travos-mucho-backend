@@ -1,6 +1,6 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { firstValueFrom, interval } from 'rxjs';
+import { USDMClient } from 'binance';
+import { interval } from 'rxjs';
 import { DatabaseService } from '../../database/database.service';
 import {
   AggTrade,
@@ -19,14 +19,15 @@ const BORDER_PERCENTAGE = 0.75;
 const MESSAGE_QUEUE_INTERVAL = 250;
 @Injectable()
 export class TradesService {
+  private listening = false;
   private borders = new Map<string, { min: number; max: number }>();
-  private httpDepthUrl = (symbol: string, limit = DEPTH_LIMIT) =>
-    `https://fapi.binance.com/fapi/v1/depth?symbol=${symbol}&limit=${limit}`;
+  private usdmClient = new USDMClient({});
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
   private messageQueue = [];
+  private depthBuffer = new Map<string, any>();
+  private aggTradesBuffer = new Map<string, any>();
   constructor(
-    private httpService: HttpService,
     private databaseService: DatabaseService,
     private webSocketService: WebSocketService,
   ) {
@@ -34,62 +35,11 @@ export class TradesService {
   }
 
   async subscribe(symbol: string) {
-    const aggTradesBuffer: Array<any> = [];
-    const depthBuffer: Array<any> = [];
-
     this.subscribedSymbols.add(symbol);
     try {
-      const connection = await this.webSocketService.getConnection(symbol);
-      await connection.subscribe(
-        symbol,
-        async (aggTrade: IAggTrade) => {
-          aggTradesBuffer.push(new AggTrade(aggTrade).fields);
-
-          Logger.verbose(`aggTradesBuffer: ${aggTradesBuffer.length}`);
-          if (this.borders[symbol]) {
-            const topBorderIdx = Math.floor(
-              this.borders[symbol].max.length * BORDER_PERCENTAGE,
-            );
-
-            const lowBorderIdx = Math.floor(
-              this.borders[symbol].min.length * BORDER_PERCENTAGE,
-            );
-
-            if (
-              Number(aggTrade.p) >
-                Number(this.borders[symbol].max[topBorderIdx][0]) ||
-              Number(aggTrade.p) <
-                Number(this.borders[symbol].min[lowBorderIdx][0])
-            ) {
-              Logger.debug('out of borders');
-              this.setOrderBook(symbol, true);
-            }
-          }
-
-          if (aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
-            await this.flushAggTrades(aggTradesBuffer.splice(0));
-          }
-        },
-        async (depth: IDepth) => {
-          depthBuffer.push(new Depth(depth).fields);
-
-          if (
-            depthBuffer.length > 1 &&
-            depthBuffer[depthBuffer.length - 2].u !== depth.pu
-          ) {
-            Logger.warn(`sequence broken ${symbol}`);
-            this.flushDepth(depthBuffer.splice(0));
-            this.setOrderBook(symbol, true);
-          }
-
-          Logger.verbose(`depthBuffer: ${depthBuffer.length}`);
-          if (depthBuffer.length > DEPTH_BUFFER_LENGTH) {
-            this.flushDepth(depthBuffer.splice(0));
-          }
-        },
-      );
-
+      await this.webSocketService.subscribe(symbol);
       this.setOrderBook(symbol);
+      this.listen();
     } catch (e) {
       Logger.error(e?.message);
       return null;
@@ -97,10 +47,77 @@ export class TradesService {
   }
 
   unsubscribe(symbol: string) {
-    this.webSocketService.getConnection(symbol).then((connection) => {
-      connection.unsubscribe(symbol);
-    });
+    this.webSocketService.unsubscribe(symbol);
     this.subscribedSymbols.delete(symbol);
+  }
+
+  listen() {
+    if (this.listening) {
+      return;
+    }
+    this.listening = true;
+    this.webSocketService.listen(
+      this.aggTradesCallback.bind(this),
+      this.depthCallback.bind(this),
+    );
+  }
+
+  depthCallback(depth: IDepth) {
+    if (!this.depthBuffer.has(depth.s)) {
+      this.depthBuffer.set(depth.s, []);
+    }
+
+    const _depthBuffer = this.depthBuffer.get(depth.s);
+    _depthBuffer.push(new Depth(depth).fields);
+
+    if (
+      _depthBuffer.length > 1 &&
+      _depthBuffer[_depthBuffer.length - 2].u !== depth.pu
+    ) {
+      Logger.warn(`sequence broken ${depth.s}`);
+      this.flushDepth(_depthBuffer.splice(0));
+      this.setOrderBook(depth.s, true);
+    }
+
+    Logger.verbose(`this.depthBuffer: ${_depthBuffer.length}`);
+    if (_depthBuffer.length > DEPTH_BUFFER_LENGTH) {
+      this.flushDepth(_depthBuffer.splice(0));
+    }
+  }
+
+  aggTradesCallback(aggTrade: IAggTrade) {
+    if (!this.aggTradesBuffer.has(aggTrade.s)) {
+      this.aggTradesBuffer.set(aggTrade.s, []);
+    }
+
+    const _aggTradesBuffer = this.aggTradesBuffer.get(aggTrade.s);
+
+    _aggTradesBuffer.push(new AggTrade(aggTrade).fields);
+
+    Logger.verbose(`this.aggTradesBuffer: ${_aggTradesBuffer.length}`);
+    if (this.borders[aggTrade.s]) {
+      const topBorderIdx = Math.floor(
+        this.borders[aggTrade.s].max.length * BORDER_PERCENTAGE,
+      );
+
+      const lowBorderIdx = Math.floor(
+        this.borders[aggTrade.s].min.length * BORDER_PERCENTAGE,
+      );
+
+      if (
+        Number(aggTrade.p) >
+          Number(this.borders[aggTrade.s].max[topBorderIdx][0]) ||
+        Number(aggTrade.p) <
+          Number(this.borders[aggTrade.s].min[lowBorderIdx][0])
+      ) {
+        Logger.debug('out of borders');
+        this.setOrderBook(aggTrade.s, true);
+      }
+    }
+
+    if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
+      this.flushAggTrades(_aggTradesBuffer.splice(0));
+    }
   }
 
   /**
@@ -187,15 +204,14 @@ export class TradesService {
     interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
       if (this.messageQueue.length) {
         const { symbol, cb } = this.messageQueue.shift();
-        const snapshot = await firstValueFrom(
-          this.httpService.get(this.httpDepthUrl(symbol)),
-        )
-          .then(({ data }) => ({ ...data, symbol: symbol.toUpperCase() }))
+        const snapshot = await this.usdmClient
+          .getOrderBook({ symbol, limit: DEPTH_LIMIT })
+          .then((data) => ({ ...data, symbol: symbol.toUpperCase() }))
           .catch((e) => {
             Logger.error(e?.message);
           });
         if (snapshot) {
-          const data = new Snapshot(snapshot).fields;
+          const data = new Snapshot(symbol, snapshot).fields;
           cb(data)
             .catch(() => {
               return;

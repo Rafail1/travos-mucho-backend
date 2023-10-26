@@ -27,6 +27,7 @@ export class StarterService {
 
       await this.subscribe(symbol.toLowerCase());
     }
+    this.tradesService.listen();
   }
 
   subscribe(symbol: string) {
