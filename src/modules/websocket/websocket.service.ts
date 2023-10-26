@@ -104,7 +104,7 @@ export class Snapshot {
     };
   }
 }
-const MAX_SUBSCRIBERS = 50;
+const MAX_SUBSCRIBERS = 4;
 @Injectable()
 export class WebSocketService {
   private connectionsMap = new Map<string, Connection>();
@@ -121,11 +121,10 @@ export class WebSocketService {
           this.connectionsMap.set(symbol, connection);
           return connection;
         }
-        Logger.debug(`connection is full ${this.connections.size}`);
       }
 
       if (!connectionFound) {
-        Logger.debug('creating new connection');
+        Logger.debug(`creating new connection ${this.connections.size}`);
         const connection = new Connection();
         await connection.connect();
         this.connections.add(connection);
@@ -198,14 +197,18 @@ export class Connection {
         }
         resolve();
         connection.on('error', (error) => {
-          Logger.error(`Connection Error: ${error.toString()}`);
+          Logger.error(
+            `Connection Error: ${error.toString()}, ${
+              connection.closeDescription
+            }`,
+          );
         });
 
         connection.on('close', (e: any) => {
           this.subscribed = false;
           this.subscribing = false;
           Logger.error(JSON.stringify(e));
-          Logger.warn(`Connection Closed`);
+          Logger.warn(`Connection Closed ${connection.closeDescription}`);
           setTimeout(() => {
             this.connect();
           }, 2000);
