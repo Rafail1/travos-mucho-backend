@@ -44,4 +44,10 @@ export class AppController {
   ) {
     return this.appService.getCluster(symbol, new Date(from), new Date(to));
   }
+
+  @Get('remove-history')
+  async removeHistory() {
+    const removed = await this.appService.removeHistory();
+    return { removed };
+  }
 }

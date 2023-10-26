@@ -22,6 +22,23 @@ export class AppService {
     this.starterService.subscribeAll();
   }
 
+  async removeHistory() {
+    try {
+      await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
+      WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+      await this.databaseService
+        .$executeRaw`DELETE FROM feautures."DepthUpdates"
+      WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+      await this.databaseService
+        .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
+      WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+      return true;
+    } catch (e) {
+      Logger.error(`removeHistory error ${e?.message}`);
+      return false;
+    }
+  }
+
   async getAggTradesHistory(symbol: string, time: Date) {
     const result = await this.databaseService.aggTrades.findMany({
       where: {
