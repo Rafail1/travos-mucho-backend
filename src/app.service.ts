@@ -88,7 +88,7 @@ export class AppService {
 
     if (!snapshot) {
       Logger.warn('snapshot not found');
-      return [];
+      return {};
     }
 
     const depth = await this.getDepthUpdates(
@@ -99,7 +99,7 @@ export class AppService {
 
     if (!depth.length) {
       Logger.warn('depthUpdates not found');
-      return [];
+      return {};
     }
 
     return {
