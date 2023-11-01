@@ -16,7 +16,7 @@ const DEPTH_BUFFER_LENGTH = 1000;
 const SNAPSHOT_INTERVAL = 90 * 1000;
 const DEPTH_LIMIT = 500;
 const BORDER_PERCENTAGE = 0.75;
-const MESSAGE_QUEUE_INTERVAL = 250;
+const MESSAGE_QUEUE_INTERVAL = 500;
 @Injectable()
 export class TradesService {
   private listening = false;
