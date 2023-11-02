@@ -19,7 +19,7 @@ export class AppService {
   }
 
   subscribeAll() {
-    this.starterService.subscribeAll();
+    return this.starterService.subscribeAll();
   }
 
   async removeHistory() {
