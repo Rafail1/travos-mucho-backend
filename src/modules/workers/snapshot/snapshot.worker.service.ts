@@ -93,6 +93,18 @@ export class SnapshotWorkerService {
 
         for (const depthUpdate of depthUpdates) {
           for (const ask of depthUpdate.a) {
+            if (snapshotBids[ask[1]]) {
+              // TODO(Rafa): test it
+              const index = snapshot.bids.findIndex(
+                (item) => item[0] === ask[0],
+              );
+              if (index >= 0) {
+                const bids = snapshot.bids.splice(0, index + 1);
+                for (const item of bids) {
+                  delete snapshotBids[item[0]];
+                }
+              }
+            }
             if (Number(ask[1]) === 0) {
               delete snapshotAsks[ask[0]];
             } else if (snapshotAsks[ask[0]]) {
@@ -102,6 +114,19 @@ export class SnapshotWorkerService {
             }
           }
           for (const bid of depthUpdate.b) {
+            if (snapshotAsks[bid[1]]) {
+              // TODO(Rafa): test it
+              const index = snapshot.asks.findIndex(
+                (item) => item[0] === bid[0],
+              );
+              if (index >= 0) {
+                const asks = snapshot.asks.splice(0, index + 1);
+                for (const item of asks) {
+                  delete snapshotAsks[item[0]];
+                }
+              }
+            }
+
             if (Number(bid[1]) === 0) {
               delete snapshotBids[bid[0]];
             } else if (snapshotBids[bid[0]]) {
