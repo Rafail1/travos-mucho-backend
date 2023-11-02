@@ -9,11 +9,9 @@ export class SnapshotWorkerService {
   constructor(private databaseService: DatabaseService) {}
 
   public async initSnapshotFlow() {
-    await this.setSnapshot();
-
-    // interval(TIME_WINDOW).subscribe(async () => {
-    //   await this.setSnapshot();
-    // });
+    interval(TIME_WINDOW).subscribe(async () => {
+      await this.setSnapshot();
+    });
   }
 
   private async setSnapshot() {
