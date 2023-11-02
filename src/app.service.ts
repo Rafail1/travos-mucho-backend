@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 import { Prisma } from '@prisma/client';
-const TIME_WINDOW = 1000 * 30;
+const TIME_WINDOW = 1000 * 90;
 @Injectable()
 export class AppService {
   constructor(
