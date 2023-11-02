@@ -13,10 +13,9 @@ import {
 
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
-const SNAPSHOT_INTERVAL = 90 * 1000;
 const DEPTH_LIMIT = 1000;
 const BORDER_PERCENTAGE = 0.75;
-const MESSAGE_QUEUE_INTERVAL = 500;
+const MESSAGE_QUEUE_INTERVAL = 1000;
 @Injectable()
 export class TradesService {
   private listening = false;
@@ -212,15 +211,9 @@ export class TradesService {
           });
         if (snapshot) {
           const data = new Snapshot(symbol, snapshot).fields;
-          cb(data)
-            .catch(() => {
-              return;
-            })
-            .then(() => {
-              setTimeout(() => {
-                this.setOrderBook(symbol);
-              }, SNAPSHOT_INTERVAL);
-            });
+          cb(data).catch(() => {
+            return;
+          });
         }
       }
     });
