@@ -9,9 +9,11 @@ export class SnapshotWorkerService {
   constructor(private databaseService: DatabaseService) {}
 
   public async initSnapshotFlow() {
-    interval(TIME_WINDOW).subscribe(async () => {
-      await this.setSnapshot();
-    });
+    await this.setSnapshot();
+
+    // interval(TIME_WINDOW).subscribe(async () => {
+    //   await this.setSnapshot();
+    // });
   }
 
   private async setSnapshot() {
@@ -20,6 +22,7 @@ export class SnapshotWorkerService {
       .$queryRaw`SELECT DISTINCT symbol from feautures."OrderBookSnapshot"`;
 
     for (const { symbol } of symbols) {
+      Logger.debug(`filling orderbook for symbol ${symbol}`);
       const series: Array<{
         generated_series_time: Date;
         snapshot_time_truncated: Date;
@@ -34,8 +37,11 @@ export class SnapshotWorkerService {
           SELECT date_trunc('minute', min("E")) as time_from from feautures."OrderBookSnapshot" where symbol = ${symbol}
         ),
         intervals as (
-          select generate_series(date_trunc('minute', min("E")), time_to, ${TIME_WINDOW_SEC}::interval) as generated_series_time from feautures."OrderBookSnapshot" JOIN max_ts ON true
-			    GROUP BY time_to
+          select generate_series(time_from, time_to, ${TIME_WINDOW_SEC}::interval) as generated_series_time
+          from feautures."OrderBookSnapshot" 
+          JOIN max_ts ON true
+          JOIN min_ts ON true
+			    GROUP BY time_to, time_from
         ), snapshots as (
             SELECT date_bin(${TIME_WINDOW_SEC}::interval, "E", time_from) AS snapshot_time_truncated, symbol, "E" as snapshot_time, id 
             FROM feautures."OrderBookSnapshot"
