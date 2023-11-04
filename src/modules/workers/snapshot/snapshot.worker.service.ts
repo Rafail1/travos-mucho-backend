@@ -3,10 +3,14 @@ import { interval } from 'rxjs';
 import { TIME_WINDOW } from 'src/app.service';
 import { DatabaseService } from 'src/modules/database/database.service';
 import { IDepth } from 'src/modules/websocket/websocket.service';
+import { StateService } from 'src/state/state.service';
 
 @Injectable()
 export class SnapshotWorkerService {
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private stateService: StateService,
+  ) {}
 
   public async initSnapshotFlow() {
     interval(TIME_WINDOW * 2).subscribe(async () => {
@@ -20,7 +24,13 @@ export class SnapshotWorkerService {
       .$queryRaw`SELECT DISTINCT symbol from feautures."OrderBookSnapshot"`;
 
     for (const { symbol } of symbols) {
-      Logger.debug(`filling orderbook for symbol ${symbol}`);
+      Logger.verbose(`filling orderbook for symbol ${symbol}`);
+      const tickSize = this.stateService.getTickSize(symbol);
+      if (!tickSize) {
+        Logger.debug(`no tickSize for ${symbol}`);
+        continue;
+      }
+
       const series: Array<{
         generated_series_time: Date;
         snapshot_time_truncated: Date;
@@ -91,9 +101,17 @@ export class SnapshotWorkerService {
           continue;
         }
 
+        const middleAsk = Number(snapshot.asks[snapshot.asks.length - 1][0]);
+        const middleBid = Number(snapshot.bids[0][0]);
+        const max = middleAsk + tickSize * snapshot.asks.length;
+        const min = middleBid - tickSize * snapshot.bids.length;
+
         for (const depthUpdate of depthUpdates) {
           for (const ask of depthUpdate.a) {
-            if (snapshotBids[ask[1]]) {
+            if (Number(ask[0]) < min || Number(ask[0]) > max) {
+              continue;
+            }
+            if (snapshotBids[ask[0]]) {
               // TODO(Rafa): test it
               const index = snapshot.bids.findIndex(
                 (item) => item[0] === ask[0],
@@ -113,8 +131,12 @@ export class SnapshotWorkerService {
               snapshotAsks[ask[0]] = ask;
             }
           }
+
           for (const bid of depthUpdate.b) {
-            if (snapshotAsks[bid[1]]) {
+            if (Number(bid[0]) < min || Number(bid[0]) > max) {
+              continue;
+            }
+            if (snapshotAsks[bid[0]]) {
               // TODO(Rafa): test it
               const index = snapshot.asks.findIndex(
                 (item) => item[0] === bid[0],

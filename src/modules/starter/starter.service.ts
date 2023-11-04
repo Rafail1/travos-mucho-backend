@@ -1,16 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { USDMClient } from 'binance';
+import { SymbolPriceFilter, USDMClient } from 'binance';
 import { TradesService } from '../history/trades/trades.service';
+import { StateService } from 'src/state/state.service';
 
 @Injectable()
 export class StarterService {
   private usdmClient = new USDMClient({});
 
-  constructor(private tradesService: TradesService) {}
+  constructor(
+    private tradesService: TradesService,
+    private stateService: StateService,
+  ) {}
 
   async subscribeAll() {
     const exInfo = await this.usdmClient.getExchangeInfo();
-    for (const { symbol, contractType, quoteAsset, status } of exInfo.symbols) {
+    for (const {
+      symbol,
+      contractType,
+      quoteAsset,
+      status,
+      filters,
+    } of exInfo.symbols) {
       if (
         contractType !== 'PERPETUAL' ||
         quoteAsset !== 'USDT' ||
@@ -18,7 +28,12 @@ export class StarterService {
       ) {
         continue;
       }
-
+      const tickSize = (
+        filters.find(
+          (item: any) => item.filterType === 'PRICE_FILTER',
+        ) as SymbolPriceFilter
+      )?.tickSize;
+      this.stateService.setTickSize(symbol, Number(tickSize));
       await this.subscribe(symbol.toLowerCase());
     }
     this.tradesService.listen();
