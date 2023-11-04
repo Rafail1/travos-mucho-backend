@@ -27,7 +27,7 @@ export class SnapshotWorkerService {
       Logger.verbose(`filling orderbook for symbol ${symbol}`);
       const tickSize = this.stateService.getTickSize(symbol);
       if (!tickSize) {
-        Logger.debug(`no tickSize for ${symbol}`);
+        Logger.warn(`no tickSize for ${symbol}`);
         continue;
       }
 
@@ -82,14 +82,22 @@ export class SnapshotWorkerService {
           await this.databaseService.orderBookSnapshot.findUniqueOrThrow({
             where: { id: previous_id ? previous_id : seria.previous_id },
           });
-        const snapshotAsks = snapshot.asks.reduce((acc, item) => {
-          acc[item[0]] = item;
-          return acc;
-        }, {});
-        const snapshotBids = snapshot.bids.reduce((acc, item) => {
-          acc[item[0]] = item;
-          return acc;
-        }, {});
+        const snapshotAsks = snapshot.asks
+          .sort((a, b) => {
+            return Number(a[0]) - Number(b[0]) > 0 ? 1 : -1;
+          })
+          .reduce((acc, item) => {
+            acc[item[0]] = item;
+            return acc;
+          }, {});
+        const snapshotBids = snapshot.bids
+          .sort((a, b) => {
+            return Number(a[0]) - Number(b[0]) > 0 ? -1 : 1;
+          })
+          .reduce((acc, item) => {
+            acc[item[0]] = item;
+            return acc;
+          }, {});
 
         const depthUpdates: Array<IDepth> = await this.databaseService
           .$queryRaw`
@@ -111,7 +119,15 @@ export class SnapshotWorkerService {
             if (Number(ask[0]) < min || Number(ask[0]) > max) {
               continue;
             }
-            if (snapshotBids[ask[0]]) {
+            if (Number(ask[1]) === 0) {
+              delete snapshotAsks[ask[0]];
+            } else if (snapshotAsks[ask[0]]) {
+              snapshotAsks[ask[0]][1] = ask[1];
+            } else {
+              snapshotAsks[ask[0]] = ask;
+            }
+
+            if (Number(ask[1]) !== 0 && snapshotBids[ask[0]]) {
               // TODO(Rafa): test it
               const index = snapshot.bids.findIndex(
                 (item) => item[0] === ask[0],
@@ -123,20 +139,22 @@ export class SnapshotWorkerService {
                 }
               }
             }
-            if (Number(ask[1]) === 0) {
-              delete snapshotAsks[ask[0]];
-            } else if (snapshotAsks[ask[0]]) {
-              snapshotAsks[ask[0]][1] = ask[1];
-            } else {
-              snapshotAsks[ask[0]] = ask;
-            }
           }
 
           for (const bid of depthUpdate.b) {
             if (Number(bid[0]) < min || Number(bid[0]) > max) {
               continue;
             }
-            if (snapshotAsks[bid[0]]) {
+
+            if (Number(bid[1]) === 0) {
+              delete snapshotBids[bid[0]];
+            } else if (snapshotBids[bid[0]]) {
+              snapshotBids[bid[0]][1] = bid[1];
+            } else {
+              snapshotBids[bid[0]] = bid;
+            }
+
+            if (Number(bid[1]) !== 0 && snapshotAsks[bid[0]]) {
               // TODO(Rafa): test it
               const index = snapshot.asks.findIndex(
                 (item) => item[0] === bid[0],
@@ -147,14 +165,6 @@ export class SnapshotWorkerService {
                   delete snapshotAsks[item[0]];
                 }
               }
-            }
-
-            if (Number(bid[1]) === 0) {
-              delete snapshotBids[bid[0]];
-            } else if (snapshotBids[bid[0]]) {
-              snapshotBids[bid[0]][1] = bid[1];
-            } else {
-              snapshotBids[bid[0]] = bid;
             }
           }
         }
