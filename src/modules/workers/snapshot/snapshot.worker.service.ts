@@ -14,7 +14,9 @@ export class SnapshotWorkerService {
 
   public async initSnapshotFlow() {
     interval(TIME_WINDOW * 3).subscribe(async () => {
+      Logger.debug('start snapshot work');
       await this.setSnapshot();
+      Logger.debug('snapshot work finished');
     });
   }
 
