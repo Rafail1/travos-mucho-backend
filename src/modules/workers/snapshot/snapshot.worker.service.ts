@@ -13,7 +13,7 @@ export class SnapshotWorkerService {
   ) {}
 
   public async initSnapshotFlow() {
-    interval(TIME_WINDOW * 2).subscribe(async () => {
+    interval(TIME_WINDOW * 3).subscribe(async () => {
       await this.setSnapshot();
     });
   }
@@ -175,8 +175,12 @@ export class SnapshotWorkerService {
               symbol,
               E: seria.generated_series_time,
               T: seria.generated_series_time,
-              bids: Object.values(snapshotBids),
-              asks: Object.values(snapshotAsks),
+              bids: Object.values(snapshotBids).sort((a, b) => {
+                return Number(a[0]) - Number(b[0]) > 0 ? -1 : 1;
+              }),
+              asks: Object.values(snapshotAsks).sort((a, b) => {
+                return Number(a[0]) - Number(b[0]) > 0 ? 1 : -1;
+              }),
               lastUpdateId: depthUpdates[depthUpdates.length - 1].u,
             },
           });
