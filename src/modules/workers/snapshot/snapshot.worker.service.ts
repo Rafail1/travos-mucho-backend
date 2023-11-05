@@ -13,7 +13,7 @@ export class SnapshotWorkerService {
   ) {}
 
   public async initSnapshotFlow() {
-    interval(TIME_WINDOW * 3).subscribe(async () => {
+    interval(TIME_WINDOW * 4).subscribe(async () => {
       Logger.debug('start snapshot work');
       await this.setSnapshot();
       Logger.debug('snapshot work finished');
@@ -111,8 +111,11 @@ export class SnapshotWorkerService {
           continue;
         }
 
-        const middleAsk = Number(snapshot.asks[snapshot.asks.length - 1][0]);
-        const middleBid = Number(snapshot.bids[0][0]);
+        const middleAsk = Number(snapshot.asks[snapshot.asks.length - 1]?.[0]);
+        const middleBid = Number(snapshot.bids[0]?.[0]); //Cannot read properties of undefined (reading '0')
+        if (!middleBid || !middleAsk) {
+          continue;
+        }
         const max = middleAsk + tickSize * snapshot.asks.length;
         const min = middleBid - tickSize * snapshot.bids.length;
 
