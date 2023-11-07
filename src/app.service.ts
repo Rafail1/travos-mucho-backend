@@ -108,13 +108,18 @@ export class AppService {
     };
   }
 
-  getCluster(symbol: string, time: Date) {
-    this.databaseService.$queryRaw`
-    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", '2023-10-22') AS min5_slot
+  async getCluster(symbol: string, time: Date) {
+    const from = new Date(time.getTime() - 1000 * 60 * 5);
+    const clusters = await this.databaseService.$queryRaw`
+    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", ${new Date(
+      from,
+    )}) AS min5_slot
     FROM feautures."AggTrades"
     WHERE s = ${symbol}
-    and "E" between ${time} - interval('5 min') and ${time}
+    AND "E" >= ${from.toISOString()}::timestamp
+    AND "E" <= ${time.toISOString()}::timestamp
     GROUP BY min5_slot, p, m`;
+    return clusters;
   }
 
   private getSnapshot(symbol: string, time: Date) {
