@@ -260,13 +260,13 @@ enum Symbol {
 }
 
 model AggTrades {
-  id Int      @id @default(autoincrement())
-  a  BigInt
-  E  DateTime
-  s  Symbol
-  p  Float
-  q  Float
-  m  Boolean
+  a BigInt
+  E DateTime
+  s Symbol
+  p Float
+  q Float
+  m Boolean
 
+  @@unique([a, s])
   @@index([s, E, m])
 }
