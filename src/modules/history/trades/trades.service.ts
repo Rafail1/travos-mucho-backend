@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma, Symbol } from '@prisma/client';
+import { Prisma, Symbol, TradeType } from '@prisma/client';
 import { OrderBookRow, USDMClient } from 'binance';
 import { interval } from 'rxjs';
 import { DatabaseService } from '../../database/database.service';
@@ -25,7 +25,7 @@ export class TradesService {
   private subscribedSymbols = new Set();
   private messageQueue = [];
   private depthBufferFlushes = new Map<string, Date>();
-  private depthBuffer = new Map<string, any>();
+  private depthBuffer = new Map<string, Prisma.DepthUpdatesCreateInput[]>();
   private aggTradesBuffer = new Map<string, any>();
   constructor(
     private databaseService: DatabaseService,
@@ -80,9 +80,9 @@ export class TradesService {
     const symbol = makeSymbol(depth.s);
     depth.a.forEach((item) => {
       _depthBuffer.push({
-        m: true,
-        time: depth.E,
-        symbol,
+        type: TradeType.ask,
+        time: new Date(depth.E),
+        s: symbol,
         price: Number(item[0]),
         quantity: Number(item[1]),
       });
@@ -90,9 +90,9 @@ export class TradesService {
 
     depth.b.forEach((item) => {
       _depthBuffer.push({
-        m: false,
-        time: depth.E,
-        symbol,
+        type: TradeType.bid,
+        time: new Date(depth.E),
+        s: symbol,
         price: Number(item[0]),
         quantity: Number(item[1]),
       });
@@ -179,7 +179,7 @@ export class TradesService {
           const buffer: Prisma.DepthUpdatesCreateInput[] = [];
           data.asks.forEach((item) => {
             buffer.push({
-              m: true,
+              type: TradeType.ask,
               time,
               s: data.symbol,
               price: Number(item[0]),
@@ -189,7 +189,7 @@ export class TradesService {
           });
           data.bids.forEach((item) => {
             buffer.push({
-              m: false,
+              type: TradeType.bid,
               time,
               s: data.symbol,
               price: Number(item[0]),

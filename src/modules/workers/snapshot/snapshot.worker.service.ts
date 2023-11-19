@@ -39,7 +39,7 @@ export class SnapshotWorkerService {
         const depthUpdates = await this.databaseService.$queryRaw<
           Prisma.DepthUpdatesCreateManyInput[]
         >`
-        SELECT DISTINCT ON (price) price, s, true as snapshot, time, quantity, m from depthUpdates
+        SELECT DISTINCT ON (price) price, s, true as snapshot, time, quantity, type from depthUpdates
         WHERE s = ${symbol}
         AND time <= ${latestSnapshotTime[0].time}
         order by time 'desc'

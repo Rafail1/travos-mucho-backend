@@ -11,14 +11,19 @@ model DepthUpdates {
   time     DateTime
   price    Float
   quantity Float
-  m        Boolean
+  type     TradeType
   s        Symbol
-  snapshot Boolean? @default(false)
+  snapshot Boolean?  @default(false)
 
-  @@unique([s, time, price, m])
+  @@unique([s, time, price, type])
   @@index([s])
   @@index([time])
   @@index([price])
+}
+
+enum TradeType {
+  ask
+  bid
 }
 
 enum Symbol {

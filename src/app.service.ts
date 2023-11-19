@@ -28,7 +28,7 @@ export class AppService {
       await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
       WHERE "E" < now() at time zone 'utc' - interval '24h'`;
       await this.databaseService
-        .$executeRaw`DELETE FROM feautures."DepthUpdatesNew"
+        .$executeRaw`DELETE FROM feautures."DepthUpdates"
       WHERE "time" < now() at time zone 'utc' - interval '24h'`;
       await this.databaseService
         .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
