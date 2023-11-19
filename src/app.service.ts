@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 import { Prisma, Symbol } from '@prisma/client';
+import { makeSymbol } from './utils/helper';
 export const TIME_WINDOW = 1000 * 30;
 @Injectable()
 export class AppService {
@@ -50,7 +51,7 @@ export class AppService {
             E: { lt: new Date(time.getTime() + TIME_WINDOW) },
           },
         ],
-        s: Symbol[`S_${symbol}`],
+        s: makeSymbol(symbol),
       },
     });
     return result;
@@ -58,7 +59,7 @@ export class AppService {
 
   async getDepthUpdates(symbol: string, time: Date) {
     try {
-      const s = Symbol[`S_${symbol}`];
+      const s = makeSymbol(symbol);
       const where: Prisma.DepthUpdatesWhereInput = {
         s,
         AND: [
@@ -113,11 +114,11 @@ export class AppService {
   private getSnapshot(symbol: string, time: Date) {
     return false;
     /**
-     * SELECT DISTINCT ON (price) price, * from depthUpdates WHERE s = Symbol[`S_${symbol}`]
+     * SELECT DISTINCT ON (price) price, * from depthUpdates WHERE s = makeSymbol(symbol)
      * AND time: { lte: time },
      * orderBy: { time: 'desc' }
      */
-    // const s = Symbol[`S_${symbol}`];
+    // const s =  makeSymbol(symbol)
     // return this.databaseService.depthUpdates.findMany({
     //   where: {
     //     time: { lte: time },

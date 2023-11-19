@@ -10,6 +10,7 @@ import {
   ISnapshot,
   WebSocketService,
 } from '../../websocket/websocket.service';
+import { makeSymbol } from 'src/utils/helper';
 const FLUSH_INTERVAL = 1000 * 60;
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_LIMIT = 1000;
@@ -62,10 +63,11 @@ export class TradesService {
   }
 
   depthCallback(depth: IDepth) {
-    const _depthBuffer = this.depthBuffer.get(depth.s);
+    let _depthBuffer = this.depthBuffer.get(depth.s);
 
     if (!_depthBuffer) {
       this.depthBuffer.set(depth.s, []);
+      _depthBuffer = this.depthBuffer.get(depth.s);
       this.depthBufferFlushes.set(depth.s, new Date());
     } else if (
       _depthBuffer.length &&
@@ -75,7 +77,7 @@ export class TradesService {
       this.flushDepth(_depthBuffer.splice(0));
       this.depthBufferFlushes.set(depth.s, new Date());
     }
-    const symbol = `S_${depth.s}`;
+    const symbol = makeSymbol(depth.s);
     depth.a.forEach((item) => {
       _depthBuffer.push({
         m: true,
@@ -95,15 +97,6 @@ export class TradesService {
         quantity: Number(item[1]),
       });
     });
-
-    if (
-      _depthBuffer.length > 1 &&
-      _depthBuffer[_depthBuffer.length - 2].u !== depth.pu
-    ) {
-      Logger.warn(`sequence broken ${depth.s}`);
-      this.flushDepth(_depthBuffer.splice(0));
-      this.setOrderBook(depth.s, true);
-    }
   }
 
   aggTradesCallback(aggTrade: IAggTrade) {
@@ -252,7 +245,7 @@ export class TradesService {
             Logger.error(e?.message);
           });
         if (snapshot) {
-          cb({ ...snapshot, symbol: Symbol[`S_${symbol}`] }).catch(() => {
+          cb({ ...snapshot, symbol: makeSymbol(symbol) }).catch(() => {
             return;
           });
         }

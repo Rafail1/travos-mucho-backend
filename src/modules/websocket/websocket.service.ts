@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Symbol as SymbolType } from '@prisma/client';
 import { OrderBookRow, WebsocketClient } from 'binance';
+import { makeSymbol } from 'src/utils/helper';
 export const DEPTH_UPDATE_GAP = 100;
 const MARKET = 'usdm';
 export class AggTrade {
@@ -10,7 +11,7 @@ export class AggTrade {
   constructor({ E, a, s, p, q, m }: IAggTrade) {
     this.fields = {
       a,
-      s: Symbol[`S_${s}`],
+      s: makeSymbol(s),
       p: Number(p),
       q: Number(q),
       m,
