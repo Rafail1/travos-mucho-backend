@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, Symbol as SymbolType } from '@prisma/client';
 import { OrderBookRow, WebsocketClient } from 'binance';
 import { makeSymbol } from 'src/utils/helper';
-export const DEPTH_UPDATE_GAP = 100;
+export const DEPTH_UPDATE_GAP = 1000;
 const MARKET = 'usdm';
 export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
