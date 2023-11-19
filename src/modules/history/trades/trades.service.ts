@@ -71,7 +71,7 @@ export class TradesService {
       this.depthBufferFlushes.set(depth.s, new Date());
     } else if (
       _depthBuffer.length &&
-      this.depthBufferFlushes.get(depth.s)?.getTime() - Date.now() >
+      Date.now() - this.depthBufferFlushes.get(depth.s)?.getTime() >
         FLUSH_INTERVAL
     ) {
       this.flushDepth(_depthBuffer.splice(0));
