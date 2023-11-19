@@ -1,31 +1,24 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  extensions = [uuid_ossp(map: "uuid-ossp")]
-}
-
-model OrderBookSnapshot {
-  id           Int @id @default(autoincrement())
-  lastUpdateId BigInt
-  symbol       String
-  E            DateTime
-  T            DateTime
-  bids         Json[]
-  asks         Json[]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model DepthUpdates {
-  id       Int @id @default(autoincrement())
   time     DateTime
   price    Float
   quantity Float
   m        Boolean
   s        Symbol
+  snapshot Boolean? @default(false)
+
+  @@unique([s, time, price, m])
+  @@index([s])
+  @@index([time])
+  @@index([price])
 }
 
 enum Symbol {
@@ -262,16 +255,13 @@ enum Symbol {
 }
 
 model AggTrades {
-  id Int @id @default(autoincrement())
-  a BigInt
-  E DateTime
-  s String
-  p String
-  q String
-  f BigInt
-  l BigInt
-  T DateTime
-  m Boolean
+  id Int      @id @default(autoincrement())
+  a  BigInt
+  E  DateTime
+  s  Symbol
+  p  Float
+  q  Float
+  m  Boolean
 
   @@index([s, E, m])
 }

@@ -1,25 +1,31 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { FuturesOrderBook, WebsocketClient } from 'binance';
+import { Prisma, Symbol as SymbolType } from '@prisma/client';
+import { OrderBookRow, WebsocketClient } from 'binance';
 export const DEPTH_UPDATE_GAP = 100;
 const MARKET = 'usdm';
 export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor({ E, a, s, p, q, f, l, T, m }: IAggTrade) {
+  constructor({ E, a, s, p, q, m }: IAggTrade) {
     this.fields = {
       a,
-      s,
-      p,
-      q,
-      f,
-      l,
+      s: Symbol[`S_${s}`],
+      p: Number(p),
+      q: Number(q),
       m,
       E: new Date(E),
-      T: new Date(T),
     };
   }
+}
+
+export interface ISnapshot {
+  symbol: SymbolType;
+  lastUpdateId: number;
+  E: number;
+  T: number;
+  bids: OrderBookRow[];
+  asks: OrderBookRow[];
 }
 
 export interface IAggTrade {
@@ -66,37 +72,6 @@ export interface IDepth {
   a: Array<[string, string]>;
 }
 
-export class Depth {
-  public fields: Prisma.DepthUpdatesCreateInput;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor({ E, T, U, a, b, pu, s, u }: IDepth) {
-    this.fields = {
-      U,
-      a,
-      b,
-      pu,
-      s,
-      u,
-      E: new Date(E),
-      T: new Date(T),
-    };
-  }
-}
-
-export class Snapshot {
-  public fields: Prisma.OrderBookSnapshotCreateInput;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(symbol: string, data: FuturesOrderBook) {
-    this.fields = {
-      symbol,
-      ...data,
-      E: new Date(data.E),
-      T: new Date(data.T),
-    };
-  }
-}
 @Injectable()
 export class WebSocketService {
   private listenersCnt = 0;

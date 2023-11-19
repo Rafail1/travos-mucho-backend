@@ -1,18 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { USDMClient } from 'binance';
+import { Prisma, Symbol } from '@prisma/client';
+import { OrderBookRow, USDMClient } from 'binance';
 import { interval } from 'rxjs';
 import { DatabaseService } from '../../database/database.service';
 import {
   AggTrade,
-  Depth,
   IAggTrade,
   IDepth,
-  Snapshot,
+  ISnapshot,
   WebSocketService,
 } from '../../websocket/websocket.service';
-
+const FLUSH_INTERVAL = 1000 * 60;
 const AGG_TRADES_BUFFER_LENGTH = 1000;
-const DEPTH_BUFFER_LENGTH = 1000;
 const DEPTH_LIMIT = 1000;
 const BORDER_PERCENTAGE = 0.75;
 const MESSAGE_QUEUE_INTERVAL = 1000;
@@ -24,6 +23,7 @@ export class TradesService {
   private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
   private messageQueue = [];
+  private depthBufferFlushes = new Map<string, Date>();
   private depthBuffer = new Map<string, any>();
   private aggTradesBuffer = new Map<string, any>();
   constructor(
@@ -62,16 +62,25 @@ export class TradesService {
   }
 
   depthCallback(depth: IDepth) {
-    if (!this.depthBuffer.has(depth.s)) {
-      this.depthBuffer.set(depth.s, []);
-    }
-
     const _depthBuffer = this.depthBuffer.get(depth.s);
+
+    if (!_depthBuffer) {
+      this.depthBuffer.set(depth.s, []);
+      this.depthBufferFlushes.set(depth.s, new Date());
+    } else if (
+      _depthBuffer.length &&
+      this.depthBufferFlushes.get(depth.s)?.getTime() - Date.now() >
+        FLUSH_INTERVAL
+    ) {
+      this.flushDepth(_depthBuffer.splice(0));
+      this.depthBufferFlushes.set(depth.s, new Date());
+    }
+    const symbol = `S_${depth.s}`;
     depth.a.forEach((item) => {
       _depthBuffer.push({
         m: true,
         time: depth.E,
-        symbol: `S_${depth.s}`,
+        symbol,
         price: Number(item[0]),
         quantity: Number(item[1]),
       });
@@ -81,7 +90,7 @@ export class TradesService {
       _depthBuffer.push({
         m: false,
         time: depth.E,
-        symbol: `S_${depth.s}`,
+        symbol,
         price: Number(item[0]),
         quantity: Number(item[1]),
       });
@@ -94,11 +103,6 @@ export class TradesService {
       Logger.warn(`sequence broken ${depth.s}`);
       this.flushDepth(_depthBuffer.splice(0));
       this.setOrderBook(depth.s, true);
-    }
-
-    Logger.verbose(`this.depthBuffer: ${_depthBuffer.length}`);
-    if (_depthBuffer.length > DEPTH_BUFFER_LENGTH) {
-      this.flushDepth(_depthBuffer.splice(0));
     }
   }
 
@@ -172,15 +176,35 @@ export class TradesService {
       this.orderBookSetting[symbol] = true;
       const obj = {
         symbol,
-        cb: async (data) => {
+        cb: async (data: ISnapshot) => {
           this.setBorders({
             symbol,
-            asks: data.asks as Array<[string, string]>,
-            bids: data.bids as Array<[string, string]>,
+            asks: data.asks,
+            bids: data.bids,
           });
-          await this.databaseService.orderBookSnapshot.create({
-            data,
+          const time = new Date(data.E);
+          const buffer: Prisma.DepthUpdatesCreateInput[] = [];
+          data.asks.forEach((item) => {
+            buffer.push({
+              m: true,
+              time,
+              s: data.symbol,
+              price: Number(item[0]),
+              quantity: Number(item[1]),
+              snapshot: true,
+            });
           });
+          data.bids.forEach((item) => {
+            buffer.push({
+              m: false,
+              time,
+              s: data.symbol,
+              price: Number(item[0]),
+              quantity: Number(item[1]),
+              snapshot: true,
+            });
+          });
+          await this.databaseService.depthUpdates.createMany({ data: buffer });
         },
       };
       if (priority) {
@@ -201,8 +225,8 @@ export class TradesService {
     bids,
   }: {
     symbol: string;
-    asks: Array<[string, string]>;
-    bids: Array<[string, string]>;
+    asks: OrderBookRow[];
+    bids: OrderBookRow[];
   }) {
     if (!bids.length || !asks.length) {
       this.borders.delete(symbol);
@@ -228,8 +252,7 @@ export class TradesService {
             Logger.error(e?.message);
           });
         if (snapshot) {
-          const data = new Snapshot(symbol, snapshot).fields;
-          cb(data).catch(() => {
+          cb({ ...snapshot, symbol: Symbol[`S_${symbol}`] }).catch(() => {
             return;
           });
         }

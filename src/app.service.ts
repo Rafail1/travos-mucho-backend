@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, Symbol } from '@prisma/client';
 export const TIME_WINDOW = 1000 * 30;
 @Injectable()
 export class AppService {
@@ -50,33 +50,25 @@ export class AppService {
             E: { lt: new Date(time.getTime() + TIME_WINDOW) },
           },
         ],
-        s: symbol,
+        s: Symbol[`S_${symbol}`],
       },
     });
     return result;
   }
 
-  async getDepthUpdates(symbol: string, time: Date, lastUpdateId: bigint) {
-    const where: Prisma.DepthUpdatesWhereInput = {
-      s: symbol,
-      U: { lte: lastUpdateId },
-      u: { gte: lastUpdateId },
-    };
+  async getDepthUpdates(symbol: string, time: Date) {
     try {
-      const update = await this.databaseService.depthUpdates.findFirstOrThrow({
-        where,
-        orderBy: { U: 'asc' },
-      });
-
+      const s = Symbol[`S_${symbol}`];
+      const where: Prisma.DepthUpdatesWhereInput = {
+        s,
+        AND: [
+          { time: { gte: time } },
+          { time: { lte: new Date(time.getTime() + TIME_WINDOW) } },
+        ],
+      };
       return this.databaseService.depthUpdates.findMany({
-        where: {
-          s: symbol,
-          AND: [
-            { E: { gte: update.E } },
-            { E: { lte: new Date(time.getTime() + TIME_WINDOW) } },
-          ],
-        },
-        orderBy: { E: 'asc' },
+        where,
+        orderBy: { time: 'asc' },
       });
     } catch (e) {
       return [];
@@ -91,11 +83,7 @@ export class AppService {
       return {};
     }
 
-    const depth = await this.getDepthUpdates(
-      symbol,
-      time,
-      snapshot.lastUpdateId,
-    );
+    const depth = await this.getDepthUpdates(symbol, time);
 
     if (!depth.length) {
       Logger.warn('depthUpdates not found');
@@ -123,12 +111,19 @@ export class AppService {
   }
 
   private getSnapshot(symbol: string, time: Date) {
-    return this.databaseService.orderBookSnapshot.findFirst({
-      where: {
-        E: { lte: time },
-        symbol,
-      },
-      orderBy: { lastUpdateId: 'desc' },
-    });
+    return false;
+    /**
+     * SELECT DISTINCT ON (price) price, * from depthUpdates WHERE s = Symbol[`S_${symbol}`]
+     * AND time: { lte: time },
+     * orderBy: { time: 'desc' }
+     */
+    // const s = Symbol[`S_${symbol}`];
+    // return this.databaseService.depthUpdates.findMany({
+    //   where: {
+    //     time: { lte: time },
+    //     s,
+    //   },
+    //   orderBy: { time: 'desc' },
+    // });
   }
 }
