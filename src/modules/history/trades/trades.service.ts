@@ -67,7 +67,25 @@ export class TradesService {
     }
 
     const _depthBuffer = this.depthBuffer.get(depth.s);
-    _depthBuffer.push(new Depth(depth).fields);
+    depth.a.forEach((item) => {
+      _depthBuffer.push({
+        m: true,
+        time: depth.E,
+        symbol: `S_${depth.s}`,
+        price: Number(item[0]),
+        quantity: Number(item[1]),
+      });
+    });
+
+    depth.b.forEach((item) => {
+      _depthBuffer.push({
+        m: false,
+        time: depth.E,
+        symbol: `S_${depth.s}`,
+        price: Number(item[0]),
+        quantity: Number(item[1]),
+      });
+    });
 
     if (
       _depthBuffer.length > 1 &&
