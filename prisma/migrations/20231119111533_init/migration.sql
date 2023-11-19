@@ -8,8 +8,8 @@ CREATE TABLE "OrderBookSnapshot" (
     "symbol" TEXT NOT NULL,
     "E" TIMESTAMP(3) NOT NULL,
     "T" TIMESTAMP(3) NOT NULL,
-    "bids" JSONB NOT NULL,
-    "asks" JSONB NOT NULL,
+    "bids" JSONB[],
+    "asks" JSONB[],
 
     CONSTRAINT "OrderBookSnapshot_pkey" PRIMARY KEY ("id")
 );
@@ -44,3 +44,9 @@ CREATE TABLE "AggTrades" (
 
     CONSTRAINT "AggTrades_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE INDEX "DepthUpdates_s_E_idx" ON "DepthUpdates"("s", "E");
+
+-- CreateIndex
+CREATE INDEX "AggTrades_s_E_m_idx" ON "AggTrades"("s", "E", "m");
