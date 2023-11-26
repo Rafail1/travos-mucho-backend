@@ -14,7 +14,7 @@ import {
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const DEPTH_LIMIT = 1000;
-const BORDER_PERCENTAGE = 0.75;
+const BORDER_PERCENTAGE = 0.8;
 const MESSAGE_QUEUE_INTERVAL = 1000;
 @Injectable()
 export class TradesService {
@@ -29,9 +29,7 @@ export class TradesService {
   constructor(
     private databaseService: DatabaseService,
     private webSocketService: WebSocketService,
-  ) {
-    this.listenMessageQueue();
-  }
+  ) {}
 
   async subscribe(symbol: string) {
     this.subscribedSymbols.add(symbol);
@@ -199,10 +197,11 @@ export class TradesService {
     });
   }
 
-  private listenMessageQueue() {
+  public listenMessageQueue() {
     interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
       if (this.messageQueue.length) {
         const { symbol, cb } = this.messageQueue.shift();
+        Logger.debug(`getting orderBook for ${symbol}`);
         const snapshot = await this.usdmClient
           .getOrderBook({ symbol, limit: DEPTH_LIMIT })
           .then((data) => ({ ...data, symbol: symbol.toUpperCase() }))
