@@ -33,6 +33,16 @@ model DepthUpdates {
   @@index([s, E])
 }
 
+model PartialSnapshot {
+  id   String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  s    String
+  E    DateTime
+  bids Json[]
+  asks Json[]
+
+  @@index([s, E])
+}
+
 model AggTrades {
   id String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   a  BigInt

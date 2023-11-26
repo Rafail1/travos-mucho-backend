@@ -90,6 +90,33 @@ export class AppService {
       Logger.warn('snapshot not found');
       return {};
     }
+    const partialSnapshot = await this.getPartialSnapshot(
+      symbol,
+      time,
+      snapshot.E,
+    );
+
+    if (!partialSnapshot) {
+      Logger.warn('partialSnapshot not found');
+    } else {
+      partialSnapshot.asks.forEach((ask) => {
+        const existsAsk = snapshot.asks.find((item) => item[0] === ask[0]);
+        if (!existsAsk) {
+          snapshot.asks.push(ask);
+        } else {
+          existsAsk[1] = ask[1];
+        }
+      });
+
+      partialSnapshot.bids.forEach((bid) => {
+        const existsBid = snapshot.bids.find((item) => item[0] === bid[0]);
+        if (!existsBid) {
+          snapshot.bids.push(bid);
+        } else {
+          existsBid[1] = bid[1];
+        }
+      });
+    }
 
     const depth = await this.getDepthUpdates(
       symbol,
@@ -129,6 +156,23 @@ export class AppService {
         symbol,
       },
       orderBy: { lastUpdateId: 'desc' },
+    });
+  }
+
+  private getPartialSnapshot(symbol: string, time: Date, minTime: Date) {
+    return this.databaseService.partialSnapshot.findFirst({
+      where: {
+        AND: [
+          {
+            E: { lte: time },
+          },
+          {
+            E: { gt: minTime },
+          },
+        ],
+        s: symbol,
+      },
+      orderBy: { E: 'desc' },
     });
   }
 }
