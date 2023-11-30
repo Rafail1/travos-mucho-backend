@@ -32,7 +32,7 @@ export class OrderBookService {
     }
   }
 
-  setOB(symbol: string) {
+  setOB(symbol: string, setObCallback?: any) {
     try {
       if (this.orderBookSetting.has(symbol)) {
         return;
@@ -59,6 +59,10 @@ export class OrderBookService {
               max: Number(data.asks[data.asks.length - 1][0]),
             },
           });
+
+          if (setObCallback) {
+            setObCallback.call();
+          }
         },
       };
       this.messageQueue.push(obj);
@@ -98,10 +102,14 @@ export class OrderBookService {
       });
 
       for (const action of actions) {
-        this.setOB(action.symbol);
         await this.databaseService.sharedAction.update({
           where: { symbol },
           data: { inProgress: true },
+        });
+        this.setOB(action.symbol, () => {
+          await this.databaseService.sharedAction.delete({
+            where: { symbol },
+          });
         });
       }
     });
