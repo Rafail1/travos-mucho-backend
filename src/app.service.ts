@@ -10,10 +10,6 @@ export class AppService {
     private databaseService: DatabaseService,
   ) {}
 
-  subscribe(symbol: string): void {
-    this.starterService.subscribe(symbol);
-  }
-
   unsubscribe(symbol: string): void {
     this.starterService.unsubscribe(symbol);
   }

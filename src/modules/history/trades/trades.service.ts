@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { USDMClient } from 'binance';
 import { interval } from 'rxjs';
 import { DatabaseService } from '../../database/database.service';
 import {
@@ -7,23 +6,18 @@ import {
   Depth,
   IAggTrade,
   IDepth,
-  Snapshot,
   WebSocketService,
 } from '../../websocket/websocket.service';
 
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
-const DEPTH_LIMIT = 1000;
 const BORDER_PERCENTAGE = 0.8;
-const MESSAGE_QUEUE_INTERVAL = 1000;
+const BORDERS_QUEUE_INTERVAL = 1000 * 30;
 @Injectable()
 export class TradesService {
   private listening = false;
   private borders = new Map<string, { min: number; max: number }>();
-  private usdmClient = new USDMClient({});
-  private orderBookSetting = new Map<string, boolean>();
   private subscribedSymbols = new Set();
-  private messageQueue = [];
   private depthBuffer = new Map<string, any>();
   private aggTradesBuffer = new Map<string, any>();
   constructor(
@@ -35,8 +29,7 @@ export class TradesService {
     this.subscribedSymbols.add(symbol);
     try {
       await this.webSocketService.subscribe(symbol);
-      this.setOrderBook(symbol);
-      this.listen();
+      this.listenBorders(symbol);
     } catch (e) {
       Logger.error(e?.message);
       return null;
@@ -73,7 +66,7 @@ export class TradesService {
     ) {
       Logger.warn(`sequence broken ${depth.s}`);
       this.flushDepth(_depthBuffer.splice(0));
-      this.setOrderBook(depth.s, true);
+      this.setOrderBook(depth.s, 'sequence broken');
     }
 
     Logger.verbose(`this.depthBuffer: ${_depthBuffer.length}`);
@@ -92,6 +85,14 @@ export class TradesService {
     _aggTradesBuffer.push(new AggTrade(aggTrade).fields);
 
     Logger.verbose(`this.aggTradesBuffer: ${_aggTradesBuffer.length}`);
+    this.checkBorders(aggTrade);
+
+    if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
+      this.flushAggTrades(_aggTradesBuffer.splice(0));
+    }
+  }
+
+  private checkBorders(aggTrade: IAggTrade) {
     if (this.borders[aggTrade.s]) {
       const topBorderIdx = Math.floor(
         this.borders[aggTrade.s].max.length * BORDER_PERCENTAGE,
@@ -108,12 +109,8 @@ export class TradesService {
           Number(this.borders[aggTrade.s].min[lowBorderIdx][0])
       ) {
         Logger.debug('out of borders');
-        this.setOrderBook(aggTrade.s, true);
+        this.setOrderBook(aggTrade.s, 'out of borders');
       }
-    }
-
-    if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
-      this.flushAggTrades(_aggTradesBuffer.splice(0));
     }
   }
 
@@ -143,78 +140,35 @@ export class TradesService {
     }
   }
 
-  private async setOrderBook(symbol: string, priority = false) {
-    try {
-      if (this.orderBookSetting.has(symbol)) {
-        return;
-      }
-
-      this.orderBookSetting[symbol] = true;
-      const obj = {
-        symbol,
-        cb: async (data) => {
-          this.setBorders({
-            symbol,
-            asks: data.asks as Array<[string, string]>,
-            bids: data.bids as Array<[string, string]>,
-          });
-          await this.databaseService.orderBookSnapshot.create({
-            data,
-          });
+  private async setOrderBook(symbol: string, reason: string) {
+    await this.databaseService.sharedAction
+      .create({
+        data: {
+          E: new Date(),
+          inProgress: false,
+          symbol,
+          additionalInfo: { reason },
         },
-      };
-      if (priority) {
-        this.messageQueue.unshift(obj);
-      } else {
-        this.messageQueue.push(obj);
-      }
-    } catch (e) {
-      Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
-    } finally {
-      this.orderBookSetting.delete(symbol);
-    }
+      })
+      .catch((e) => {
+        Logger.debug(e);
+      });
   }
 
-  private setBorders({
-    symbol,
-    asks,
-    bids,
-  }: {
-    symbol: string;
-    asks: Array<[string, string]>;
-    bids: Array<[string, string]>;
-  }) {
-    if (!bids.length || !asks.length) {
-      this.borders.delete(symbol);
-      this.unsubscribe(symbol);
-      Logger.warn(`symbol ${symbol} have empty borders`);
-      return;
-    }
+  public listenBorders(symbol: string) {
+    interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
+      const borders = await this.databaseService.borders.findFirst({
+        where: {
+          s: symbol,
+        },
+        orderBy: [{ E: 'desc' }],
+      });
 
-    this.borders.set(symbol, {
-      min: Number(bids[bids.length - 1][0]),
-      max: Number(asks[asks.length - 1][0]),
-    });
-  }
-
-  public listenMessageQueue() {
-    interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
-      if (this.messageQueue.length) {
-        const { symbol, cb } = this.messageQueue.shift();
-        Logger.debug(`getting orderBook for ${symbol}`);
-        const snapshot = await this.usdmClient
-          .getOrderBook({ symbol, limit: DEPTH_LIMIT })
-          .then((data) => ({ ...data, symbol: symbol.toUpperCase() }))
-          .catch((e) => {
-            Logger.error(e?.message);
-          });
-        if (snapshot) {
-          const data = new Snapshot(symbol, snapshot).fields;
-          cb(data).catch(() => {
-            return;
-          });
-        }
-      }
+      Logger.debug(`borders ${symbol} ${borders?.min}, ${borders?.max}`);
+      this.borders.set(symbol, {
+        min: borders?.min,
+        max: borders?.max,
+      });
     });
   }
 }

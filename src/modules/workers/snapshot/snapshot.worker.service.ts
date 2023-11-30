@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { interval } from 'rxjs';
 import { TIME_WINDOW } from 'src/app.service';
 import { DatabaseService } from 'src/modules/database/database.service';
@@ -7,14 +8,13 @@ import { StateService } from 'src/state/state.service';
 const FULL_SNAPSHOT_INTERVAL = 60000 * 60;
 @Injectable()
 export class SnapshotWorkerService {
-  private latestSnapshotTime;
   constructor(
     private databaseService: DatabaseService,
     private stateService: StateService,
   ) {}
   public async initPartialSnapshotFlow() {
     interval(TIME_WINDOW * 4).subscribe(async () => {
-      Logger.debug('start snapshot work');
+      Logger.debug('start partial snapshot work');
       await this.setPartialSnapshot();
       Logger.debug('snapshot work finished');
     });
@@ -39,14 +39,13 @@ export class SnapshotWorkerService {
           orderBy: { E: 'desc' },
         });
 
-      let depthUpdatesWhere = {};
-
+      const where: Prisma.DepthUpdatesWhereInput = {};
       if (latestPartialSnapshot) {
-        depthUpdatesWhere = { where: { E: { gte: latestPartialSnapshot.E } } };
+        where.E = { gte: latestPartialSnapshot.E };
       }
 
       const depthUpdates = await this.databaseService.depthUpdates.findMany({
-        where: depthUpdatesWhere,
+        where,
         orderBy: { E: 'asc' },
       });
 

@@ -1,31 +1,22 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SnapshotWorkerService } from './modules/workers/snapshot/snapshot.worker.service';
+import { OrderBookService } from './modules/orderbook/orderbook.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
+    private readonly orderBookService: OrderBookService,
     private readonly snapshotWorkerService: SnapshotWorkerService,
   ) {}
-
-  @Get('run')
-  run(@Query('symbol') symbol: string) {
-    if (!symbol) {
-      throw Error('symbol required');
-    }
-    this.appService.subscribe(symbol.toLowerCase());
-  }
 
   @Get('subscribe-all')
   async subscribeAll() {
     await this.appService.subscribeAll();
+    this.orderBookService.subscribeAll();
     this.snapshotWorkerService.initSnapshotFlow();
-  }
-
-  @Get('init-snapshot-flow')
-  async initSnapshotFlow() {
-    await this.snapshotWorkerService.initSnapshotFlow();
+    this.snapshotWorkerService.initPartialSnapshotFlow();
   }
 
   @Get('stop')

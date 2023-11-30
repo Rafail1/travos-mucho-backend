@@ -57,3 +57,23 @@ model AggTrades {
 
   @@index([s, E, m])
 }
+
+model Borders {
+  id  String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  s   String
+  E   DateTime
+  min Float
+  max Float
+}
+
+model SharedAction {
+  symbol         String   @unique()
+  inProgress     Boolean
+  E              DateTime
+  additionalInfo Json?
+}
+
+enum ActionTypes {
+  SetBorders
+  SetOrderBook
+}

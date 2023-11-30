@@ -34,14 +34,10 @@ export class StarterService {
         ) as SymbolPriceFilter
       )?.tickSize;
       this.stateService.setTickSize(symbol, Number(tickSize));
-      await this.subscribe(symbol.toLowerCase());
+      await this.tradesService.subscribe(symbol.toLowerCase());
     }
-    this.tradesService.listen();
-    this.tradesService.listenMessageQueue();
-  }
 
-  subscribe(symbol: string) {
-    return this.tradesService.subscribe(symbol);
+    this.tradesService.listen();
   }
 
   unsubscribe(symbol: string) {
