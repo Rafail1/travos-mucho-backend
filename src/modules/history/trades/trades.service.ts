@@ -29,7 +29,7 @@ export class TradesService {
     this.subscribedSymbols.add(symbol);
     try {
       await this.webSocketService.subscribe(symbol);
-      this.listenBorders(symbol);
+      this.listenBorders(symbol.toUpperCase());
     } catch (e) {
       Logger.error(e?.message);
       return null;
@@ -141,21 +141,35 @@ export class TradesService {
   }
 
   private async setOrderBook(symbol: string, reason: string) {
-    await this.databaseService.sharedAction
-      .create({
+    const exists = await this.databaseService.sharedAction.findFirst({
+      where: { symbol },
+    });
+    if (exists) {
+      await this.databaseService.sharedAction.update({
+        where: { symbol },
         data: {
           E: new Date(),
           inProgress: false,
-          symbol,
           additionalInfo: { reason },
         },
-      })
-      .catch((e) => {
-        Logger.debug(e);
       });
+    } else {
+      await this.databaseService.sharedAction
+        .create({
+          data: {
+            E: new Date(),
+            inProgress: false,
+            symbol,
+            additionalInfo: { reason },
+          },
+        })
+        .catch((e) => {
+          Logger.verbose(e);
+        });
+    }
   }
 
-  public listenBorders(symbol: string) {
+  private listenBorders(symbol: string) {
     interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
       const borders = await this.databaseService.borders.findFirst({
         where: {
@@ -164,7 +178,10 @@ export class TradesService {
         orderBy: [{ E: 'desc' }],
       });
 
-      Logger.debug(`borders ${symbol} ${borders?.min}, ${borders?.max}`);
+      if (!borders) {
+        Logger.debug(`empty borders ${symbol}`);
+      }
+
       this.borders.set(symbol, {
         min: borders?.min,
         max: borders?.max,

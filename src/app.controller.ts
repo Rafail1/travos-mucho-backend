@@ -14,11 +14,14 @@ export class AppController {
   @Get('subscribe-all')
   async subscribeAll() {
     await this.appService.subscribeAll();
+  }
+
+  @Get('subscribe-ob')
+  subscribeOb() {
     this.orderBookService.subscribeAll();
     this.snapshotWorkerService.initSnapshotFlow();
     this.snapshotWorkerService.initPartialSnapshotFlow();
   }
-
   @Get('stop')
   stop(@Query('symbol') symbol: string) {
     if (!symbol) {

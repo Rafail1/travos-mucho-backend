@@ -4,7 +4,7 @@ import { DatabaseService } from '../database/database.service';
 import { interval } from 'rxjs';
 import { Snapshot } from '../websocket/websocket.service';
 
-const MESSAGE_QUEUE_INTERVAL = 1000;
+const MESSAGE_QUEUE_INTERVAL = 700;
 const DEPTH_LIMIT = 1000;
 const SHARED_QUEUE_INTERVAL = 5000;
 
@@ -106,7 +106,7 @@ export class OrderBookService {
           where: { symbol },
           data: { inProgress: true },
         });
-        this.setOB(action.symbol, () => {
+        this.setOB(action.symbol, async () => {
           await this.databaseService.sharedAction.delete({
             where: { symbol },
           });
