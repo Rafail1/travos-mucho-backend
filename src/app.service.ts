@@ -74,6 +74,7 @@ export class AppService {
       Logger.warn('snapshot not found');
       return {};
     }
+
     const partialSnapshot = await this.getPartialSnapshot(
       symbol,
       time,
@@ -83,24 +84,10 @@ export class AppService {
     if (!partialSnapshot) {
       Logger.warn('partialSnapshot not found');
     } else {
-      partialSnapshot.asks.forEach((ask) => {
-        const existsAsk = snapshot.asks.find((item) => item[0] === ask[0]);
-        if (!existsAsk) {
-          snapshot.asks.push(ask);
-        } else {
-          existsAsk[1] = ask[1];
-        }
-      });
-
-      partialSnapshot.bids.forEach((bid) => {
-        const existsBid = snapshot.bids.find((item) => item[0] === bid[0]);
-        if (!existsBid) {
-          snapshot.bids.push(bid);
-        } else {
-          existsBid[1] = bid[1];
-        }
-      });
+      this.updateSnapshot(partialSnapshot.asks, snapshot.asks);
+      this.updateSnapshot(partialSnapshot.bids, snapshot.bids);
     }
+
     const timeFrom = partialSnapshot?.E || snapshot.E;
     const depth = await this.getDepthUpdates(
       symbol,
@@ -111,23 +98,8 @@ export class AppService {
     const filteredDepth = [];
     for (const depthUpdate of depth) {
       if (depthUpdate.E.getTime() < time.getTime()) {
-        (<Array<[string, string]>>depthUpdate.b).forEach((update) => {
-          const existsBid = snapshot.bids.find((item) => item[0] === update[0]);
-          if (!existsBid) {
-            snapshot.bids.push(update);
-          } else {
-            existsBid[1] = update[1];
-          }
-        });
-
-        (<Array<[string, string]>>depthUpdate.a).forEach((update) => {
-          const existsAsk = snapshot.asks.find((item) => item[0] === update[0]);
-          if (!existsAsk) {
-            snapshot.asks.push(update);
-          } else {
-            existsAsk[1] = update[1];
-          }
-        });
+        this.updateSnapshot(depthUpdate.a, snapshot.asks);
+        this.updateSnapshot(depthUpdate.b, snapshot.bids);
       } else {
         filteredDepth.push(depthUpdate);
       }
@@ -155,6 +127,25 @@ export class AppService {
     AND "E" <= ${time.toISOString()}::timestamp
     GROUP BY min5_slot, p, m`;
     return clusters;
+  }
+
+  private updateSnapshot(items, snapshotItems) {
+    items.forEach((leftItem) => {
+      const existsAskIndex = snapshotItems.findIndex(
+        (item) => item[0] === leftItem[0],
+      );
+      if (existsAskIndex === -1) {
+        if (Number(leftItem[1]) !== 0) {
+          snapshotItems.push(leftItem);
+        }
+      } else {
+        if (Number(leftItem[1]) === 0) {
+          snapshotItems.splice(existsAskIndex, 1);
+        } else {
+          snapshotItems[existsAskIndex] = leftItem;
+        }
+      }
+    });
   }
 
   private getSnapshot(symbol: string, time: Date) {
