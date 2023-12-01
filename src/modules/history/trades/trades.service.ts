@@ -18,7 +18,7 @@ export class TradesService {
   private listening = false;
   private borders = new Map<string, { min: number; max: number }>();
   private subscribedSymbols = new Set();
-  private depthBuffer = new Map<string, any>();
+  private depthBuffer = new Map<string, Depth[]>();
   private aggTradesBuffer = new Map<string, any>();
   constructor(
     private databaseService: DatabaseService,
@@ -58,7 +58,7 @@ export class TradesService {
     }
 
     const _depthBuffer = this.depthBuffer.get(depth.s);
-    _depthBuffer.push(new Depth(depth).fields);
+    _depthBuffer.push(new Depth(depth));
 
     if (
       _depthBuffer.length > 1 &&
@@ -131,10 +131,12 @@ export class TradesService {
    *
    * @param buffer splice of buffer (don't need to splice it again)
    */
-  private async flushDepth(buffer: any[]) {
+  private async flushDepth(buffer: Depth[]) {
     try {
       Logger.verbose('flushDepth');
-      await this.databaseService.depthUpdates.createMany({ data: buffer });
+      await this.databaseService.depthUpdates.createMany({
+        data: buffer.map((item) => item.fields),
+      });
     } catch (e) {
       Logger.error(`flushDepth error ${e?.message}`);
     }
@@ -150,7 +152,7 @@ export class TradesService {
         data: {
           E: new Date(),
           inProgress: false,
-          additionalInfo: { reason },
+          reason,
         },
       });
     } else {
@@ -160,7 +162,7 @@ export class TradesService {
             E: new Date(),
             inProgress: false,
             symbol,
-            additionalInfo: { reason },
+            reason,
           },
         })
         .catch((e) => {

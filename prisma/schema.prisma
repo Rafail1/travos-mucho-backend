@@ -20,17 +20,12 @@ model OrderBookSnapshot {
 }
 
 model DepthUpdates {
-  id String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  u  BigInt
-  E  DateTime
-  T  DateTime
-  s  String
-  U  BigInt
-  pu BigInt
-  b  Json
-  a  Json
+  E DateTime
+  s String
+  b Json
+  a Json
 
-  @@index([s, E])
+  @@unique([s, E])
 }
 
 model PartialSnapshot {
@@ -44,33 +39,28 @@ model PartialSnapshot {
 }
 
 model AggTrades {
-  id String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  a  BigInt
-  E  DateTime
-  s  String
-  p  String
-  q  String
-  f  BigInt
-  l  BigInt
-  T  DateTime
-  m  Boolean
+  a BigInt
+  E DateTime
+  s String
+  p String
+  q String
+  m Boolean
 
-  @@index([s, E, m])
+  @@unique([s, E, m])
 }
 
 model Borders {
-  id  String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  s   String
+  s   String   @unique()
   E   DateTime
   min Float
   max Float
 }
 
 model SharedAction {
-  symbol         String   @unique()
-  inProgress     Boolean
-  E              DateTime
-  additionalInfo Json?
+  symbol     String   @unique()
+  inProgress Boolean
+  E          DateTime
+  reason     String
 }
 
 enum ActionTypes {

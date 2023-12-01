@@ -7,17 +7,14 @@ export class AggTrade {
   public fields: Prisma.AggTradesCreateInput;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor({ E, a, s, p, q, f, l, T, m }: IAggTrade) {
+  constructor({ E, a, s, p, q, m }: IAggTrade) {
     this.fields = {
       a,
       s,
       p,
       q,
-      f,
-      l,
       m,
       E: new Date(E),
-      T: new Date(T),
     };
   }
 }
@@ -68,18 +65,18 @@ export interface IDepth {
 
 export class Depth {
   public fields: Prisma.DepthUpdatesCreateInput;
+  u: number;
+  pu: number;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor({ E, T, U, a, b, pu, s, u }: IDepth) {
+  constructor({ E, a, b, s, u, pu }: IDepth) {
+    this.u = u;
+    this.pu = pu;
     this.fields = {
-      U,
       a,
       b,
-      pu,
       s,
-      u,
       E: new Date(E),
-      T: new Date(T),
     };
   }
 }

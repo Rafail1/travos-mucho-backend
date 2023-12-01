@@ -3,6 +3,7 @@ import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 import { Prisma } from '@prisma/client';
 export const TIME_WINDOW = 1000 * 30;
+const CLUSTER_WINDOW = 1000 * 60 * 5;
 @Injectable()
 export class AppService {
   constructor(
@@ -52,25 +53,12 @@ export class AppService {
     return result;
   }
 
-  async getDepthUpdates(symbol: string, time: Date, lastUpdateId: bigint) {
-    const where: Prisma.DepthUpdatesWhereInput = {
-      s: symbol,
-      U: { lte: lastUpdateId },
-      u: { gte: lastUpdateId },
-    };
+  async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
     try {
-      const update = await this.databaseService.depthUpdates.findFirstOrThrow({
-        where,
-        orderBy: { U: 'asc' },
-      });
-
       return this.databaseService.depthUpdates.findMany({
         where: {
           s: symbol,
-          AND: [
-            { E: { gte: update.E } },
-            { E: { lte: new Date(time.getTime() + TIME_WINDOW) } },
-          ],
+          AND: [{ E: { gte: timeFrom } }, { E: { lt: timeTo } }],
         },
         orderBy: { E: 'asc' },
       });
@@ -113,26 +101,50 @@ export class AppService {
         }
       });
     }
-
+    const timeFrom = partialSnapshot?.E || snapshot.E;
     const depth = await this.getDepthUpdates(
       symbol,
-      time,
-      snapshot.lastUpdateId,
+      timeFrom,
+      new Date(time.getTime() + TIME_WINDOW),
     );
 
-    if (!depth.length) {
+    const filteredDepth = [];
+    for (const depthUpdate of depth) {
+      if (depthUpdate.E.getTime() < time.getTime()) {
+        (<Array<[string, string]>>depthUpdate.b).forEach((update) => {
+          const existsBid = snapshot.bids.find((item) => item[0] === update[0]);
+          if (!existsBid) {
+            snapshot.bids.push(update);
+          } else {
+            existsBid[1] = update[1];
+          }
+        });
+
+        (<Array<[string, string]>>depthUpdate.a).forEach((update) => {
+          const existsAsk = snapshot.asks.find((item) => item[0] === update[0]);
+          if (!existsAsk) {
+            snapshot.asks.push(update);
+          } else {
+            existsAsk[1] = update[1];
+          }
+        });
+      } else {
+        filteredDepth.push(depthUpdate);
+      }
+    }
+
+    if (!filteredDepth.length) {
       Logger.warn('depthUpdates not found');
-      return {};
     }
 
     return {
-      depth,
+      depth: filteredDepth,
       snapshot,
     };
   }
 
   async getCluster(symbol: string, time: Date) {
-    const from = new Date(time.getTime() - 1000 * 60 * 5);
+    const from = new Date(time.getTime() - CLUSTER_WINDOW);
     const clusters = await this.databaseService.$queryRaw`
     SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", ${new Date(
       from,

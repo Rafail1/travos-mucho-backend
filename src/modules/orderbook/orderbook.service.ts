@@ -3,19 +3,25 @@ import { USDMClient } from 'binance';
 import { DatabaseService } from '../database/database.service';
 import { interval } from 'rxjs';
 import { Snapshot } from '../websocket/websocket.service';
+import { Prisma } from '@prisma/client';
 
 const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
+const PARTIAL_DEPTH_LIMIT = 100;
 const SHARED_QUEUE_INTERVAL = 5000;
 
 @Injectable()
 export class OrderBookService {
   private usdmClient = new USDMClient({});
   private messageQueueMap = new Map();
+  private partialQueueMap = new Map();
 
   private orderBookSetting = new Map();
+  private partialOrderBookSetting = new Map();
   constructor(private databaseService: DatabaseService) {
     this.listenQueue();
+    this.listenSharedActions();
+    this.listenPartialQueue();
   }
 
   async subscribeAll() {
@@ -32,7 +38,34 @@ export class OrderBookService {
     }
   }
 
-  setOB(symbol: string, setObCallback?: any) {
+  setPartialOB(symbol: string, setPartialOBCb: () => Promise<void>) {
+    if (this.partialOrderBookSetting.has(symbol)) {
+      return;
+    }
+    this.partialOrderBookSetting[symbol] = true;
+
+    const obj = {
+      symbol,
+      cb: async (data: Prisma.OrderBookSnapshotCreateInput) => {
+        this.partialOrderBookSetting.delete(symbol);
+        await this.databaseService.partialSnapshot.create({
+          data: {
+            E: data.E,
+            s: data.symbol,
+            asks: data.asks,
+            bids: data.bids,
+          },
+        });
+
+        if (setPartialOBCb) {
+          setPartialOBCb.call(this);
+        }
+      },
+    };
+    this.partialQueueMap.set(obj.symbol, obj);
+  }
+
+  setOB(symbol: string, setObCallback?: () => Promise<void>) {
     try {
       if (this.orderBookSetting.has(symbol)) {
         return;
@@ -51,17 +84,32 @@ export class OrderBookService {
             return;
           }
 
-          await this.databaseService.borders.create({
-            data: {
-              s: symbol,
-              E: new Date(),
-              min: Number(data.bids[data.bids.length - 1][0]),
-              max: Number(data.asks[data.asks.length - 1][0]),
-            },
+          const existsBorders = await this.databaseService.borders.findUnique({
+            where: { s: symbol },
           });
 
+          if (existsBorders) {
+            await this.databaseService.borders.update({
+              where: { s: symbol },
+              data: {
+                E: new Date(),
+                min: Number(data.bids[data.bids.length - 1][0]),
+                max: Number(data.asks[data.asks.length - 1][0]),
+              },
+            });
+          } else {
+            await this.databaseService.borders.create({
+              data: {
+                s: symbol,
+                E: new Date(),
+                min: Number(data.bids[data.bids.length - 1][0]),
+                max: Number(data.asks[data.asks.length - 1][0]),
+              },
+            });
+          }
+
           if (setObCallback) {
-            setObCallback.call();
+            setObCallback.call(this);
           }
         },
       };
@@ -97,7 +145,31 @@ export class OrderBookService {
     });
   }
 
-  public listenSharedActions(symbol: string) {
+  public listenPartialQueue() {
+    interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
+      if (this.partialQueueMap.size) {
+        const {
+          value: { symbol, cb },
+        } = this.partialQueueMap.values().next();
+        this.partialQueueMap.delete(symbol);
+        Logger.debug(`getting partial orderBook for ${symbol}`);
+        const snapshot = await this.usdmClient
+          .getOrderBook({ symbol, limit: PARTIAL_DEPTH_LIMIT })
+          .then((data) => ({ ...data, symbol: symbol.toUpperCase() }))
+          .catch((e) => {
+            Logger.error(e?.message);
+          });
+        if (snapshot) {
+          const data = new Snapshot(symbol, snapshot).fields;
+          cb(data).catch(() => {
+            return;
+          });
+        }
+      }
+    });
+  }
+
+  public listenSharedActions() {
     interval(SHARED_QUEUE_INTERVAL).subscribe(async () => {
       const actions = await this.databaseService.sharedAction.findMany({
         where: { inProgress: false },
@@ -106,14 +178,22 @@ export class OrderBookService {
 
       for (const action of actions) {
         await this.databaseService.sharedAction.update({
-          where: { symbol },
+          where: { symbol: action.symbol },
           data: { inProgress: true },
         });
-        this.setOB(action.symbol, async () => {
-          await this.databaseService.sharedAction.delete({
-            where: { symbol },
+        if (action.reason === 'sequence broken') {
+          this.setPartialOB(action.symbol, async () => {
+            await this.databaseService.sharedAction.delete({
+              where: { symbol: action.symbol },
+            });
           });
-        });
+        } else {
+          this.setOB(action.symbol, async () => {
+            await this.databaseService.sharedAction.delete({
+              where: { symbol: action.symbol },
+            });
+          });
+        }
       }
     });
   }
