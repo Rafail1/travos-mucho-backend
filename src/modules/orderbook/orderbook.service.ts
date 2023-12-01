@@ -18,7 +18,9 @@ export class OrderBookService {
 
   private orderBookSetting = new Map();
   private partialOrderBookSetting = new Map();
-  constructor(private databaseService: DatabaseService) {
+  constructor(private databaseService: DatabaseService) {}
+
+  public init() {
     this.listenQueue();
     this.listenSharedActions();
     this.listenPartialQueue();

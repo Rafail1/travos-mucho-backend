@@ -9,6 +9,7 @@ import {
   WebSocketService,
 } from '../../websocket/websocket.service';
 
+const GET_DEPTH_PERCENT_FROM_PRICE = 20;
 const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const BORDER_PERCENTAGE = 0.8;
@@ -19,8 +20,9 @@ export class TradesService {
   private prices = new Map<string, number>();
   private borders = new Map<string, { min: number; max: number }>();
   private subscribedSymbols = new Set();
-  private depthBuffer = new Map<string, Depth[]>();
+  private depthBuffer = new Map<string, Map<number, Depth>>();
   private aggTradesBuffer = new Map<string, any>();
+  private prevDepth = new Map<string, number>();
   constructor(
     private databaseService: DatabaseService,
     private webSocketService: WebSocketService,
@@ -55,30 +57,33 @@ export class TradesService {
 
   depthCallback(depth: IDepth) {
     if (!this.depthBuffer.has(depth.s)) {
-      this.depthBuffer.set(depth.s, []);
+      this.depthBuffer.set(depth.s, new Map());
     }
 
     const _depthBuffer = this.depthBuffer.get(depth.s);
     const price = this.prices.get(depth.s);
-    const maxPrice = price + (price / 100) * 20;
-    const minPrice = price - (price / 100) * 20;
+    const maxPrice = price + (price / 100) * GET_DEPTH_PERCENT_FROM_PRICE;
+    const minPrice = price - (price / 100) * GET_DEPTH_PERCENT_FROM_PRICE;
 
     depth.a = depth.a.filter((item) => Number(item[0]) < maxPrice);
     depth.b = depth.b.filter((item) => Number(item[0]) > minPrice);
-    _depthBuffer.push(new Depth(depth));
+    const currentDepth = new Depth(depth);
+    const prevDepth = this.prevDepth.get(depth.s);
+    _depthBuffer.set(depth.E, currentDepth);
 
-    if (
-      _depthBuffer.length > 1 &&
-      _depthBuffer[_depthBuffer.length - 2].u !== depth.pu
-    ) {
-      Logger.warn(`sequence broken ${depth.s}`);
-      this.flushDepth(_depthBuffer.splice(0));
+    if (prevDepth && prevDepth !== currentDepth.pu) {
+      Logger.warn(`sequence broken ${depth.s} ${prevDepth}, ${currentDepth.u}`);
+      this.flushDepth([..._depthBuffer.values()]);
+      _depthBuffer.clear();
       this.setOrderBook(depth.s, 'sequence broken');
     }
 
-    Logger.verbose(`this.depthBuffer: ${_depthBuffer.length}`);
-    if (_depthBuffer.length > DEPTH_BUFFER_LENGTH) {
-      this.flushDepth(_depthBuffer.splice(0));
+    this.prevDepth.set(depth.s, currentDepth.u);
+
+    Logger.verbose(`this.depthBuffer: ${_depthBuffer.size}`);
+    if (_depthBuffer.size > DEPTH_BUFFER_LENGTH) {
+      this.flushDepth([..._depthBuffer.values()]);
+      _depthBuffer.clear();
     }
   }
 

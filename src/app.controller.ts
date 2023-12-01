@@ -21,6 +21,7 @@ export class AppController {
     this.orderBookService.subscribeAll();
     this.snapshotWorkerService.initSnapshotFlow();
     this.snapshotWorkerService.initPartialSnapshotFlow();
+    this.orderBookService.init();
   }
   @Get('stop')
   stop(@Query('symbol') symbol: string) {
