@@ -16,6 +16,7 @@ const BORDERS_QUEUE_INTERVAL = 1000 * 30;
 @Injectable()
 export class TradesService {
   private listening = false;
+  private prices = new Map<string, number>();
   private borders = new Map<string, { min: number; max: number }>();
   private subscribedSymbols = new Set();
   private depthBuffer = new Map<string, Depth[]>();
@@ -58,6 +59,12 @@ export class TradesService {
     }
 
     const _depthBuffer = this.depthBuffer.get(depth.s);
+    const price = this.prices.get(depth.s);
+    const maxPrice = price + (price / 100) * 20;
+    const minPrice = price - (price / 100) * 20;
+
+    depth.a = depth.a.filter((item) => Number(item[0]) < maxPrice);
+    depth.b = depth.b.filter((item) => Number(item[0]) > minPrice);
     _depthBuffer.push(new Depth(depth));
 
     if (
@@ -86,7 +93,7 @@ export class TradesService {
 
     Logger.verbose(`this.aggTradesBuffer: ${_aggTradesBuffer.length}`);
     this.checkBorders(aggTrade);
-
+    this.prices.set(aggTrade.s, Number(aggTrade.p));
     if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
       this.flushAggTrades(_aggTradesBuffer.splice(0));
     }

@@ -46,7 +46,8 @@ model AggTrades {
   q String
   m Boolean
 
-  @@unique([s, E, m])
+  @@unique([s, a])
+  @@index([s, E])
 }
 
 model Borders {
