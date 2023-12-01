@@ -4,14 +4,14 @@ import { DatabaseService } from '../database/database.service';
 import { interval } from 'rxjs';
 import { Snapshot } from '../websocket/websocket.service';
 
-const MESSAGE_QUEUE_INTERVAL = 700;
+const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
 const SHARED_QUEUE_INTERVAL = 5000;
 
 @Injectable()
 export class OrderBookService {
   private usdmClient = new USDMClient({});
-  private messageQueue = [];
+  private messageQueueMap = new Map();
 
   private orderBookSetting = new Map();
   constructor(private databaseService: DatabaseService) {
@@ -65,7 +65,7 @@ export class OrderBookService {
           }
         },
       };
-      this.messageQueue.push(obj);
+      this.messageQueueMap.set(obj.symbol, obj);
     } catch (e) {
       Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
     } finally {
@@ -75,8 +75,11 @@ export class OrderBookService {
 
   private listenQueue() {
     interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
-      if (this.messageQueue.length) {
-        const { symbol, cb } = this.messageQueue.shift();
+      if (this.messageQueueMap.size) {
+        const {
+          value: { symbol, cb },
+        } = this.messageQueueMap.values().next();
+        this.messageQueueMap.delete(symbol);
         Logger.debug(`getting orderBook for ${symbol}`);
         const snapshot = await this.usdmClient
           .getOrderBook({ symbol, limit: DEPTH_LIMIT })
