@@ -131,18 +131,18 @@ export class AppService {
 
   private updateSnapshot(items, snapshotItems) {
     items.forEach((leftItem) => {
-      const existsAskIndex = snapshotItems.findIndex(
+      const existsIndex = snapshotItems.findIndex(
         (item) => item[0] === leftItem[0],
       );
-      if (existsAskIndex === -1) {
+      if (existsIndex === -1) {
         if (Number(leftItem[1]) !== 0) {
           snapshotItems.push(leftItem);
         }
       } else {
         if (Number(leftItem[1]) === 0) {
-          snapshotItems.splice(existsAskIndex, 1);
+          snapshotItems.splice(existsIndex, 1);
         } else {
-          snapshotItems[existsAskIndex] = leftItem;
+          snapshotItems[existsIndex] = leftItem;
         }
       }
     });

@@ -52,6 +52,7 @@ export class SnapshotWorkerService {
         Logger.warn(`partial, no depthUpdates for symbol ${symbol}`);
         continue;
       }
+
       const latestDepthUpdate = depthUpdates[depthUpdates.length - 1];
       const updates = new Map<
         string,
@@ -60,44 +61,46 @@ export class SnapshotWorkerService {
       const partialSnapshot = {
         E: latestDepthUpdate.E,
         s: symbol,
-        asks: [],
-        bids: [],
+        asks: new Map(),
+        bids: new Map(),
       };
 
       for (const depthUpdate of depthUpdates) {
         for (const ask of depthUpdate.a as Array<[string, string]>) {
-          if (Number(ask[1]) === 0) {
-            updates.delete(ask[0]);
-          } else {
-            updates.set(ask[0], { price: ask[0], type: 'ask', volume: ask[1] });
-          }
+          updates.set(ask[0], { price: ask[0], type: 'ask', volume: ask[1] });
         }
 
         for (const bid of depthUpdate.b as Array<[string, string]>) {
-          if (Number(bid[1]) === 0) {
-            updates.delete(bid[0]);
-          } else {
-            updates.set(bid[0], { price: bid[0], type: 'bid', volume: bid[1] });
-          }
+          updates.set(bid[0], { price: bid[0], type: 'bid', volume: bid[1] });
         }
       }
-      for (const [price, value] of updates) {
+
+      for (const value of updates.values()) {
         if (value.type === 'ask') {
-          partialSnapshot.asks.push([price, value.volume]);
+          partialSnapshot.asks.set(value.price, value.volume);
         } else {
-          partialSnapshot.bids.push([price, value.volume]);
+          partialSnapshot.bids.set(value.price, value.volume);
         }
       }
-      partialSnapshot.asks.sort((a, b) => {
+
+      const asks = [...partialSnapshot.asks.entries()].sort((a, b) => {
         return Number(a[0]) - Number(b[0]) > 0 ? 1 : -1;
       });
 
-      partialSnapshot.bids.sort((a, b) => {
+      const bids = [...partialSnapshot.bids.entries()].sort((a, b) => {
         return Number(a[0]) - Number(b[0]) > 0 ? -1 : 1;
       });
-
+      for (const price of partialSnapshot.asks.keys()) {
+        if (partialSnapshot.bids.has(price)) {
+          console.error(
+            price,
+            partialSnapshot.bids.get(price),
+            partialSnapshot.asks.get(price),
+          );
+        }
+      }
       await this.databaseService.partialSnapshot.create({
-        data: partialSnapshot,
+        data: { ...partialSnapshot, bids, asks },
       });
     }
   }
