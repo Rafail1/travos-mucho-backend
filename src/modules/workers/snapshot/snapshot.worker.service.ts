@@ -92,10 +92,12 @@ export class SnapshotWorkerService {
       });
       for (const price of partialSnapshot.asks.keys()) {
         if (partialSnapshot.bids.has(price)) {
-          console.error(
-            price,
-            partialSnapshot.bids.get(price),
-            partialSnapshot.asks.get(price),
+          Logger.error(
+            JSON.stringify([
+              price,
+              partialSnapshot.bids.get(price),
+              partialSnapshot.asks.get(price),
+            ]),
           );
         }
       }
