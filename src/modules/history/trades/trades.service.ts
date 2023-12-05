@@ -14,6 +14,7 @@ const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const BORDER_PERCENTAGE = 0.8;
 const BORDERS_QUEUE_INTERVAL = 1000 * 30;
+const FLUSH_INTERVAL = 1000 * 5 * 60;
 @Injectable()
 export class TradesService {
   private listening = false;
@@ -23,10 +24,16 @@ export class TradesService {
   private depthBuffer = new Map<string, Map<number, Depth>>();
   private aggTradesBuffer = new Map<string, any>();
   private prevDepth = new Map<string, number>();
+
   constructor(
     private databaseService: DatabaseService,
     private webSocketService: WebSocketService,
-  ) {}
+  ) {
+    setInterval(() => {
+      this.flushFullAggTrades();
+      this.flushFullDepth();
+    }, FLUSH_INTERVAL);
+  }
 
   async subscribe(symbol: string) {
     this.subscribedSymbols.add(symbol);
@@ -126,6 +133,28 @@ export class TradesService {
     }
   }
 
+  async flushFullDepth() {
+    for (const symbol of this.depthBuffer.keys()) {
+      const _depthBuffer = this.depthBuffer.get(symbol);
+      if (!_depthBuffer.size) {
+        continue;
+      }
+      const values = [..._depthBuffer.values()];
+      _depthBuffer.clear();
+      await this.flushDepth(values);
+    }
+  }
+
+  async flushFullAggTrades() {
+    for (const symbol of this.aggTradesBuffer.keys()) {
+      const _aggTradesBuffer = this.aggTradesBuffer.get(symbol);
+      if (!_aggTradesBuffer.length) {
+        continue;
+      }
+
+      await this.flushAggTrades(_aggTradesBuffer.splice(0));
+    }
+  }
   /**
    *
    * @param buffer splice of buffer (don't need to splice it again)
