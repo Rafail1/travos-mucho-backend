@@ -73,8 +73,8 @@ export class Depth {
     this.u = u;
     this.pu = pu;
     this.fields = {
-      a,
-      b,
+      a: a.map((item) => [Number(item[0]), Number(item[1])]),
+      b: b.map((item) => [Number(item[0]), Number(item[1])]),
       s,
       E: new Date(E),
     };
@@ -85,7 +85,7 @@ export class Snapshot {
   public fields: Prisma.OrderBookSnapshotCreateInput;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(symbol: string, data: FuturesOrderBook) {
+  constructor(symbol: string, data: any) {
     this.fields = {
       symbol,
       ...data,

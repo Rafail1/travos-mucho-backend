@@ -29,13 +29,12 @@ model DepthUpdates {
 }
 
 model PartialSnapshot {
-  id   String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   s    String
   E    DateTime
   bids Json[]
   asks Json[]
 
-  @@index([s, E])
+  @@unique([s, E])
 }
 
 model AggTrades {

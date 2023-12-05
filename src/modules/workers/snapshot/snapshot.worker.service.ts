@@ -40,7 +40,7 @@ export class SnapshotWorkerService {
 
       const where: Prisma.DepthUpdatesWhereInput = { s: symbol };
       if (latestPartialSnapshot) {
-        where.E = { gte: latestPartialSnapshot.E };
+        where.E = { gt: latestPartialSnapshot.E };
       }
 
       const depthUpdates = await this.databaseService.depthUpdates.findMany({
@@ -101,9 +101,13 @@ export class SnapshotWorkerService {
           );
         }
       }
-      await this.databaseService.partialSnapshot.create({
-        data: { ...partialSnapshot, bids, asks },
-      });
+      await this.databaseService.partialSnapshot
+        .create({
+          data: { ...partialSnapshot, bids, asks },
+        })
+        .catch((e) => {
+          Logger.error(e?.message);
+        });
     }
   }
 

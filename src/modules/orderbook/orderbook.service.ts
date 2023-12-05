@@ -50,14 +50,18 @@ export class OrderBookService {
       symbol,
       cb: async (data: Prisma.OrderBookSnapshotCreateInput) => {
         this.partialOrderBookSetting.delete(symbol);
-        await this.databaseService.partialSnapshot.create({
-          data: {
-            E: data.E,
-            s: data.symbol,
-            asks: data.asks,
-            bids: data.bids,
-          },
-        });
+        await this.databaseService.partialSnapshot
+          .create({
+            data: {
+              E: data.E,
+              s: data.symbol,
+              asks: data.asks,
+              bids: data.bids,
+            },
+          })
+          .catch((e) => {
+            Logger.error(e?.message);
+          });
 
         if (setPartialOBCb) {
           setPartialOBCb.call(this);
@@ -133,7 +137,12 @@ export class OrderBookService {
         Logger.debug(`getting orderBook for ${symbol}`);
         const snapshot = await this.usdmClient
           .getOrderBook({ symbol, limit: DEPTH_LIMIT })
-          .then((data) => ({ ...data, symbol: symbol.toUpperCase() }))
+          .then((data) => ({
+            ...data,
+            asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
+            bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
+            symbol: symbol.toUpperCase(),
+          }))
           .catch((e) => {
             Logger.error(e?.message);
           });
@@ -157,7 +166,12 @@ export class OrderBookService {
         Logger.debug(`getting partial orderBook for ${symbol}`);
         const snapshot = await this.usdmClient
           .getOrderBook({ symbol, limit: PARTIAL_DEPTH_LIMIT })
-          .then((data) => ({ ...data, symbol: symbol.toUpperCase() }))
+          .then((data) => ({
+            ...data,
+            asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
+            bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
+            symbol: symbol.toUpperCase(),
+          }))
           .catch((e) => {
             Logger.error(e?.message);
           });
