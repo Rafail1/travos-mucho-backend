@@ -36,7 +36,7 @@ export class OrderBookService {
       ) {
         continue;
       }
-      this.setOB(symbol);
+      await this.setOB(symbol);
     }
   }
 
@@ -72,59 +72,68 @@ export class OrderBookService {
   }
 
   setOB(symbol: string, setObCallback?: () => Promise<void>) {
-    try {
-      if (this.orderBookSetting.has(symbol)) {
-        return;
+    return new Promise((resolve, reject) => {
+      try {
+        if (this.orderBookSetting.has(symbol)) {
+          return resolve(`orderBookSetting exists ${symbol}`);
+        }
+
+        this.orderBookSetting[symbol] = true;
+        const obj = {
+          symbol,
+          cb: async (data) => {
+            try {
+              await this.databaseService.orderBookSnapshot.create({
+                data,
+              });
+
+              if (!data.bids.length || !data.asks.length) {
+                Logger.warn(`symbol ${symbol} have empty borders`);
+                return;
+              }
+
+              const existsBorders =
+                await this.databaseService.borders.findUnique({
+                  where: { s: symbol },
+                });
+
+              if (existsBorders) {
+                await this.databaseService.borders.update({
+                  where: { s: symbol },
+                  data: {
+                    E: new Date(),
+                    min: Number(data.bids[data.bids.length - 1][0]),
+                    max: Number(data.asks[data.asks.length - 1][0]),
+                  },
+                });
+              } else {
+                await this.databaseService.borders.create({
+                  data: {
+                    s: symbol,
+                    E: new Date(),
+                    min: Number(data.bids[data.bids.length - 1][0]),
+                    max: Number(data.asks[data.asks.length - 1][0]),
+                  },
+                });
+              }
+
+              if (setObCallback) {
+                setObCallback.call(this);
+              }
+              resolve(null);
+            } catch (e) {
+              resolve(e);
+            }
+          },
+        };
+        this.messageQueueMap.set(obj.symbol, obj);
+      } catch (e) {
+        Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
+        reject(e);
+      } finally {
+        this.orderBookSetting.delete(symbol);
       }
-
-      this.orderBookSetting[symbol] = true;
-      const obj = {
-        symbol,
-        cb: async (data) => {
-          await this.databaseService.orderBookSnapshot.create({
-            data,
-          });
-
-          if (!data.bids.length || !data.asks.length) {
-            Logger.warn(`symbol ${symbol} have empty borders`);
-            return;
-          }
-
-          const existsBorders = await this.databaseService.borders.findUnique({
-            where: { s: symbol },
-          });
-
-          if (existsBorders) {
-            await this.databaseService.borders.update({
-              where: { s: symbol },
-              data: {
-                E: new Date(),
-                min: Number(data.bids[data.bids.length - 1][0]),
-                max: Number(data.asks[data.asks.length - 1][0]),
-              },
-            });
-          } else {
-            await this.databaseService.borders.create({
-              data: {
-                s: symbol,
-                E: new Date(),
-                min: Number(data.bids[data.bids.length - 1][0]),
-                max: Number(data.asks[data.asks.length - 1][0]),
-              },
-            });
-          }
-
-          if (setObCallback) {
-            setObCallback.call(this);
-          }
-        },
-      };
-      this.messageQueueMap.set(obj.symbol, obj);
-    } catch (e) {
-      Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
-    } finally {
-      this.orderBookSetting.delete(symbol);
-    }
+    });
   }
 
   private listenQueue() {
