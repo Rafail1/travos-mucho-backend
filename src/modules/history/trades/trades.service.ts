@@ -68,12 +68,12 @@ export class TradesService {
     }
 
     const _depthBuffer = this.depthBuffer.get(depth.s);
-    const price = this.prices.get(depth.s);
-    const maxPrice = price + (price / 100) * GET_DEPTH_PERCENT_FROM_PRICE;
-    const minPrice = price - (price / 100) * GET_DEPTH_PERCENT_FROM_PRICE;
+    // const price = this.prices.get(depth.s);
+    // const maxPrice = price + (price / 100) * GET_DEPTH_PERCENT_FROM_PRICE;
+    // const minPrice = price - (price / 100) * GET_DEPTH_PERCENT_FROM_PRICE;
 
-    depth.a = depth.a.filter((item) => Number(item[0]) < maxPrice);
-    depth.b = depth.b.filter((item) => Number(item[0]) > minPrice);
+    // depth.a = depth.a.filter((item) => Number(item[0]) < maxPrice);
+    // depth.b = depth.b.filter((item) => Number(item[0]) > minPrice);
     const currentDepth = new Depth(depth);
     const prevDepth = this.prevDepth.get(depth.s);
     _depthBuffer.set(depth.E, currentDepth);
