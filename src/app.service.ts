@@ -75,20 +75,7 @@ export class AppService {
       return {};
     }
 
-    const partialSnapshot = await this.getPartialSnapshot(
-      symbol,
-      time,
-      snapshot.E,
-    );
-
-    if (!partialSnapshot) {
-      Logger.warn('partialSnapshot not found');
-    } else {
-      this.updateSnapshot(partialSnapshot.asks, snapshot.asks);
-      this.updateSnapshot(partialSnapshot.bids, snapshot.bids);
-    }
-
-    const timeFrom = partialSnapshot?.E || snapshot.E;
+    const timeFrom = snapshot.E;
     const depth = await this.getDepthUpdates(
       symbol,
       timeFrom,
@@ -97,7 +84,7 @@ export class AppService {
 
     const filteredDepth = [];
     for (const depthUpdate of depth) {
-      if (depthUpdate.E.getTime() < time.getTime()) {
+      if (depthUpdate.E.getTime() <= time.getTime()) {
         this.updateSnapshot(depthUpdate.a, snapshot.asks);
         this.updateSnapshot(depthUpdate.b, snapshot.bids);
       } else {
@@ -132,18 +119,13 @@ export class AppService {
   private updateSnapshot(items, snapshotItems) {
     items.forEach((leftItem) => {
       const existsIndex = snapshotItems.findIndex(
-        (item) => item[0] === leftItem[0],
+        (item) => Number(item[0]) === Number(leftItem[0]),
       );
+
       if (existsIndex === -1) {
-        if (Number(leftItem[1]) !== 0) {
-          snapshotItems.push(leftItem);
-        }
+        snapshotItems.push(leftItem);
       } else {
-        if (Number(leftItem[1]) === 0) {
-          snapshotItems.splice(existsIndex, 1);
-        } else {
-          snapshotItems[existsIndex] = leftItem;
-        }
+        snapshotItems[existsIndex] = leftItem;
       }
     });
   }
@@ -173,5 +155,38 @@ export class AppService {
       },
       orderBy: { E: 'desc' },
     });
+  }
+
+  private checkConsistency(
+    asks: Array<[string, string]>,
+    bids: Array<[string, string]>,
+  ) {
+    const asksMap = asks.reduce((acc, item) => {
+      acc.set(item[0], item[1]);
+      return acc;
+    }, new Map());
+
+    const bidsMap = bids.reduce((acc, item) => {
+      acc.set(item[0], item[1]);
+      return acc;
+    }, new Map());
+    const errors = [];
+    for (const [bidPrice, bidVolume] of bids) {
+      const askVolume = asksMap.get(bidPrice) || '0';
+      if (Number(bidVolume) !== 0 && Number(askVolume) !== 0) {
+        errors.push({ bidPrice, bidVolume, askVolume });
+      }
+    }
+
+    for (const [askPrice, askVolume] of asks) {
+      const bidVolume = bidsMap.get(askPrice) || '0';
+      if (Number(askVolume) !== 0 && Number(bidVolume) !== 0) {
+        errors.push({ askPrice, askVolume, bidVolume });
+      }
+    }
+
+    if (errors.length) {
+      throw 'errors';
+    }
   }
 }

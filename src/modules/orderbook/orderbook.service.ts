@@ -26,7 +26,7 @@ export class OrderBookService {
     this.listenPartialQueue();
   }
 
-  async subscribeAll() {
+  async setObToAll() {
     const exInfo = await this.usdmClient.getExchangeInfo();
     for (const { symbol, contractType, quoteAsset, status } of exInfo.symbols) {
       if (

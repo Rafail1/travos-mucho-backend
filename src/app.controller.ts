@@ -18,7 +18,7 @@ export class AppController {
 
   @Get('subscribe-ob')
   subscribeOb() {
-    this.orderBookService.subscribeAll();
+    this.orderBookService.setObToAll();
     this.snapshotWorkerService.initSnapshotFlow();
     this.snapshotWorkerService.initPartialSnapshotFlow();
     this.orderBookService.init();
