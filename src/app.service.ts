@@ -3,6 +3,7 @@ import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
+const saveHistoryFor = '24h';
 @Injectable()
 export class AppService {
   private interval;
@@ -19,7 +20,7 @@ export class AppService {
     return this.starterService.subscribeAll();
   }
 
-  async removeHistory() {
+  async removeHistoryInterval() {
     try {
       if (this.interval) {
         clearInterval(this.interval);
@@ -29,23 +30,9 @@ export class AppService {
     }
 
     this.interval = setInterval(async () => {
-      try {
-        await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
-        WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-        await this.databaseService
-          .$executeRaw`DELETE FROM feautures."DepthUpdates"
-        WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-        await this.databaseService
-          .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
-        WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-        await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
-            WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-        return true;
-      } catch (e) {
-        Logger.error(`removeHistory error ${e?.message}`);
-        return false;
-      }
+      await this.removeHistory();
     }, 1000 * 60 * 60 * 24);
+    return await this.removeHistory();
   }
 
   async getAggTradesHistory(symbol: string, time: Date) {
@@ -128,6 +115,24 @@ export class AppService {
     return clusters;
   }
 
+  private async removeHistory() {
+    try {
+      await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
+      WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      await this.databaseService
+        .$executeRaw`DELETE FROM feautures."DepthUpdates"
+      WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      await this.databaseService
+        .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
+      WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
+          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      return true;
+    } catch (e) {
+      Logger.error(`removeHistory error ${e?.message}`);
+      return false;
+    }
+  }
   private updateSnapshot(items, snapshotItems) {
     items.forEach((leftItem) => {
       const existsIndex = snapshotItems.findIndex(
