@@ -29,6 +29,8 @@ export class AppService {
       await this.databaseService
         .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
       WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+      await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
+          WHERE "E" < now() at time zone 'utc' - interval '24h'`;
       return true;
     } catch (e) {
       Logger.error(`removeHistory error ${e?.message}`);
