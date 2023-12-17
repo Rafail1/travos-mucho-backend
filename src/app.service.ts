@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
-import { Prisma } from '@prisma/client';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
 @Injectable()
 export class AppService {
+  private interval;
   constructor(
     private readonly starterService: StarterService,
     private databaseService: DatabaseService,
@@ -21,21 +21,31 @@ export class AppService {
 
   async removeHistory() {
     try {
-      await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
-      WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-      await this.databaseService
-        .$executeRaw`DELETE FROM feautures."DepthUpdates"
-      WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-      await this.databaseService
-        .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
-      WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-      await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
-          WHERE "E" < now() at time zone 'utc' - interval '24h'`;
-      return true;
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
     } catch (e) {
-      Logger.error(`removeHistory error ${e?.message}`);
-      return false;
+      Logger.error(e?.message);
     }
+
+    this.interval = setInterval(async () => {
+      try {
+        await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
+        WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+        await this.databaseService
+          .$executeRaw`DELETE FROM feautures."DepthUpdates"
+        WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+        await this.databaseService
+          .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
+        WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+        await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
+            WHERE "E" < now() at time zone 'utc' - interval '24h'`;
+        return true;
+      } catch (e) {
+        Logger.error(`removeHistory error ${e?.message}`);
+        return false;
+      }
+    }, 1000 * 60 * 60 * 24);
   }
 
   async getAggTradesHistory(symbol: string, time: Date) {

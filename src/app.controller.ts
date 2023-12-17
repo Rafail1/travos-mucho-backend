@@ -47,7 +47,6 @@ export class AppController {
 
   @Get('remove-history')
   async removeHistory() {
-    const removed = await this.appService.removeHistory();
-    return { removed };
+    this.appService.removeHistory();
   }
 }
