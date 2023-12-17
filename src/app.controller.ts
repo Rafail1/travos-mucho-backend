@@ -20,7 +20,6 @@ export class AppController {
   subscribeOb() {
     this.orderBookService.setObToAll();
     this.snapshotWorkerService.initSnapshotFlow();
-    this.snapshotWorkerService.initPartialSnapshotFlow();
     this.orderBookService.init();
   }
   @Get('stop')

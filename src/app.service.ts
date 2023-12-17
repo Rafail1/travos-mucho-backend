@@ -140,23 +140,6 @@ export class AppService {
     });
   }
 
-  private getPartialSnapshot(symbol: string, time: Date, minTime: Date) {
-    return this.databaseService.partialSnapshot.findFirst({
-      where: {
-        AND: [
-          {
-            E: { lte: time },
-          },
-          {
-            E: { gt: minTime },
-          },
-        ],
-        s: symbol,
-      },
-      orderBy: { E: 'desc' },
-    });
-  }
-
   private checkConsistency(
     asks: Array<[string, string]>,
     bids: Array<[string, string]>,

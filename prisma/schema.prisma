@@ -28,15 +28,6 @@ model DepthUpdates {
   @@unique([s, E])
 }
 
-model PartialSnapshot {
-  s    String
-  E    DateTime
-  bids Json[]
-  asks Json[]
-
-  @@unique([s, E])
-}
-
 model AggTrades {
   a BigInt
   E DateTime
