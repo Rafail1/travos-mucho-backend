@@ -47,6 +47,8 @@ export class OrderBookService {
           symbol,
           cb: async (data) => {
             try {
+              this.orderBookSetting.delete(symbol);
+
               if (!data) {
                 return resolve(null);
               }
@@ -103,42 +105,49 @@ export class OrderBookService {
       } catch (e) {
         Logger.error(`setOrderBook error ${symbol}, ${e?.message}`);
         reject(e);
-      } finally {
-        this.orderBookSetting.delete(symbol);
       }
     });
   }
 
   private listenQueue() {
+    const settingOb = new Map();
     interval(MESSAGE_QUEUE_INTERVAL).subscribe(async () => {
-      if (this.messageQueueMap.size) {
-        const {
-          value: { symbol, cb },
-        } = this.messageQueueMap.values().next();
-        this.messageQueueMap.delete(symbol);
-        Logger.debug(`getting orderBook for ${symbol}`);
-        try {
-          const snapshot = await this.usdmClient
-            .getOrderBook({ symbol, limit: DEPTH_LIMIT })
-            .then((data) => ({
-              ...data,
-              asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
-              bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
-              symbol: symbol.toUpperCase(),
-            }))
-            .catch((e) => {
-              Logger.error(e?.message);
-            });
-          if (snapshot) {
-            const data = new Snapshot(symbol, snapshot).fields;
-            cb(data);
-          } else {
-            cb(null);
-          }
-        } catch (e) {
-          console.error(e);
-          cb(null, e);
+      if (!this.messageQueueMap.size) {
+        return;
+      }
+
+      const {
+        value: { symbol, cb },
+      } = this.messageQueueMap.values().next();
+
+      if (settingOb.has(symbol)) {
+        return;
+      }
+
+      settingOb.set(symbol, true);
+      this.messageQueueMap.delete(symbol);
+      Logger.debug(`getting orderBook for ${symbol}`);
+      try {
+        const snapshot = await this.usdmClient
+          .getOrderBook({ symbol, limit: DEPTH_LIMIT })
+          .then((data) => ({
+            ...data,
+            asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
+            bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
+            symbol: symbol.toUpperCase(),
+          }));
+
+        if (snapshot) {
+          const data = new Snapshot(symbol, snapshot).fields;
+          cb(data);
+        } else {
+          cb(null);
         }
+      } catch (e) {
+        Logger.error(e?.message);
+        cb(null, e);
+      } finally {
+        settingOb.delete(symbol);
       }
     });
   }
