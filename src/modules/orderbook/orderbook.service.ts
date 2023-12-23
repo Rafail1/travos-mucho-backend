@@ -47,13 +47,16 @@ export class OrderBookService {
           symbol,
           cb: async (data) => {
             try {
+              if (!data) {
+                return resolve(null);
+              }
               await this.databaseService.orderBookSnapshot.create({
                 data,
               });
 
               if (!data.bids.length || !data.asks.length) {
                 Logger.warn(`symbol ${symbol} have empty borders`);
-                return;
+                return resolve(null);
               }
 
               const existsBorders =
@@ -108,22 +111,27 @@ export class OrderBookService {
         } = this.messageQueueMap.values().next();
         this.messageQueueMap.delete(symbol);
         Logger.debug(`getting orderBook for ${symbol}`);
-        const snapshot = await this.usdmClient
-          .getOrderBook({ symbol, limit: DEPTH_LIMIT })
-          .then((data) => ({
-            ...data,
-            asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
-            bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
-            symbol: symbol.toUpperCase(),
-          }))
-          .catch((e) => {
-            Logger.error(e?.message);
-          });
-        if (snapshot) {
-          const data = new Snapshot(symbol, snapshot).fields;
-          cb(data).catch(() => {
-            return;
-          });
+        try {
+          const snapshot = await this.usdmClient
+            .getOrderBook({ symbol, limit: DEPTH_LIMIT })
+            .then((data) => ({
+              ...data,
+              asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
+              bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
+              symbol: symbol.toUpperCase(),
+            }))
+            .catch((e) => {
+              Logger.error(e?.message);
+            });
+          if (snapshot) {
+            const data = new Snapshot(symbol, snapshot).fields;
+            cb(data);
+          } else {
+            cb(null);
+          }
+        } catch (e) {
+          console.error(e);
+          cb(null, e);
         }
       }
     });
