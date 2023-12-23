@@ -74,13 +74,19 @@ export class OrderBookService {
                   },
                 });
               } else {
-                await this.databaseService.borders.create({
-                  data: {
+                await this.databaseService.borders.upsert({
+                  update: {
+                    E: new Date(),
+                    min: Number(data.bids[data.bids.length - 1][0]),
+                    max: Number(data.asks[data.asks.length - 1][0]),
+                  },
+                  create: {
                     s: symbol,
                     E: new Date(),
                     min: Number(data.bids[data.bids.length - 1][0]),
                     max: Number(data.asks[data.asks.length - 1][0]),
                   },
+                  where: { s: symbol },
                 });
               }
 

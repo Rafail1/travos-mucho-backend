@@ -9,8 +9,10 @@ export class SnapshotWorkerService {
     Logger.debug('start snapshot work');
     await this.orderBookService.setObToAll();
     Logger.debug('snapshot work finished');
-    setTimeout(() => {
-      this.initSnapshotFlow();
+    setTimeout(async () => {
+      await this.initSnapshotFlow().catch((e) => {
+        Logger.error(e?.message);
+      });
     }, FULL_SNAPSHOT_INTERVAL);
   }
 }
