@@ -16,16 +16,12 @@ async function bootstrap() {
     await app
       .get(AppController)
       .subscribeAll()
-      .then(() => {
-        console.log('subscribed to all');
-        setTimeout(() => {
-          app.get(AppController).subscribeOb();
-        }, 3000);
-      })
       .catch((e) => {
         Logger.error(e);
         process.exit(1);
       });
+  } else if (process.argv.includes('start-sub-ob')) {
+    await app.get(AppController).subscribeOb();
   } else {
     await app.listen(8080);
   }
