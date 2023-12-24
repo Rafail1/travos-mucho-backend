@@ -184,32 +184,32 @@ export class TradesService {
   }
 
   private async setOrderBook(symbol: string, reason: string) {
-    const exists = await this.databaseService.sharedAction.findFirst({
-      where: { symbol },
-    });
-    if (exists) {
-      await this.databaseService.sharedAction.update({
-        where: { symbol },
-        data: {
-          E: new Date(),
-          inProgress: false,
-          reason,
-        },
-      });
-    } else {
-      await this.databaseService.sharedAction
-        .create({
-          data: {
-            E: new Date(),
-            inProgress: false,
-            symbol,
-            reason,
-          },
-        })
-        .catch((e) => {
-          Logger.verbose(e);
-        });
-    }
+    // const exists = await this.databaseService.sharedAction.findFirst({
+    //   where: { symbol },
+    // });
+    // if (exists) {
+    //   await this.databaseService.sharedAction.update({
+    //     where: { symbol },
+    //     data: {
+    //       E: new Date(),
+    //       inProgress: false,
+    //       reason,
+    //     },
+    //   });
+    // } else {
+    //   await this.databaseService.sharedAction
+    //     .create({
+    //       data: {
+    //         E: new Date(),
+    //         inProgress: false,
+    //         symbol,
+    //         reason,
+    //       },
+    //     })
+    //     .catch((e) => {
+    //       Logger.verbose(e);
+    //     });
+    // }
   }
 
   private listenBorders(symbol: string) {

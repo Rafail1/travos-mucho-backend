@@ -6,7 +6,6 @@ import { Snapshot } from '../websocket/websocket.service';
 
 const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
-const SHARED_QUEUE_INTERVAL = 5000;
 
 @Injectable()
 export class OrderBookService {
@@ -18,7 +17,6 @@ export class OrderBookService {
 
   public init() {
     this.listenQueue();
-    this.listenSharedActions();
   }
 
   async setObToAll() {
@@ -148,27 +146,6 @@ export class OrderBookService {
         cb(null, e);
       } finally {
         settingOb.delete(symbol);
-      }
-    });
-  }
-
-  public listenSharedActions() {
-    interval(SHARED_QUEUE_INTERVAL).subscribe(async () => {
-      const actions = await this.databaseService.sharedAction.findMany({
-        where: { inProgress: false },
-        orderBy: [{ E: 'desc' }],
-      });
-
-      for (const action of actions) {
-        await this.databaseService.sharedAction.update({
-          where: { symbol: action.symbol },
-          data: { inProgress: true },
-        });
-        this.setOB(action.symbol, async () => {
-          await this.databaseService.sharedAction.delete({
-            where: { symbol: action.symbol },
-          });
-        });
       }
     });
   }
