@@ -11,8 +11,7 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug'],
     cors: true,
   });
-  await app.listen(3000);
-  console.log(process.argv);
+
   if (process.argv.includes('start-sub')) {
     await app
       .get(AppController)
@@ -27,6 +26,8 @@ async function bootstrap() {
         Logger.error(e);
         process.exit(1);
       });
+  } else {
+    await app.listen(8080);
   }
 }
 bootstrap();
