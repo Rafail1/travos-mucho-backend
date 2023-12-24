@@ -11,8 +11,9 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug'],
     cors: true,
   });
-
   if (process.argv.includes('start-sub')) {
+    console.log('start-sub');
+
     await app
       .get(AppController)
       .subscribeAll()
@@ -21,9 +22,13 @@ async function bootstrap() {
         process.exit(1);
       });
   } else if (process.argv.includes('start-sub-ob')) {
+    console.log('start-sub-ob');
+
     await app.get(AppController).subscribeOb();
   } else {
+    console.log('8080');
     await app.listen(8080);
   }
+  console.log(process.argv);
 }
 bootstrap();
