@@ -17,10 +17,10 @@ export class AppController {
   }
 
   @Get('subscribe-ob')
-  subscribeOb() {
-    this.orderBookService.setObToAll();
-    this.snapshotWorkerService.initSnapshotFlow();
+  async subscribeOb() {
     this.orderBookService.init();
+    await this.orderBookService.setObToAll();
+    await this.snapshotWorkerService.initSnapshotFlow();
   }
   @Get('stop')
   stop(@Query('symbol') symbol: string) {
