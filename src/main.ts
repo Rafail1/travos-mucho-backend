@@ -12,18 +12,21 @@ async function bootstrap() {
     cors: true,
   });
   await app.listen(3000);
-  await app
-    .get(AppController)
-    .subscribeAll()
-    .then(() => {
-      console.log('subscribed to all');
-      setTimeout(() => {
-        app.get(AppController).subscribeOb();
-      }, 3000);
-    })
-    .catch((e) => {
-      Logger.error(e);
-      process.exit(1);
-    });
+  console.log(process.argv);
+  if (process.argv.includes('start-sub')) {
+    await app
+      .get(AppController)
+      .subscribeAll()
+      .then(() => {
+        console.log('subscribed to all');
+        setTimeout(() => {
+          app.get(AppController).subscribeOb();
+        }, 3000);
+      })
+      .catch((e) => {
+        Logger.error(e);
+        process.exit(1);
+      });
+  }
 }
 bootstrap();
