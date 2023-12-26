@@ -10,13 +10,14 @@ datasource db {
 }
 
 model OrderBookSnapshot {
-  id           String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   lastUpdateId BigInt
   symbol       String
   E            DateTime
   T            DateTime
   bids         Json[]
   asks         Json[]
+
+  @@unique([symbol, E])
 }
 
 model DepthUpdates {
@@ -26,6 +27,7 @@ model DepthUpdates {
   a Json
 
   @@unique([s, E])
+  @@index([s, E])
 }
 
 model AggTrades {
