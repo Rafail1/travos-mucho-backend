@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
+import { Prisma } from '@prisma/client';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
 const saveHistoryFor = '24h';
@@ -118,23 +119,37 @@ export class AppService {
   private async removeHistory() {
     try {
       Logger.debug(`removeHistory from AggTrades`);
+      const symbols = await this.databaseService.borders.findMany({
+        distinct: Prisma.BordersScalarFieldEnum.s,
+      });
+      Logger.debug(
+        `removeHistory symbols length ${
+          symbols.length
+        }, first: ${JSON.stringify(symbols[0] || '')}`,
+      );
 
-      await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
-      WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
-      Logger.debug(`removeHistory from DepthUpdates`);
+      for (const { s } of symbols) {
+        Logger.debug(`removeHistory for ${s}`);
 
-      await this.databaseService
-        .$executeRaw`DELETE FROM feautures."DepthUpdates"
-      WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
-      Logger.debug(`removeHistory from OrderBookSnapshot`);
+        await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
+          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        Logger.debug(`removeHistory from DepthUpdates`);
 
-      await this.databaseService
-        .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
-      WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
-      Logger.debug(`removeHistory from Borders`);
+        await this.databaseService
+          .$executeRaw`DELETE FROM feautures."DepthUpdates"
+          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        Logger.debug(`removeHistory from OrderBookSnapshot`);
 
-      await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+        await this.databaseService
+          .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
+          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND symbol = ${s}`;
+        Logger.debug(`removeHistory from Borders`);
+
+        await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
+          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        Logger.debug(`removeHistory for ${s} done`);
+      }
+
       return true;
     } catch (e) {
       Logger.error(`removeHistory error ${e?.message}`);
