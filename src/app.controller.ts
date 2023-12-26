@@ -1,34 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { SnapshotWorkerService } from './modules/workers/snapshot/snapshot.worker.service';
-import { OrderBookService } from './modules/orderbook/orderbook.service';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly orderBookService: OrderBookService,
-    private readonly snapshotWorkerService: SnapshotWorkerService,
-  ) {}
-
-  @Get('subscribe-all')
-  async subscribeAll() {
-    await this.appService.subscribeAll();
-  }
-
-  @Get('subscribe-ob')
-  async subscribeOb() {
-    this.orderBookService.init();
-    await this.orderBookService.setObToAll();
-    await this.snapshotWorkerService.initSnapshotFlow();
-  }
-  @Get('stop')
-  stop(@Query('symbol') symbol: string) {
-    if (!symbol) {
-      throw Error('symbol required');
-    }
-    this.appService.unsubscribe(symbol.toLowerCase());
-  }
+  constructor(private readonly appService: AppService) {}
 
   @Get('agg-trades')
   getAggTrades(@Query('symbol') symbol: string, @Query('time') time: string) {
@@ -43,11 +18,5 @@ export class AppController {
   @Get('cluster')
   getCluster(@Query('symbol') symbol: string, @Query('time') time: string) {
     return this.appService.getCluster(symbol, new Date(time));
-  }
-
-  @Get('remove-history')
-  async removeHistory() {
-    const removed = await this.appService.removeHistoryInterval();
-    return { removed };
   }
 }

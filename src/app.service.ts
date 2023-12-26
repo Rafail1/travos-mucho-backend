@@ -117,14 +117,22 @@ export class AppService {
 
   private async removeHistory() {
     try {
+      Logger.debug(`removeHistory from AggTrades`);
+
       await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
       WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      Logger.debug(`removeHistory from DepthUpdates`);
+
       await this.databaseService
         .$executeRaw`DELETE FROM feautures."DepthUpdates"
       WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      Logger.debug(`removeHistory from OrderBookSnapshot`);
+
       await this.databaseService
         .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
       WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
+      Logger.debug(`removeHistory from Borders`);
+
       await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
           WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL`;
       return true;
