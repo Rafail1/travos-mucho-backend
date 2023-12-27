@@ -1,6 +1,6 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { USDMClient } from 'binance';
-import { interval } from 'rxjs';
+import { firstValueFrom, interval } from 'rxjs';
 import { DatabaseService } from '../database/database.service';
 import { Snapshot } from '../websocket/websocket.service';
 
@@ -9,19 +9,26 @@ const DEPTH_LIMIT = 1000;
 
 @Injectable()
 export class OrderBookService {
-  private usdmClient = new USDMClient({});
+  private proxyUrl = 'https://scalp24.store';
   private messageQueueMap = new Map();
 
   private orderBookSetting = new Map();
-  constructor(private databaseService: DatabaseService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private httpService: HttpService,
+  ) {}
 
   public init() {
     this.listenQueue();
   }
 
   async setObToAll() {
-    const exInfo = await this.usdmClient.getExchangeInfo();
-    for (const { symbol, contractType, quoteAsset, status } of exInfo.symbols) {
+    const exInfo = await firstValueFrom(
+      this.httpService.get(`${this.proxyUrl}/rest/binance/exchange-info.php`),
+    );
+    const symbols = exInfo.data.symbols || [];
+    Logger.debug(`symbols length: ${symbols.length}`);
+    for (const { symbol, contractType, quoteAsset, status } of symbols) {
       if (
         contractType !== 'PERPETUAL' ||
         quoteAsset !== 'USDT' ||
@@ -126,14 +133,25 @@ export class OrderBookService {
       this.messageQueueMap.delete(symbol);
       Logger.debug(`getting orderBook for ${symbol}`);
       try {
-        const snapshot = await this.usdmClient
-          .getOrderBook({ symbol, limit: DEPTH_LIMIT })
-          .then((data) => ({
-            ...data,
-            asks: data.asks.map((item) => [Number(item[0]), Number(item[1])]),
-            bids: data.bids.map((item) => [Number(item[0]), Number(item[1])]),
-            symbol: symbol.toUpperCase(),
-          }));
+        const snapshotData = await firstValueFrom(
+          this.httpService.get(
+            `${this.proxyUrl}/rest/binance/depth.php?symbol=${symbol}&limit=${DEPTH_LIMIT}`,
+          ),
+        );
+        Logger.debug(`snapshot: ${snapshotData.status}`);
+
+        const snapshot = {
+          ...snapshotData.data,
+          asks: snapshotData.data.asks.map((item) => [
+            Number(item[0]),
+            Number(item[1]),
+          ]),
+          bids: snapshotData.data.bids.map((item) => [
+            Number(item[0]),
+            Number(item[1]),
+          ]),
+          symbol: symbol.toUpperCase(),
+        };
 
         if (snapshot) {
           const data = new Snapshot(symbol, snapshot).fields;
