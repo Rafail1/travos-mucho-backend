@@ -1,36 +1,18 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { initDB } from './sequelize';
+import { AggTrades } from './sequelize/models/agg-trades';
+import { Borders } from './sequelize/models/borders';
+import { DepthUpdates } from './sequelize/models/depth-updates';
+import { OrderBookSnapshot } from './sequelize/models/order-book-snapshot';
 
 @Injectable()
-export class DatabaseService extends PrismaClient implements OnModuleInit {
-  constructor() {
-    super({
-      log: [
-        {
-          emit: 'event',
-          level: 'query',
-        },
-        {
-          emit: 'stdout',
-          level: 'error',
-        },
-        {
-          emit: 'stdout',
-          level: 'info',
-        },
-        {
-          emit: 'stdout',
-          level: 'warn',
-        },
-      ],
-    });
-  }
+export class DatabaseService implements OnModuleInit {
+  public aggTrades = AggTrades;
+  public borders = Borders;
+  public orderBookSnapshot = OrderBookSnapshot;
+  public depthUpdates = DepthUpdates;
+
   async onModuleInit() {
-    await this.$connect();
-    // this.$on('query' as never, (e: any) => {
-    //   console.log('Query: ' + e.query);
-    //   console.log('Params: ' + e.params);
-    //   console.log('Duration: ' + e.duration + 'ms');
-    // });
+    await initDB();
   }
 }

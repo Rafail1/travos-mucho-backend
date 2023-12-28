@@ -104,34 +104,34 @@ export class TradesService {
     _aggTradesBuffer.push(new AggTrade(aggTrade).fields);
 
     Logger.verbose(`this.aggTradesBuffer: ${_aggTradesBuffer.length}`);
-    this.checkBorders(aggTrade);
+    // this.checkBorders(aggTrade);
     this.prices.set(aggTrade.s, Number(aggTrade.p));
     if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
       this.flushAggTrades(_aggTradesBuffer.splice(0));
     }
   }
 
-  private checkBorders(aggTrade: IAggTrade) {
-    if (this.borders[aggTrade.s]) {
-      const topBorderIdx = Math.floor(
-        this.borders[aggTrade.s].max.length * BORDER_PERCENTAGE,
-      );
+  // private checkBorders(aggTrade: IAggTrade) {
+  //   if (this.borders[aggTrade.s]) {
+  //     const topBorderIdx = Math.floor(
+  //       this.borders[aggTrade.s].max.length * BORDER_PERCENTAGE,
+  //     );
 
-      const lowBorderIdx = Math.floor(
-        this.borders[aggTrade.s].min.length * BORDER_PERCENTAGE,
-      );
+  //     const lowBorderIdx = Math.floor(
+  //       this.borders[aggTrade.s].min.length * BORDER_PERCENTAGE,
+  //     );
 
-      if (
-        Number(aggTrade.p) >
-          Number(this.borders[aggTrade.s].max[topBorderIdx][0]) ||
-        Number(aggTrade.p) <
-          Number(this.borders[aggTrade.s].min[lowBorderIdx][0])
-      ) {
-        Logger.debug('out of borders');
-        this.setOrderBook(aggTrade.s, 'out of borders');
-      }
-    }
-  }
+  //     if (
+  //       Number(aggTrade.p) >
+  //         Number(this.borders[aggTrade.s].max[topBorderIdx][0]) ||
+  //       Number(aggTrade.p) <
+  //         Number(this.borders[aggTrade.s].min[lowBorderIdx][0])
+  //     ) {
+  //       Logger.debug('out of borders');
+  //       this.setOrderBook(aggTrade.s, 'out of borders');
+  //     }
+  //   }
+  // }
 
   async flushFullDepth() {
     for (const symbol of this.depthBuffer.keys()) {
@@ -162,7 +162,7 @@ export class TradesService {
   private async flushAggTrades(buffer: any[]) {
     try {
       Logger.verbose('flushAggTrades');
-      await this.databaseService.aggTrades.createMany({ data: buffer });
+      await this.databaseService.aggTrades.bulkCreate(buffer);
     } catch (e) {
       Logger.error(`flushAggTrades error ${e?.message}`);
     }
@@ -175,9 +175,9 @@ export class TradesService {
   private async flushDepth(buffer: Depth[]) {
     try {
       Logger.verbose('flushDepth');
-      await this.databaseService.depthUpdates.createMany({
-        data: buffer.map((item) => item.fields),
-      });
+      await this.databaseService.depthUpdates.bulkCreate(
+        buffer.map((item) => item.fields),
+      );
     } catch (e) {
       Logger.error(`flushDepth error ${e?.message}`);
     }
@@ -214,11 +214,11 @@ export class TradesService {
 
   private listenBorders(symbol: string) {
     interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
-      const borders = await this.databaseService.borders.findFirst({
+      const borders = await this.databaseService.borders.findOne({
         where: {
           s: symbol,
         },
-        orderBy: [{ E: 'desc' }],
+        order: ['E', 'desc'],
       });
 
       if (!borders) {

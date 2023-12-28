@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 import { Prisma } from '@prisma/client';
+import { getExchangeInfo } from './exchange-info';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
 const saveHistoryFor = '24h';
@@ -37,7 +38,7 @@ export class AppService {
   }
 
   async getAggTradesHistory(symbol: string, time: Date) {
-    const result = await this.databaseService.aggTrades.findMany({
+    const result = await this.databaseService.aggTrades.findAll({
       where: {
         AND: [
           {
@@ -55,12 +56,12 @@ export class AppService {
 
   async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
     try {
-      return this.databaseService.depthUpdates.findMany({
+      return this.databaseService.depthUpdates.findAll({
         where: {
           s: symbol,
           AND: [{ E: { gte: timeFrom } }, { E: { lt: timeTo } }],
         },
-        orderBy: { E: 'asc' },
+        order: ['E', 'asc'],
       });
     } catch (e) {
       return [];
@@ -119,16 +120,14 @@ export class AppService {
   private async removeHistory() {
     try {
       Logger.debug(`removeHistory from AggTrades`);
-      const symbols = await this.databaseService.borders.findMany({
-        distinct: Prisma.BordersScalarFieldEnum.s,
-      });
+      const symbols = getExchangeInfo();
       Logger.debug(
         `removeHistory symbols length ${
           symbols.length
         }, first: ${JSON.stringify(symbols[0] || '')}`,
       );
 
-      for (const { s } of symbols) {
+      for (const { symbol: s } of symbols) {
         Logger.debug(`removeHistory for ${s}`);
 
         await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
@@ -171,12 +170,12 @@ export class AppService {
   }
 
   private getSnapshot(symbol: string, time: Date) {
-    return this.databaseService.orderBookSnapshot.findFirst({
+    return this.databaseService.orderBookSnapshot.findOne({
       where: {
         E: { lte: time },
         symbol,
       },
-      orderBy: { lastUpdateId: 'desc' },
+      order: ['lastUpdateId', 'desc'],
     });
   }
 
