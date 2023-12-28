@@ -15,8 +15,30 @@ async function bootstrap() {
     cors: true,
   });
   setTimeout(async () => {
-    if (process.argv.includes('start-sub')) {
-      console.log('start-sub');
+    if (process.argv.includes('start-sub-first')) {
+      process.env.PART = 'first';
+      console.log('start-sub-first');
+      await app
+        .get(AppService)
+        .subscribeAll()
+        .catch((e) => {
+          Logger.error(e);
+          process.exit(1);
+        });
+    } else if (process.argv.includes('start-sub-second')) {
+      process.env.PART = 'second';
+      console.log('start-sub-second');
+      await app
+        .get(AppService)
+        .subscribeAll()
+        .catch((e) => {
+          Logger.error(e);
+          process.exit(1);
+        });
+    } else if (process.argv.includes('start-sub-third')) {
+      process.env.PART = 'third';
+      console.log('start-sub-third');
+
       await app
         .get(AppService)
         .subscribeAll()
@@ -27,7 +49,6 @@ async function bootstrap() {
     } else if (process.argv.includes('start-sub-ob')) {
       console.log('start-sub-ob');
       await app.get(OrderBookService).init();
-      await app.get(OrderBookService).setObToAll();
       await app.get(SnapshotWorkerService).initSnapshotFlow();
     } else if (process.argv.includes('remove-history')) {
       console.log('remove-history');

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SymbolPriceFilter, USDMClient } from 'binance';
 import { TradesService } from '../history/trades/trades.service';
 import { StateService } from 'src/state/state.service';
+import { getExchangeInfo } from 'src/exchange-info';
 
 @Injectable()
 export class StarterService {
@@ -13,14 +14,14 @@ export class StarterService {
   ) {}
 
   async subscribeAll() {
-    const exInfo = await this.usdmClient.getExchangeInfo();
+    const exInfo = await getExchangeInfo();
     for (const {
       symbol,
       contractType,
       quoteAsset,
       status,
       filters,
-    } of exInfo.symbols) {
+    } of exInfo) {
       if (
         contractType !== 'PERPETUAL' ||
         quoteAsset !== 'USDT' ||
