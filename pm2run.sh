@@ -1,8 +1,8 @@
-pm2 --name start-sub start npm -- run start-sub-first
+pm2 --name start-sub-first start npm -- run start-sub-first
 sleep 10
-pm2 --name start-sub start npm -- run start-sub-second
+pm2 --name start-sub-second start npm -- run start-sub-second
 sleep 10
-pm2 --name start-sub start npm -- run start-sub-third
+pm2 --name start-sub-third start npm -- run start-sub-third
 sleep 10
 pm2 --name start-rest start npm -- run start-rest
 sleep 10
