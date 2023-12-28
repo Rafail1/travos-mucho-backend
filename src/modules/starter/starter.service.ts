@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { SymbolPriceFilter, USDMClient } from 'binance';
-import { TradesService } from '../history/trades/trades.service';
-import { StateService } from 'src/state/state.service';
+import { SymbolPriceFilter } from 'binance';
 import { getExchangeInfo } from 'src/exchange-info';
+import { StateService } from 'src/state/state.service';
+import { TradesService } from '../history/trades/trades.service';
 
 @Injectable()
 export class StarterService {
-  private usdmClient = new USDMClient({});
-
   constructor(
     private tradesService: TradesService,
     private stateService: StateService,
   ) {}
 
   async subscribeAll() {
-    const exInfo = await getExchangeInfo();
+    const exInfo = getExchangeInfo();
+    console.log(exInfo.length);
     for (const {
       symbol,
       contractType,
