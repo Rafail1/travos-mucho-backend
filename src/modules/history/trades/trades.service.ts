@@ -14,7 +14,7 @@ const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const BORDER_PERCENTAGE = 0.8;
 const BORDERS_QUEUE_INTERVAL = 1000 * 30;
-const FLUSH_INTERVAL = 1000 * 60 * 2;
+const FLUSH_INTERVAL = 1000 * 60;
 @Injectable()
 export class TradesService {
   private listening = false;
