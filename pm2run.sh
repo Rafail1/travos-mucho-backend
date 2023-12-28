@@ -1,3 +1,4 @@
+npm run build
 pm2 --name start-sub-first start npm -- run start-sub-first
 sleep 10
 pm2 --name start-sub-second start npm -- run start-sub-second
