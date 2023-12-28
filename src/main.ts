@@ -54,6 +54,15 @@ async function bootstrap() {
       console.log('remove-history');
       await app.get(AppService).removeHistoryInterval();
       console.log('remove-history done');
+    } else if (process.argv.includes('start-sub-all')) {
+      console.log('start-sub-all');
+      app
+        .get(AppService)
+        .subscribeAll()
+        .catch((e) => {
+          Logger.error(e);
+          process.exit(1);
+        });
     } else {
       console.log('8080');
       await app.listen(8080);

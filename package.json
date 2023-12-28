@@ -13,6 +13,7 @@
     "start-sub-first": "node --max-old-space-size=1024 dist/main start-sub-first",
     "start-sub-second": "node --max-old-space-size=1024 dist/main start-sub-second",
     "start-sub-third": "node --max-old-space-size=1024 dist/main start-sub-third",
+    "start-sub-all": "node --max-old-space-size=1024 dist/main start-sub-all",
     "start-ob": "node --max-old-space-size=1024 dist/main start-sub-ob",
     "start-rest": "node --max-old-space-size=1024 dist/main",
     "start:dev": "nest start --watch",

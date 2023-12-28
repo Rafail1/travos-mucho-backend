@@ -14,7 +14,7 @@ const AGG_TRADES_BUFFER_LENGTH = 1000;
 const DEPTH_BUFFER_LENGTH = 1000;
 const BORDER_PERCENTAGE = 0.8;
 const BORDERS_QUEUE_INTERVAL = 1000 * 30;
-const FLUSH_INTERVAL = 1000 * 5 * 60;
+const FLUSH_INTERVAL = 1000 * 60 * 2;
 @Injectable()
 export class TradesService {
   private listening = false;
@@ -80,18 +80,18 @@ export class TradesService {
 
     if (prevDepth && prevDepth !== currentDepth.pu) {
       Logger.warn(`sequence broken ${depth.s} ${prevDepth}, ${currentDepth.u}`);
-      this.flushDepth([..._depthBuffer.values()]);
-      _depthBuffer.clear();
-      this.setOrderBook(depth.s, 'sequence broken');
+      // this.flushDepth([..._depthBuffer.values()]);
+      // _depthBuffer.clear();
+      // this.setOrderBook(depth.s, 'sequence broken');
     }
 
     this.prevDepth.set(depth.s, currentDepth.u);
 
     Logger.verbose(`this.depthBuffer: ${_depthBuffer.size}`);
-    if (_depthBuffer.size > DEPTH_BUFFER_LENGTH) {
-      this.flushDepth([..._depthBuffer.values()]);
-      _depthBuffer.clear();
-    }
+    // if (_depthBuffer.size > DEPTH_BUFFER_LENGTH) {
+    //   // this.flushDepth([..._depthBuffer.values()]);
+    //   // _depthBuffer.clear();
+    // }
   }
 
   aggTradesCallback(aggTrade: IAggTrade) {
@@ -141,7 +141,7 @@ export class TradesService {
       }
       const values = [..._depthBuffer.values()];
       _depthBuffer.clear();
-      await this.flushDepth(values);
+      this.flushDepth(values);
     }
   }
 
@@ -152,7 +152,7 @@ export class TradesService {
         continue;
       }
 
-      await this.flushAggTrades(_aggTradesBuffer.splice(0));
+      this.flushAggTrades(_aggTradesBuffer.splice(0));
     }
   }
   /**
