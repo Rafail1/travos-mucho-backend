@@ -1,5 +1,5 @@
 npm run build
-pm2 --name start-sub-first start npm -- run start-sub-all
+pm2 --name start-sub-all start npm -- run start-sub-all
 sleep 30
 pm2 --name start-rest start npm -- run start-rest
 sleep 10
