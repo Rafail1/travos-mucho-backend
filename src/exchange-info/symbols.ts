@@ -41,18 +41,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '120',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '100',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '100', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.0500',
         multiplierDown: '0.9500',
@@ -113,18 +104,9 @@ export const symbols = [
         maxQty: '2000',
         minQty: '0.001',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '20',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '20', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9500',
         multiplierDecimal: '4',
@@ -185,18 +167,9 @@ export const symbols = [
         stepSize: '0.001',
         minQty: '0.001',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '20',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '20', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -257,18 +230,9 @@ export const symbols = [
         maxQty: '2000000',
         minQty: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.0500',
         filterType: 'PERCENT_PRICE',
@@ -329,18 +293,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -401,18 +356,9 @@ export const symbols = [
         minQty: '0.001',
         maxQty: '5000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '20',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '20' },
       {
         multiplierUp: '1.0500',
         filterType: 'PERCENT_PRICE',
@@ -473,18 +419,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '5000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9500',
         filterType: 'PERCENT_PRICE',
@@ -545,18 +482,9 @@ export const symbols = [
         minQty: '0.01',
         stepSize: '0.01',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '20',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '20', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -617,18 +545,9 @@ export const symbols = [
         stepSize: '0.01',
         maxQty: '20000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '20',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '20' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -689,18 +608,9 @@ export const symbols = [
         maxQty: '1000000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9500',
         multiplierUp: '1.0500',
@@ -749,30 +659,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         maxPrice: '20000',
       },
-      {
-        stepSize: '1',
-        minQty: '1',
-        maxQty: '2000000',
-        filterType: 'LOT_SIZE',
-      },
+      { stepSize: '1', minQty: '1', maxQty: '2000000', filterType: 'LOT_SIZE' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '300000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.0500',
         multiplierDecimal: '4',
@@ -833,18 +729,9 @@ export const symbols = [
         maxQty: '2000',
         minQty: '0.001',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -905,18 +792,9 @@ export const symbols = [
         stepSize: '0.001',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -977,18 +855,9 @@ export const symbols = [
         stepSize: '0.001',
         maxQty: '5000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -1049,18 +918,9 @@ export const symbols = [
         minQty: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
@@ -1121,18 +981,9 @@ export const symbols = [
         stepSize: '0.01',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9500',
@@ -1193,18 +1044,9 @@ export const symbols = [
         maxQty: '20000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -1265,18 +1107,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -1337,18 +1170,9 @@ export const symbols = [
         maxQty: '200000',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -1409,18 +1233,9 @@ export const symbols = [
         stepSize: '0.1',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -1481,18 +1296,9 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -1553,18 +1359,9 @@ export const symbols = [
         maxQty: '10000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.0500',
         multiplierDecimal: '4',
@@ -1625,18 +1422,9 @@ export const symbols = [
         stepSize: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -1697,18 +1485,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -1769,18 +1548,9 @@ export const symbols = [
         maxQty: '100000',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -1841,18 +1611,9 @@ export const symbols = [
         maxQty: '500000',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.0500',
@@ -1913,18 +1674,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -1973,30 +1725,16 @@ export const symbols = [
         maxPrice: '181',
         tickSize: '0.00010',
       },
-      {
-        minQty: '1',
-        maxQty: '5000000',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
+      { minQty: '1', maxQty: '5000000', filterType: 'LOT_SIZE', stepSize: '1' },
       {
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '500000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -2057,18 +1795,9 @@ export const symbols = [
         stepSize: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -2129,18 +1858,9 @@ export const symbols = [
         maxQty: '1000',
         stepSize: '0.001',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -2201,18 +1921,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -2273,18 +1984,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '30000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -2345,18 +2047,9 @@ export const symbols = [
         maxQty: '80000',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -2417,18 +2110,9 @@ export const symbols = [
         stepSize: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -2489,18 +2173,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '200000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -2561,18 +2236,9 @@ export const symbols = [
         maxQty: '80000',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -2633,18 +2299,9 @@ export const symbols = [
         minQty: '0.1',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -2705,18 +2362,9 @@ export const symbols = [
         stepSize: '0.001',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -2777,18 +2425,9 @@ export const symbols = [
         maxQty: '50000',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -2849,18 +2488,9 @@ export const symbols = [
         minQty: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.0500',
@@ -2921,18 +2551,9 @@ export const symbols = [
         maxQty: '200',
         minQty: '0.001',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
@@ -2993,18 +2614,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '20',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
@@ -3065,18 +2677,9 @@ export const symbols = [
         maxQty: '20000',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -3137,18 +2740,9 @@ export const symbols = [
         maxQty: '300000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
@@ -3209,18 +2803,9 @@ export const symbols = [
         stepSize: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDecimal: '4',
@@ -3281,18 +2866,9 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -3353,95 +2929,14 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'SRMUSDT',
-    pair: 'SRMUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1668486600000,
-    onboardDate: 1569398400000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'SRM',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 4,
-    quantityPrecision: 0,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['DEX'],
-    settlePlan: 0,
-    triggerProtect: '0.1000',
-    liquidationFee: '0.015000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        maxPrice: '722',
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.0001',
-        minPrice: '0.0920',
-      },
-      {
-        minQty: '1',
-        maxQty: '10000000',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
-      {
-        filterType: 'MARKET_LOT_SIZE',
-        maxQty: '50000',
-        stepSize: '1',
-        minQty: '1',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        multiplierDown: '0.9000',
-        multiplierUp: '1.1000',
-        multiplierDecimal: '4',
-        filterType: 'PERCENT_PRICE',
       },
     ],
     orderTypes: [
@@ -3497,18 +2992,9 @@ export const symbols = [
         maxQty: '2000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -3557,30 +3043,16 @@ export const symbols = [
         minPrice: '0.4200',
         filterType: 'PRICE_FILTER',
       },
-      {
-        maxQty: '1000000',
-        minQty: '1',
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-      },
+      { maxQty: '1000000', minQty: '1', stepSize: '1', filterType: 'LOT_SIZE' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '5000',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.0500',
         multiplierDecimal: '4',
@@ -3641,18 +3113,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -3713,18 +3176,9 @@ export const symbols = [
         maxQty: '300000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -3785,18 +3239,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -3857,18 +3302,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
@@ -3917,30 +3353,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         tickSize: '0.0010',
       },
-      {
-        stepSize: '1',
-        minQty: '1',
-        maxQty: '100000',
-        filterType: 'LOT_SIZE',
-      },
+      { stepSize: '1', minQty: '1', maxQty: '100000', filterType: 'LOT_SIZE' },
       {
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '5000',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -4001,95 +3423,14 @@ export const symbols = [
         maxQty: '250000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'HNTUSDT',
-    pair: 'HNTUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1679302800000,
-    onboardDate: 1569398400000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'HNT',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 4,
-    quantityPrecision: 0,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['Infrastructure'],
-    settlePlan: 0,
-    triggerProtect: '0.1000',
-    liquidationFee: '0.020000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        maxPrice: '1929',
-        minPrice: '0.1660',
-        tickSize: '0.0010',
-      },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        stepSize: '1',
-        maxQty: '10000000',
-      },
-      {
-        filterType: 'MARKET_LOT_SIZE',
-        stepSize: '1',
-        minQty: '1',
-        maxQty: '20000',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
-      {
-        filterType: 'PERCENT_PRICE',
-        multiplierDecimal: '4',
-        multiplierUp: '1.1000',
-        multiplierDown: '0.9000',
       },
     ],
     orderTypes: [
@@ -4145,18 +3486,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -4217,95 +3549,14 @@ export const symbols = [
         minQty: '1',
         maxQty: '1000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'TOMOUSDT',
-    pair: 'TOMOUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1699952400000,
-    onboardDate: 1569398400000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'TOMO',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 4,
-    quantityPrecision: 0,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['Layer-1'],
-    settlePlan: 0,
-    triggerProtect: '0.1000',
-    liquidationFee: '0.015000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        tickSize: '0.0001',
-        minPrice: '0.0250',
-        filterType: 'PRICE_FILTER',
-        maxPrice: '1000',
-      },
-      {
-        stepSize: '1',
-        maxQty: '10000000',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-      },
-      {
-        minQty: '1',
-        stepSize: '1',
-        filterType: 'MARKET_LOT_SIZE',
-        maxQty: '500000',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
-      {
-        multiplierDown: '0.9000',
-        multiplierUp: '1.1000',
-        multiplierDecimal: '4',
-        filterType: 'PERCENT_PRICE',
       },
     ],
     orderTypes: [
@@ -4361,18 +3612,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -4433,18 +3675,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '5000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -4505,18 +3738,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '24000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -4577,18 +3801,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '1250',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -4649,18 +3864,9 @@ export const symbols = [
         stepSize: '0.1',
         maxQty: '7500',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -4721,18 +3927,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -4793,18 +3990,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -4865,18 +4053,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -4937,95 +4116,14 @@ export const symbols = [
         maxQty: '1000000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'CVCUSDT',
-    pair: 'CVCUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1669712400000,
-    onboardDate: 1569398400000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'CVC',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 5,
-    quantityPrecision: 0,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['Infrastructure'],
-    settlePlan: 0,
-    triggerProtect: '0.1000',
-    liquidationFee: '0.025000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.00001',
-        maxPrice: '100',
-        minPrice: '0.00517',
-      },
-      {
-        stepSize: '1',
-        minQty: '1',
-        maxQty: '10000000',
-        filterType: 'LOT_SIZE',
-      },
-      {
-        maxQty: '800000',
-        minQty: '1',
-        filterType: 'MARKET_LOT_SIZE',
-        stepSize: '1',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        filterType: 'PERCENT_PRICE',
-        multiplierUp: '1.1000',
-        multiplierDown: '0.9000',
-        multiplierDecimal: '4',
       },
     ],
     orderTypes: [
@@ -5081,18 +4179,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -5153,18 +4242,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '30000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -5225,18 +4305,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '8000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -5285,30 +4356,16 @@ export const symbols = [
         minPrice: '0.01760',
         filterType: 'PRICE_FILTER',
       },
-      {
-        maxQty: '5000000',
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        stepSize: '1',
-      },
+      { maxQty: '5000000', filterType: 'LOT_SIZE', minQty: '1', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
         maxQty: '500000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -5369,18 +4426,9 @@ export const symbols = [
         maxQty: '4000',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -5441,18 +4489,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '1000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -5501,30 +4540,16 @@ export const symbols = [
         maxPrice: '100',
         minPrice: '0.01398',
       },
-      {
-        minQty: '1',
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '1000000',
-      },
+      { minQty: '1', stepSize: '1', filterType: 'LOT_SIZE', maxQty: '1000000' },
       {
         stepSize: '1',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '150000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -5573,30 +4598,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         tickSize: '0.0001',
       },
-      {
-        stepSize: '1',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '5000000',
-      },
+      { stepSize: '1', minQty: '1', filterType: 'LOT_SIZE', maxQty: '5000000' },
       {
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
         maxQty: '500000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -5657,18 +4668,9 @@ export const symbols = [
         maxQty: '850000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -5729,18 +4731,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -5801,95 +4794,14 @@ export const symbols = [
         maxQty: '10000000',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'BTSUSDT',
-    pair: 'BTSUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1660813200000,
-    onboardDate: 1612076400000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'BTS',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 5,
-    quantityPrecision: 0,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['DEX'],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.025000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        maxPrice: '20000',
-        minPrice: '0.00114',
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.00001',
-      },
-      {
-        maxQty: '10000000',
-        stepSize: '1',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-      },
-      {
-        filterType: 'MARKET_LOT_SIZE',
-        minQty: '1',
-        maxQty: '3000000',
-        stepSize: '1',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        multiplierDecimal: '4',
-        multiplierUp: '1.1000',
-        filterType: 'PERCENT_PRICE',
-        multiplierDown: '0.9000',
       },
     ],
     orderTypes: [
@@ -5945,18 +4857,9 @@ export const symbols = [
         stepSize: '0.1',
         maxQty: '300000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -6017,18 +4920,9 @@ export const symbols = [
         minQty: '0.1',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -6089,18 +4983,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '100000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -6161,18 +5046,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -6221,30 +5097,16 @@ export const symbols = [
         minPrice: '0.0223',
         tickSize: '0.0001',
       },
-      {
-        stepSize: '1',
-        maxQty: '5000000',
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-      },
+      { stepSize: '1', maxQty: '5000000', filterType: 'LOT_SIZE', minQty: '1' },
       {
         minQty: '1',
         maxQty: '300000',
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -6305,94 +5167,13 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
-        multiplierDecimal: '4',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'BTCSTUSDT',
-    pair: 'BTCSTUSDT',
-    contractType: '',
-    deliveryDate: 4133404800000,
-    onboardDate: 1614754800000,
-    status: 'PENDING_TRADING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'BTCST',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 3,
-    quantityPrecision: 1,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['DEFI'],
-    settlePlan: 0,
-    triggerProtect: '0.1500',
-    liquidationFee: '0.040000',
-    marketTakeBound: '0.30',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.001',
-        minPrice: '0.668',
-        maxPrice: '100000',
-      },
-      {
-        minQty: '0.1',
-        stepSize: '0.1',
-        filterType: 'LOT_SIZE',
-        maxQty: '1000000',
-      },
-      {
-        minQty: '0.1',
-        filterType: 'MARKET_LOT_SIZE',
-        maxQty: '1000',
-        stepSize: '0.1',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
-      {
-        multiplierUp: '11500',
-        multiplierDown: '8500',
-        filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
       },
     ],
@@ -6437,30 +5218,16 @@ export const symbols = [
         tickSize: '0.00001',
         maxPrice: '20000',
       },
-      {
-        maxQty: '5000000',
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        stepSize: '1',
-      },
+      { maxQty: '5000000', filterType: 'LOT_SIZE', minQty: '1', stepSize: '1' },
       {
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
         maxQty: '800000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
@@ -6509,30 +5276,16 @@ export const symbols = [
         maxPrice: '100000',
         tickSize: '0.0001',
       },
-      {
-        filterType: 'LOT_SIZE',
-        maxQty: '1000000',
-        minQty: '1',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', maxQty: '1000000', minQty: '1', stepSize: '1' },
       {
         maxQty: '250000',
         stepSize: '1',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -6581,30 +5334,16 @@ export const symbols = [
         minPrice: '0.0136',
         tickSize: '0.0001',
       },
-      {
-        maxQty: '1000000',
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-      },
+      { maxQty: '1000000', stepSize: '1', filterType: 'LOT_SIZE', minQty: '1' },
       {
         maxQty: '100000',
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -6665,18 +5404,9 @@ export const symbols = [
         minQty: '0.1',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -6737,18 +5467,9 @@ export const symbols = [
         maxQty: '1000000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -6809,18 +5530,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
@@ -6881,18 +5593,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -6953,18 +5656,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -7025,18 +5719,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '100000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -7097,18 +5782,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '3000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -7169,18 +5845,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '20000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -7229,30 +5896,16 @@ export const symbols = [
         maxPrice: '100000',
         filterType: 'PRICE_FILTER',
       },
-      {
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '1000000',
-        stepSize: '1',
-      },
+      { minQty: '1', filterType: 'LOT_SIZE', maxQty: '1000000', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '100000',
         stepSize: '1',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -7313,18 +5966,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '1000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -7385,95 +6029,14 @@ export const symbols = [
         maxQty: '500000',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'SCUSDT',
-    pair: 'SCUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1655456400000,
-    onboardDate: 1618210800000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'SC',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 6,
-    quantityPrecision: 0,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['Storage'],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.010000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        minPrice: '0.000368',
-        maxPrice: '2000',
-        tickSize: '0.000001',
-        filterType: 'PRICE_FILTER',
-      },
-      {
-        stepSize: '1',
-        maxQty: '10000000',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-      },
-      {
-        filterType: 'MARKET_LOT_SIZE',
-        stepSize: '1',
-        minQty: '1',
-        maxQty: '5000000',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        multiplierDown: '0.9000',
-        multiplierUp: '1.1000',
-        filterType: 'PERCENT_PRICE',
-        multiplierDecimal: '4',
       },
     ],
     orderTypes: [
@@ -7529,18 +6092,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -7601,18 +6155,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '150000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -7661,30 +6206,16 @@ export const symbols = [
         minPrice: '0.0001',
         filterType: 'PRICE_FILTER',
       },
-      {
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '5000000',
-      },
+      { stepSize: '1', filterType: 'LOT_SIZE', minQty: '1', maxQty: '5000000' },
       {
         minQty: '1',
         maxQty: '500000',
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
@@ -7745,18 +6276,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '150000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -7817,18 +6339,9 @@ export const symbols = [
         minQty: '0.001',
         maxQty: '100',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -7889,18 +6402,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '2000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -7949,107 +6453,21 @@ export const symbols = [
         minPrice: '0.0040',
         maxPrice: '100000',
       },
-      {
-        maxQty: '1000000',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
+      { maxQty: '1000000', minQty: '1', filterType: 'LOT_SIZE', stepSize: '1' },
       {
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '400000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'RAYUSDT',
-    pair: 'RAYUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1668484800000,
-    onboardDate: 1629270000000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'RAY',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 3,
-    quantityPrecision: 1,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['DEX'],
-    settlePlan: 0,
-    triggerProtect: '0.1000',
-    liquidationFee: '0.025000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.001',
-        maxPrice: '100000',
-        minPrice: '0.010',
-      },
-      {
-        maxQty: '500000',
-        stepSize: '0.1',
-        minQty: '0.1',
-        filterType: 'LOT_SIZE',
-      },
-      {
-        filterType: 'MARKET_LOT_SIZE',
-        minQty: '0.1',
-        stepSize: '0.1',
-        maxQty: '5000',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        filterType: 'PERCENT_PRICE',
-        multiplierDown: '0.9000',
-        multiplierUp: '1.1000',
-        multiplierDecimal: '4',
       },
     ],
     orderTypes: [
@@ -8093,30 +6511,16 @@ export const symbols = [
         minPrice: '0.0010',
         tickSize: '0.0001',
       },
-      {
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '2500000',
-        minQty: '1',
-      },
+      { stepSize: '1', filterType: 'LOT_SIZE', maxQty: '2500000', minQty: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
         maxQty: '300000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -8165,30 +6569,16 @@ export const symbols = [
         tickSize: '0.0010',
         filterType: 'PRICE_FILTER',
       },
-      {
-        filterType: 'LOT_SIZE',
-        maxQty: '5000000',
-        stepSize: '1',
-        minQty: '1',
-      },
+      { filterType: 'LOT_SIZE', maxQty: '5000000', stepSize: '1', minQty: '1' },
       {
         maxQty: '40000',
         stepSize: '1',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -8249,18 +6639,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -8321,18 +6702,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '220000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -8393,18 +6765,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -8465,18 +6828,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '1000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -8537,18 +6891,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9500',
@@ -8609,18 +6954,9 @@ export const symbols = [
         maxQty: '40000',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -8681,18 +7017,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.0500',
         filterType: 'PERCENT_PRICE',
@@ -8753,18 +7080,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '5000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -8813,30 +7131,16 @@ export const symbols = [
         tickSize: '0.0001',
         maxPrice: '100000',
       },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '1000000',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', minQty: '1', maxQty: '1000000', stepSize: '1' },
       {
         stepSize: '1',
         maxQty: '700000',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -8897,18 +7201,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -8969,18 +7264,9 @@ export const symbols = [
         maxQty: '10000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1000',
@@ -9041,18 +7327,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -9113,18 +7390,9 @@ export const symbols = [
         maxQty: '50000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9500',
@@ -9185,18 +7453,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
@@ -9257,18 +7516,9 @@ export const symbols = [
         maxQty: '1000000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
@@ -9329,18 +7579,9 @@ export const symbols = [
         maxQty: '150000',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -9389,30 +7630,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         minPrice: '0.0010',
       },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        maxQty: '1000000',
-        minQty: '1',
-      },
+      { filterType: 'LOT_SIZE', stepSize: '1', maxQty: '1000000', minQty: '1' },
       {
         minQty: '1',
         maxQty: '40000',
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.8500',
@@ -9473,18 +7700,9 @@ export const symbols = [
         maxQty: '100000',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
@@ -9545,18 +7763,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
@@ -9605,30 +7814,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         minPrice: '0.0010',
       },
-      {
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '1000000',
-        minQty: '1',
-      },
+      { stepSize: '1', filterType: 'LOT_SIZE', maxQty: '1000000', minQty: '1' },
       {
         stepSize: '1',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '100000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -9689,95 +7884,14 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9000',
         multiplierDecimal: '4',
         multiplierUp: '1.1000',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'FTTUSDT',
-    pair: 'FTTUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1668398400000,
-    onboardDate: 1649919600000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'FTT',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 4,
-    quantityPrecision: 1,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['CEX'],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.025000',
-    marketTakeBound: '0.05',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        minPrice: '0.0010',
-        maxPrice: '100000',
-        tickSize: '0.0001',
-      },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '0.1',
-        minQty: '0.1',
-        maxQty: '1000000',
-      },
-      {
-        filterType: 'MARKET_LOT_SIZE',
-        minQty: '0.1',
-        maxQty: '1000',
-        stepSize: '0.1',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
-      {
-        multiplierUp: '1.0500',
-        filterType: 'PERCENT_PRICE',
-        multiplierDown: '0.9500',
-        multiplierDecimal: '4',
       },
     ],
     orderTypes: [
@@ -9833,18 +7947,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -9905,18 +8010,9 @@ export const symbols = [
         maxQty: '500000',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -9977,18 +8073,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -10049,18 +8136,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '100000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         multiplierUp: '1.1000',
@@ -10121,18 +8199,9 @@ export const symbols = [
         minQty: '0.1',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -10193,18 +8262,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -10265,18 +8325,9 @@ export const symbols = [
         minQty: '0.01',
         stepSize: '0.01',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -10337,18 +8388,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -10409,18 +8451,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -10469,30 +8502,16 @@ export const symbols = [
         maxPrice: '200',
         filterType: 'PRICE_FILTER',
       },
-      {
-        minQty: '1',
-        maxQty: '1000000',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
+      { minQty: '1', maxQty: '1000000', filterType: 'LOT_SIZE', stepSize: '1' },
       {
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '60000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.9000',
@@ -10541,30 +8560,16 @@ export const symbols = [
         tickSize: '0.000100',
         maxPrice: '2000',
       },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '100000',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', minQty: '1', maxQty: '100000', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
         maxQty: '30000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         filterType: 'PERCENT_PRICE',
@@ -10613,30 +8618,16 @@ export const symbols = [
         minPrice: '0.001000',
         filterType: 'PRICE_FILTER',
       },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '100000',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', minQty: '1', maxQty: '100000', stepSize: '1' },
       {
         stepSize: '1',
         maxQty: '4790',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -10685,30 +8676,16 @@ export const symbols = [
         maxPrice: '2000',
         tickSize: '0.001000',
       },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '100000',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', minQty: '1', maxQty: '100000', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '10000',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -10769,18 +8746,9 @@ export const symbols = [
         maxQty: '20000',
         minQty: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDecimal: '4',
@@ -10841,18 +8809,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -10913,18 +8872,9 @@ export const symbols = [
         minQty: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.9000',
         filterType: 'PERCENT_PRICE',
@@ -10985,18 +8935,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1000',
         multiplierDown: '0.9000',
@@ -11057,18 +8998,9 @@ export const symbols = [
         stepSize: '0.1',
         maxQty: '5000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -11129,18 +9061,9 @@ export const symbols = [
         minQty: '0.1',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDecimal: '4',
@@ -11201,18 +9124,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '50000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -11273,18 +9187,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '1000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -11345,18 +9250,9 @@ export const symbols = [
         stepSize: '0.1',
         maxQty: '40000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -11417,18 +9313,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -11489,18 +9376,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.2000',
         filterType: 'PERCENT_PRICE',
@@ -11561,18 +9439,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '600000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDecimal: '4',
@@ -11633,18 +9502,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -11705,18 +9565,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -11777,18 +9628,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '0.01',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -11849,18 +9691,9 @@ export const symbols = [
         maxQty: '150000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
@@ -11921,95 +9754,14 @@ export const symbols = [
         stepSize: '1',
         maxQty: '100000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'COCOSUSDT',
-    pair: 'COCOSUSDT',
-    contractType: 'PERPETUAL',
-    deliveryDate: 1685005200000,
-    onboardDate: 1676876400000,
-    status: 'SETTLING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'COCOS',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 6,
-    quantityPrecision: 1,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['Metaverse'],
-    settlePlan: 0,
-    triggerProtect: '0.1500',
-    liquidationFee: '0.015000',
-    marketTakeBound: '0.15',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        maxPrice: '2000',
-        minPrice: '0.001000',
-        tickSize: '0.001000',
-      },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '0.1',
-        minQty: '0.1',
-        maxQty: '1000000',
-      },
-      {
-        minQty: '0.1',
-        maxQty: '20000',
-        filterType: 'MARKET_LOT_SIZE',
-        stepSize: '0.1',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
-      {
-        multiplierDecimal: '4',
-        filterType: 'PERCENT_PRICE',
-        multiplierDown: '0.8500',
-        multiplierUp: '1.1500',
       },
     ],
     orderTypes: [
@@ -12065,18 +9817,9 @@ export const symbols = [
         maxQty: '40600',
         stepSize: '0.1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -12137,18 +9880,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
@@ -12209,18 +9943,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '0.01',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.8500',
@@ -12281,18 +10006,9 @@ export const symbols = [
         maxQty: '5580000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1500',
@@ -12353,18 +10069,9 @@ export const symbols = [
         stepSize: '0.1',
         maxQty: '34800',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.8500',
@@ -12425,18 +10132,9 @@ export const symbols = [
         maxQty: '500000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -12497,18 +10195,9 @@ export const symbols = [
         maxQty: '40000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierUp: '1.1500',
@@ -12569,18 +10258,9 @@ export const symbols = [
         maxQty: '50000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.9500',
@@ -12641,18 +10321,9 @@ export const symbols = [
         maxQty: '200000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -12713,18 +10384,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '200000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -12785,18 +10447,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '50000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -12857,18 +10510,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -12929,18 +10573,9 @@ export const symbols = [
         maxQty: '1800000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -13001,18 +10636,9 @@ export const symbols = [
         maxQty: '30000000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -13073,18 +10699,9 @@ export const symbols = [
         maxQty: '150000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -13145,18 +10762,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.8500',
@@ -13217,95 +10825,14 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'ETHBTC',
-    pair: 'ETHBTC',
-    contractType: 'PERPETUAL',
-    deliveryDate: 4133404800000,
-    onboardDate: 1684972800000,
-    status: 'TRADING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'ETH',
-    quoteAsset: 'BTC',
-    marginAsset: 'BTC',
-    pricePrecision: 6,
-    quantityPrecision: 2,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: ['Cross Pair'],
-    settlePlan: 0,
-    triggerProtect: '0.1000',
-    liquidationFee: '0.010000',
-    marketTakeBound: '0.10',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        minPrice: '0.000010',
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.000010',
-        maxPrice: '200',
-      },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '0.01',
-        minQty: '0.01',
-        maxQty: '10000',
-      },
-      {
-        minQty: '0.01',
-        maxQty: '5',
-        filterType: 'MARKET_LOT_SIZE',
-        stepSize: '0.01',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '0.001',
-      },
-      {
-        filterType: 'PERCENT_PRICE',
-        multiplierUp: '1.1000',
-        multiplierDecimal: '4',
-        multiplierDown: '0.9000',
       },
     ],
     orderTypes: [
@@ -13361,18 +10888,9 @@ export const symbols = [
         maxQty: '300000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -13433,18 +10951,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -13505,18 +11014,9 @@ export const symbols = [
         maxQty: '200000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -13577,18 +11077,9 @@ export const symbols = [
         maxQty: '2000000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -13649,18 +11140,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '100000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -13721,18 +11203,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.8500',
@@ -13793,18 +11266,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDecimal: '4',
@@ -13865,18 +11329,9 @@ export const symbols = [
         maxQty: '30000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1500',
@@ -13937,18 +11392,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '2466000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -14009,18 +11455,9 @@ export const symbols = [
         minQty: '0.1',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -14081,18 +11518,9 @@ export const symbols = [
         minQty: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -14141,30 +11569,16 @@ export const symbols = [
         tickSize: '0.0001000',
         filterType: 'PRICE_FILTER',
       },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        maxQty: '5000000',
-        minQty: '1',
-      },
+      { filterType: 'LOT_SIZE', stepSize: '1', maxQty: '5000000', minQty: '1' },
       {
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
         maxQty: '120000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -14225,18 +11639,9 @@ export const symbols = [
         maxQty: '200000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -14297,18 +11702,9 @@ export const symbols = [
         maxQty: '1000000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -14357,30 +11753,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0001000',
       },
-      {
-        stepSize: '1',
-        minQty: '1',
-        maxQty: '1250000',
-        filterType: 'LOT_SIZE',
-      },
+      { stepSize: '1', minQty: '1', maxQty: '1250000', filterType: 'LOT_SIZE' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '10000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -14429,30 +11811,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         tickSize: '0.0001000',
       },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        stepSize: '1',
-        maxQty: '3000000',
-      },
+      { filterType: 'LOT_SIZE', minQty: '1', stepSize: '1', maxQty: '3000000' },
       {
         maxQty: '100000',
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         multiplierUp: '1.1500',
@@ -14501,30 +11869,16 @@ export const symbols = [
         minPrice: '0.0001000',
         tickSize: '0.0001000',
       },
-      {
-        maxQty: '5000000',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        minQty: '1',
-      },
+      { maxQty: '5000000', filterType: 'LOT_SIZE', stepSize: '1', minQty: '1' },
       {
         minQty: '1',
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '100000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -14573,30 +11927,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0001000',
       },
-      {
-        filterType: 'LOT_SIZE',
-        maxQty: '5000000',
-        minQty: '1',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', maxQty: '5000000', minQty: '1', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
         maxQty: '30000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -14645,30 +11985,16 @@ export const symbols = [
         minPrice: '0.0001000',
         maxPrice: '200',
       },
-      {
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '3000000',
-        stepSize: '1',
-      },
+      { minQty: '1', filterType: 'LOT_SIZE', maxQty: '3000000', stepSize: '1' },
       {
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '500000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -14729,18 +12055,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -14801,18 +12118,9 @@ export const symbols = [
         maxQty: '30000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.2000',
         multiplierDown: '0.8000',
@@ -14873,18 +12181,9 @@ export const symbols = [
         maxQty: '600000',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
@@ -14945,166 +12244,13 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
-        multiplierDecimal: '4',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'BTCUSDT_231229',
-    pair: 'BTCUSDT',
-    contractType: 'CURRENT_QUARTER',
-    deliveryDate: 1703836800000,
-    onboardDate: 1692360000000,
-    status: 'TRADING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'BTC',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 1,
-    quantityPrecision: 3,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: [],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.010000',
-    marketTakeBound: '0.05',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        minPrice: '576.3',
-        tickSize: '0.1',
-        maxPrice: '1000000',
-        filterType: 'PRICE_FILTER',
-      },
-      {
-        maxQty: '500',
-        stepSize: '0.001',
-        filterType: 'LOT_SIZE',
-        minQty: '0.001',
-      },
-      {
-        minQty: '0.001',
-        stepSize: '0.001',
-        maxQty: '1',
-        filterType: 'MARKET_LOT_SIZE',
-      },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        multiplierDown: '0.9500',
-        multiplierUp: '1.0500',
-        multiplierDecimal: '4',
-        filterType: 'PERCENT_PRICE',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'ETHUSDT_231229',
-    pair: 'ETHUSDT',
-    contractType: 'CURRENT_QUARTER',
-    deliveryDate: 1703836800000,
-    onboardDate: 1692360900000,
-    status: 'TRADING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'ETH',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 2,
-    quantityPrecision: 3,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: [],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.010000',
-    marketTakeBound: '0.05',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        maxPrice: '100000',
-        minPrice: '41.10',
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.01',
-      },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '0.001',
-        maxQty: '10000',
-        minQty: '0.001',
-      },
-      {
-        stepSize: '0.001',
-        filterType: 'MARKET_LOT_SIZE',
-        maxQty: '5',
-        minQty: '0.001',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        multiplierUp: '1.0500',
-        multiplierDown: '0.9500',
-        filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
       },
     ],
@@ -15161,18 +12307,9 @@ export const symbols = [
         maxQty: '10000',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -15233,18 +12370,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -15305,18 +12433,9 @@ export const symbols = [
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierDown: '0.8500',
@@ -15377,18 +12496,9 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -15449,18 +12559,9 @@ export const symbols = [
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -15521,167 +12622,14 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'BTCUSDT_240329',
-    pair: 'BTCUSDT',
-    contractType: 'NEXT_QUARTER',
-    deliveryDate: 1711699200000,
-    onboardDate: 1695974400000,
-    status: 'TRADING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'BTC',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 1,
-    quantityPrecision: 3,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: [],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.010000',
-    marketTakeBound: '0.05',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.1',
-        maxPrice: '1000000',
-        minPrice: '576.3',
-      },
-      {
-        minQty: '0.001',
-        stepSize: '0.001',
-        filterType: 'LOT_SIZE',
-        maxQty: '500',
-      },
-      {
-        stepSize: '0.001',
-        filterType: 'MARKET_LOT_SIZE',
-        minQty: '0.001',
-        maxQty: '1',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
-      {
-        multiplierUp: '1.0500',
-        filterType: 'PERCENT_PRICE',
-        multiplierDecimal: '4',
-        multiplierDown: '0.9500',
-      },
-    ],
-    orderTypes: [
-      'LIMIT',
-      'MARKET',
-      'STOP',
-      'STOP_MARKET',
-      'TAKE_PROFIT',
-      'TAKE_PROFIT_MARKET',
-      'TRAILING_STOP_MARKET',
-    ],
-    timeInForce: ['GTC', 'IOC', 'FOK', 'GTX', 'GTD'],
-  },
-  {
-    symbol: 'ETHUSDT_240329',
-    pair: 'ETHUSDT',
-    contractType: 'NEXT_QUARTER',
-    deliveryDate: 1711699200000,
-    onboardDate: 1695974400000,
-    status: 'TRADING',
-    maintMarginPercent: '2.5000',
-    requiredMarginPercent: '5.0000',
-    baseAsset: 'ETH',
-    quoteAsset: 'USDT',
-    marginAsset: 'USDT',
-    pricePrecision: 2,
-    quantityPrecision: 3,
-    baseAssetPrecision: 8,
-    quotePrecision: 8,
-    underlyingType: 'COIN',
-    underlyingSubType: [],
-    settlePlan: 0,
-    triggerProtect: '0.0500',
-    liquidationFee: '0.010000',
-    marketTakeBound: '0.05',
-    maxMoveOrderLimit: 10000,
-    filters: [
-      {
-        maxPrice: '100000',
-        minPrice: '41.10',
-        filterType: 'PRICE_FILTER',
-        tickSize: '0.01',
-      },
-      {
-        stepSize: '0.001',
-        maxQty: '10000',
-        filterType: 'LOT_SIZE',
-        minQty: '0.001',
-      },
-      {
-        minQty: '0.001',
-        stepSize: '0.001',
-        filterType: 'MARKET_LOT_SIZE',
-        maxQty: '10',
-      },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
-      {
-        multiplierUp: '1.0500',
-        multiplierDown: '0.9500',
-        multiplierDecimal: '4',
-        filterType: 'PERCENT_PRICE',
       },
     ],
     orderTypes: [
@@ -15737,18 +12685,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -15809,18 +12748,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -15869,30 +12799,16 @@ export const symbols = [
         minPrice: '0.0001000',
         filterType: 'PRICE_FILTER',
       },
-      {
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '5000000',
-        stepSize: '1',
-      },
+      { minQty: '1', filterType: 'LOT_SIZE', maxQty: '5000000', stepSize: '1' },
       {
         minQty: '1',
         stepSize: '1',
         maxQty: '300000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -15953,18 +12869,9 @@ export const symbols = [
         maxQty: '10000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -16025,18 +12932,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -16097,18 +12995,9 @@ export const symbols = [
         maxQty: '300000',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -16169,18 +13058,9 @@ export const symbols = [
         maxQty: '300000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -16241,18 +13121,9 @@ export const symbols = [
         maxQty: '1000',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -16313,18 +13184,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -16385,18 +13247,9 @@ export const symbols = [
         maxQty: '200000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -16457,18 +13310,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '20000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8000',
         filterType: 'PERCENT_PRICE',
@@ -16529,18 +13373,9 @@ export const symbols = [
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
@@ -16601,18 +13436,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '10000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -16661,30 +13487,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         maxPrice: '200',
       },
-      {
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        maxQty: '1000000',
-      },
+      { minQty: '1', filterType: 'LOT_SIZE', stepSize: '1', maxQty: '1000000' },
       {
         stepSize: '1',
         maxQty: '25000',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -16745,18 +13557,9 @@ export const symbols = [
         maxQty: '500000',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -16805,30 +13608,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0001000',
       },
-      {
-        maxQty: '1000000',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
+      { maxQty: '1000000', minQty: '1', filterType: 'LOT_SIZE', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
         minQty: '1',
         maxQty: '20000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         multiplierDecimal: '4',
@@ -16889,18 +13678,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '2000000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -16949,30 +13729,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.000100',
       },
-      {
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        maxQty: '1000000',
-      },
+      { minQty: '1', filterType: 'LOT_SIZE', stepSize: '1', maxQty: '1000000' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '30000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -17033,18 +13799,9 @@ export const symbols = [
         minQty: '1',
         maxQty: '500000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -17105,18 +13862,9 @@ export const symbols = [
         minQty: '0.1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -17165,30 +13913,16 @@ export const symbols = [
         minPrice: '0.000100',
         tickSize: '0.000100',
       },
-      {
-        minQty: '1',
-        maxQty: '2000000',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
+      { minQty: '1', maxQty: '2000000', filterType: 'LOT_SIZE', stepSize: '1' },
       {
         minQty: '1',
         maxQty: '200000',
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierUp: '1.1500',
@@ -17237,30 +13971,16 @@ export const symbols = [
         maxPrice: '200',
         minPrice: '0.001000',
       },
-      {
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        maxQty: '1000000',
-        minQty: '1',
-      },
+      { stepSize: '1', filterType: 'LOT_SIZE', maxQty: '1000000', minQty: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         stepSize: '1',
         maxQty: '10000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -17321,18 +14041,9 @@ export const symbols = [
         maxQty: '200',
         stepSize: '0.1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -17381,30 +14092,16 @@ export const symbols = [
         maxPrice: '200',
         minPrice: '0.000100',
       },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        maxQty: '1000000',
-        minQty: '1',
-      },
+      { filterType: 'LOT_SIZE', stepSize: '1', maxQty: '1000000', minQty: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         maxQty: '100000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -17465,18 +14162,9 @@ export const symbols = [
         stepSize: '1',
         maxQty: '2000000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDecimal: '4',
@@ -17525,30 +14213,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         maxPrice: '200',
       },
-      {
-        filterType: 'LOT_SIZE',
-        maxQty: '800000',
-        stepSize: '1',
-        minQty: '1',
-      },
+      { filterType: 'LOT_SIZE', maxQty: '800000', stepSize: '1', minQty: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
         maxQty: '100000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -17609,18 +14283,9 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         multiplierDown: '0.8500',
@@ -17681,18 +14346,9 @@ export const symbols = [
         minQty: '1',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierUp: '1.1500',
@@ -17741,30 +14397,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0001000',
       },
-      {
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-        maxQty: '400000',
-        minQty: '1',
-      },
+      { filterType: 'LOT_SIZE', stepSize: '1', maxQty: '400000', minQty: '1' },
       {
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '70000',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -17813,30 +14455,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0001000',
       },
-      {
-        minQty: '1',
-        stepSize: '1',
-        maxQty: '250000',
-        filterType: 'LOT_SIZE',
-      },
+      { minQty: '1', stepSize: '1', maxQty: '250000', filterType: 'LOT_SIZE' },
       {
         minQty: '1',
         stepSize: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '80000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -17885,30 +14513,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0000100',
       },
-      {
-        minQty: '1',
-        maxQty: '1000000',
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-      },
+      { minQty: '1', maxQty: '1000000', stepSize: '1', filterType: 'LOT_SIZE' },
       {
         filterType: 'MARKET_LOT_SIZE',
         minQty: '1',
         stepSize: '1',
         maxQty: '100000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -17957,30 +14571,16 @@ export const symbols = [
         maxPrice: '200',
         tickSize: '0.0001000',
       },
-      {
-        maxQty: '1000000',
-        minQty: '1',
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-      },
+      { maxQty: '1000000', minQty: '1', stepSize: '1', filterType: 'LOT_SIZE' },
       {
         minQty: '1',
         stepSize: '1',
         maxQty: '15000',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierUp: '1.1500',
@@ -18029,30 +14629,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         minPrice: '0.001000',
       },
-      {
-        maxQty: '50000',
-        minQty: '1',
-        filterType: 'LOT_SIZE',
-        stepSize: '1',
-      },
+      { maxQty: '50000', minQty: '1', filterType: 'LOT_SIZE', stepSize: '1' },
       {
         stepSize: '1',
         maxQty: '17000',
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         multiplierUp: '1.1500',
@@ -18101,30 +14687,16 @@ export const symbols = [
         tickSize: '0.000100',
         filterType: 'PRICE_FILTER',
       },
-      {
-        stepSize: '1',
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '1000000',
-      },
+      { stepSize: '1', filterType: 'LOT_SIZE', minQty: '1', maxQty: '1000000' },
       {
         minQty: '1',
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '10000',
         stepSize: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         multiplierDecimal: '4',
@@ -18185,18 +14757,9 @@ export const symbols = [
         stepSize: '1',
         minQty: '1',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -18257,18 +14820,9 @@ export const symbols = [
         stepSize: '0.01',
         maxQty: '1000',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',
@@ -18317,30 +14871,16 @@ export const symbols = [
         filterType: 'PRICE_FILTER',
         maxPrice: '200',
       },
-      {
-        filterType: 'LOT_SIZE',
-        minQty: '1',
-        maxQty: '1000000',
-        stepSize: '1',
-      },
+      { filterType: 'LOT_SIZE', minQty: '1', maxQty: '1000000', stepSize: '1' },
       {
         filterType: 'MARKET_LOT_SIZE',
         maxQty: '75000',
         stepSize: '1',
         minQty: '1',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         filterType: 'PERCENT_PRICE',
         multiplierDown: '0.8500',
@@ -18401,18 +14941,9 @@ export const symbols = [
         minQty: '0.01',
         maxQty: '2200',
       },
-      {
-        limit: 200,
-        filterType: 'MAX_NUM_ORDERS',
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { limit: 200, filterType: 'MAX_NUM_ORDERS' },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierUp: '1.1500',
         filterType: 'PERCENT_PRICE',
@@ -18473,18 +15004,9 @@ export const symbols = [
         minQty: '0.01',
         stepSize: '0.01',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        limit: 10,
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-      },
-      {
-        notional: '5',
-        filterType: 'MIN_NOTIONAL',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { limit: 10, filterType: 'MAX_NUM_ALGO_ORDERS' },
+      { notional: '5', filterType: 'MIN_NOTIONAL' },
       {
         multiplierDown: '0.8500',
         filterType: 'PERCENT_PRICE',
@@ -18545,18 +15067,9 @@ export const symbols = [
         minQty: '0.1',
         maxQty: '30000',
       },
-      {
-        filterType: 'MAX_NUM_ORDERS',
-        limit: 200,
-      },
-      {
-        filterType: 'MAX_NUM_ALGO_ORDERS',
-        limit: 10,
-      },
-      {
-        filterType: 'MIN_NOTIONAL',
-        notional: '5',
-      },
+      { filterType: 'MAX_NUM_ORDERS', limit: 200 },
+      { filterType: 'MAX_NUM_ALGO_ORDERS', limit: 10 },
+      { filterType: 'MIN_NOTIONAL', notional: '5' },
       {
         multiplierDecimal: '4',
         filterType: 'PERCENT_PRICE',

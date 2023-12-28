@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { firstValueFrom, interval } from 'rxjs';
 import { DatabaseService } from '../database/database.service';
 import { Snapshot } from '../websocket/websocket.service';
+import { getExchangeInfo } from 'src/exchange-info';
 
 const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
@@ -23,10 +24,7 @@ export class OrderBookService {
   }
 
   async setObToAll() {
-    const exInfo = await firstValueFrom(
-      this.httpService.get(`${this.proxyUrl}/rest/binance/exchange-info.php`),
-    );
-    const symbols = exInfo.data.symbols || [];
+    const symbols = getExchangeInfo() || [];
     Logger.debug(`symbols length: ${symbols.length}`);
     for (const { symbol, contractType, quoteAsset, status } of symbols) {
       if (
