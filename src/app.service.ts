@@ -3,6 +3,7 @@ import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 import { Prisma } from '@prisma/client';
 import { getExchangeInfo } from './exchange-info';
+import { QueryTypes } from 'sequelize';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
 const saveHistoryFor = '24h';
@@ -105,15 +106,16 @@ export class AppService {
 
   async getCluster(symbol: string, time: Date) {
     const from = new Date(time.getTime() - CLUSTER_WINDOW);
-    const clusters = await this.databaseService.$queryRaw`
-    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", ${new Date(
-      from,
-    )}) AS min5_slot
+    const clusters = await this.databaseService.query(
+      `
+    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", :from) AS min5_slot
     FROM feautures."AggTrades"
-    WHERE s = ${symbol}
-    AND "E" >= ${from.toISOString()}::timestamp
-    AND "E" <= ${time.toISOString()}::timestamp
-    GROUP BY min5_slot, p, m`;
+    WHERE s = :symbol
+    AND "E" >= :from
+    AND "E" <= :time
+    GROUP BY min5_slot, p, m`,
+      { type: QueryTypes.SELECT, replacements: { symbol, from, time } },
+    );
     return clusters;
   }
 
@@ -130,22 +132,32 @@ export class AppService {
       for (const { symbol: s } of symbols) {
         Logger.debug(`removeHistory for ${s}`);
 
-        await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."AggTrades"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
+          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+        );
         Logger.debug(`removeHistory from DepthUpdates`);
 
-        await this.databaseService
-          .$executeRaw`DELETE FROM feautures."DepthUpdates"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."DepthUpdates"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
+          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+        );
         Logger.debug(`removeHistory from OrderBookSnapshot`);
 
-        await this.databaseService
-          .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND symbol = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."OrderBookSnapshot"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND symbol = :s`,
+          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+        );
         Logger.debug(`removeHistory from Borders`);
 
-        await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."Borders"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
+          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+        );
         Logger.debug(`removeHistory for ${s} done`);
       }
 

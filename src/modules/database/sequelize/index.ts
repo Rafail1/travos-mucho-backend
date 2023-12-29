@@ -6,7 +6,8 @@ import { initDepthUpdates } from './models/depth-updates';
 import { Logger } from '@nestjs/common';
 
 export const sequelize = new Sequelize(
-  'postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos',
+  process.env.DATABASE_URL ||
+    'postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos',
 );
 
 export async function initDB() {

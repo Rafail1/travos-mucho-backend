@@ -36,6 +36,23 @@ export function initAggTrades(sequelize: Sequelize) {
     {
       sequelize,
       modelName: 'agg_trades',
+      indexes: [
+        {
+          unique: true,
+          fields: ['s', 'a'],
+        },
+        {
+          name: 'time_index',
+          using: 'BTREE',
+          fields: [
+            'E',
+            {
+              name: 'time',
+              order: 'ASC',
+            },
+          ],
+        },
+      ],
     },
   );
 }

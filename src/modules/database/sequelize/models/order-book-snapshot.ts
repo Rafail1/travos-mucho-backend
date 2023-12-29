@@ -1,6 +1,12 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
-export class OrderBookSnapshot extends Model {}
+export class OrderBookSnapshot extends Model {
+  lastUpdateId: bigint;
+  asks: Array<[string, string]>;
+  bids: Array<[string, string]>;
+  E: Date;
+  symbol: string;
+}
 
 // @@unique([symbol, E])
 export function initOrderBookSnapshot(sequelize: Sequelize) {
@@ -30,6 +36,23 @@ export function initOrderBookSnapshot(sequelize: Sequelize) {
     {
       sequelize,
       modelName: 'order_book_snapshot',
+      indexes: [
+        {
+          unique: true,
+          fields: ['symbol', 'E'],
+        },
+        {
+          name: 'time_index',
+          using: 'BTREE',
+          fields: [
+            'E',
+            {
+              name: 'time',
+              order: 'DESC',
+            },
+          ],
+        },
+      ],
     },
   );
 }
