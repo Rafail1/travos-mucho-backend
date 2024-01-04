@@ -75,8 +75,8 @@ export class DatabaseService implements OnModuleInit {
         });
         from = partitionTo;
       }
-      process.exit(0);
     }
+    process.exit(0);
   }
 
   async createPartition({
