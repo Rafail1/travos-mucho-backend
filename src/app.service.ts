@@ -109,12 +109,11 @@ export class AppService {
     const clusters = await this.databaseService.query(
       `
     SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", :from) AS min5_slot
-    FROM feautures."AggTrades"
-    WHERE s = :symbol
-    AND "E" >= :from
+    FROM feautures."AggTrades_${symbol}"
+    WHERE "E" >= :from
     AND "E" <= :time
     GROUP BY min5_slot, p, m`,
-      { type: QueryTypes.SELECT, replacements: { symbol, from, time } },
+      { type: QueryTypes.SELECT, replacements: { from, time } },
     );
     return clusters;
   }
@@ -133,23 +132,23 @@ export class AppService {
         Logger.debug(`removeHistory for ${s}`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."AggTrades"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
-          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+          `DELETE FROM feautures."AggTrades_${s}"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
+          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
         );
         Logger.debug(`removeHistory from DepthUpdates`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."DepthUpdates"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
-          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+          `DELETE FROM feautures."DepthUpdates_${s}"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
+          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
         );
         Logger.debug(`removeHistory from OrderBookSnapshot`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."OrderBookSnapshot"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND symbol = :s`,
-          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+          `DELETE FROM feautures."OrderBookSnapshot_${s}"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
+          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
         );
         Logger.debug(`removeHistory from Borders`);
 
