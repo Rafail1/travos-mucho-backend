@@ -7,7 +7,7 @@ import { Logger } from '@nestjs/common';
 
 export const sequelize = new Sequelize(
   process.env.DATABASE_URL ||
-    'postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos',
+    'postgresql://postgres:postgres@localhost:5432/travos-muchos',
 );
 
 export async function initDB() {
@@ -20,6 +20,7 @@ export async function initDB() {
     initDepthUpdates(sequelize);
     Logger.log('Connection has been established successfully.');
   } catch (error) {
+    console.error(error);
     Logger.error('Unable to connect to the database:', error);
   }
 }

@@ -21,10 +21,12 @@ model OrderBookSnapshot {
 }
 
 model DepthUpdates {
-  E DateTime
-  s String
-  b Json
-  a Json
+  E  DateTime
+  s  String
+  b  Json
+  a  Json
+  u  BigInt
+  pu BigInt
 
   @@unique([s, E])
   @@index([s, E])

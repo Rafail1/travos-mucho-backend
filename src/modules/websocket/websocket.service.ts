@@ -77,6 +77,8 @@ export class Depth {
       b: b.map((item) => [Number(item[0]), Number(item[1])]),
       s,
       E: new Date(E),
+      u,
+      pu,
     };
   }
 }
