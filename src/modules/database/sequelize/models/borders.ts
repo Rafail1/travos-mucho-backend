@@ -29,7 +29,7 @@ export function initBorders(sequelize: Sequelize) {
     },
     {
       sequelize,
-      modelName: 'borders',
+      modelName: 'Borders',
     },
   );
 }
