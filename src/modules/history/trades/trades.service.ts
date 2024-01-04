@@ -108,7 +108,7 @@ export class TradesService {
     // this.checkBorders(aggTrade);
     this.prices.set(aggTrade.s, Number(aggTrade.p));
     if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
-      this.flushAggTrades(_aggTradesBuffer.splice(0));
+      this.flushAggTrades(_aggTradesBuffer.splice(0), aggTrade.s);
     }
   }
 
@@ -153,22 +153,23 @@ export class TradesService {
         continue;
       }
 
-      this.flushAggTrades(_aggTradesBuffer.splice(0));
+      this.flushAggTrades(_aggTradesBuffer.splice(0), symbol);
     }
   }
   /**
    *
    * @param buffer splice of buffer (don't need to splice it again)
    */
-  private async flushAggTrades(buffer: any[]) {
+  private async flushAggTrades(buffer: any[], symbol: string) {
     try {
       Logger.verbose('flushAggTrades');
       while (buffer.length) {
         const data = buffer.splice(0, 20).map((item) => {
-          return `('${item.a}', '${item.E}', '${item.p}', '${item.q}', ${item.m})`;
+          return `('${item.a}', '${item.E.toISOString()}',
+          '${item.p}', '${item.q}', ${item.m})`;
         });
         await this.databaseService.query(
-          `INSERT INTO public."AggTrades_RLCUSDT"(
+          `INSERT INTO public."AggTrades_${symbol}"(
             a, "E", p, q, m)
             VALUES ${data.join(',')}`,
           {},
@@ -188,7 +189,7 @@ export class TradesService {
       Logger.verbose('flushDepth');
       while (buffer.length) {
         const data = buffer.splice(0, 20).map((item) => {
-          return `('${item.fields.E}',
+          return `('${item.fields.E.toISOString()}',
            '${JSON.stringify(item.fields.b)}, 
            '${JSON.stringify(item.fields.a)}',
           '${item.fields.u}',
