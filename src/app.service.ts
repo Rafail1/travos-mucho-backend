@@ -39,31 +39,27 @@ export class AppService {
   }
 
   async getAggTradesHistory(symbol: string, time: Date) {
-    const result = await this.databaseService.aggTrades.findAll({
-      where: {
-        AND: [
-          {
-            E: { gte: time },
-          },
-          {
-            E: { lt: new Date(time.getTime() + TIME_WINDOW) },
-          },
-        ],
-        s: symbol,
+    const result = await this.databaseService.query(
+      `SELECT * FROM "AggTrades_${symbol}" WHERE "E" >= :time AND "E" < :timeTo`,
+      {
+        replacements: { time, timeTo: new Date(time.getTime() + TIME_WINDOW) },
+        type: QueryTypes.SELECT,
       },
-    });
+    );
     return result;
   }
 
   async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
     try {
-      return this.databaseService.depthUpdates.findAll({
-        where: {
-          s: symbol,
-          AND: [{ E: { gte: timeFrom } }, { E: { lt: timeTo } }],
+      const result = await this.databaseService.query(
+        `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" >= :timeFrom AND "E" < :timeTo ORDER BY "E" ASC`,
+        {
+          replacements: { timeFrom, timeTo },
+          type: QueryTypes.SELECT,
         },
-        order: ['E', 'asc'],
-      });
+      );
+
+      return result;
     } catch (e) {
       return [];
     }
@@ -181,13 +177,14 @@ export class AppService {
   }
 
   private getSnapshot(symbol: string, time: Date) {
-    return this.databaseService.orderBookSnapshot.findOne({
-      where: {
-        E: { lte: time },
-        symbol,
+    const result = await this.databaseService.query(
+      `SELECT * FROM "OrderBookSnapshot_${symbol}" WHERE "E" < :time ORDER BY "lastUpdateId" DESC LIMIT 1`,
+      {
+        replacements: { time },
+        type: QueryTypes.SELECT,
       },
-      order: ['lastUpdateId', 'desc'],
-    });
+    );
+    return result[0];
   }
 
   private checkConsistency(
