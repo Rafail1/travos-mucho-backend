@@ -43,28 +43,32 @@ export interface IAggTrade {
 }
 
 export interface IDepth {
-  /** Event type // depthUpdate */
-  e: string;
   /** Event time */
-  E: number; // Event time
-  /** Transaction time */
-  T: number;
+  E: Date; // Event time
   /**Symbol */
   s: string;
-  /** First update ID in event */
-  U: number;
   /**Final update ID in event */
   u: number;
   /** Final update Id in last stream(ie `u` in last stream) */
   pu: number;
   /**  Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]*/
-  b: Array<[string, string]>;
+  b: Array<[number, number]>;
   /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */
-  a: Array<[string, string]>;
+  a: Array<[number, number]>;
+}
+
+export interface ISnapsoht {
+  lastUpdateId: bigint | number;
+  symbol: string;
+  E: Date | string;
+  /**  Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]*/
+  bids: Array<[number, number]>;
+  /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */
+  asks: Array<[number, number]>;
 }
 
 export class Depth {
-  public fields: Prisma.DepthUpdatesCreateInput;
+  public fields: IDepth;
   u: number;
   pu: number;
 
@@ -84,15 +88,14 @@ export class Depth {
 }
 
 export class Snapshot {
-  public fields: Prisma.OrderBookSnapshotCreateInput;
+  public fields: ISnapsoht;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(symbol: string, data: any) {
+  constructor(symbol: string, data: ISnapsoht) {
     this.fields = {
       symbol,
       ...data,
       E: new Date(data.E),
-      T: new Date(data.T),
     };
   }
 }

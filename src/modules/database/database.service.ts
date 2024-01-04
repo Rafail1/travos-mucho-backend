@@ -1,18 +1,13 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { initDB, sequelize } from './sequelize';
-import { AggTrades } from './sequelize/models/agg-trades';
 import { Borders } from './sequelize/models/borders';
-import { DepthUpdates } from './sequelize/models/depth-updates';
-import { OrderBookSnapshot } from './sequelize/models/order-book-snapshot';
 import { getExchangeInfo } from 'src/exchange-info';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
-  public aggTrades = AggTrades;
   public borders = Borders;
-  public orderBookSnapshot = OrderBookSnapshot;
-  public depthUpdates = DepthUpdates;
-  public query = (sql, params?) => sequelize.query(sql, params);
+  public query = <T extends object>(sql, params?) =>
+    sequelize.query<T>(sql, params);
   async onModuleInit() {
     await initDB();
   }

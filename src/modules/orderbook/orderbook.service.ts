@@ -55,7 +55,18 @@ export class OrderBookService {
               if (!data) {
                 return resolve(null);
               }
-              await this.databaseService.orderBookSnapshot.create(data);
+
+              await this.databaseService.query(
+                `INSERT INTO public."OrderBookSnapshot_${symbol}"
+                ("lastUpdateId", "E", bids, asks)
+                VALUES (
+                  '${data.lastUpdateId}',
+                  '${data.E}',
+                  '${JSON.stringify(data.bids)}',
+                  '${JSON.stringify(data.asks)}'
+                );`,
+                {},
+              );
 
               if (!data.bids.length || !data.asks.length) {
                 Logger.warn(`symbol ${symbol} have empty borders`);

@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { QueryTypes } from 'sequelize';
+import { getExchangeInfo } from './exchange-info';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
-import { Prisma } from '@prisma/client';
-import { getExchangeInfo } from './exchange-info';
-import { QueryTypes } from 'sequelize';
+import { IDepth, ISnapsoht } from './modules/websocket/websocket.service';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
 const saveHistoryFor = '24h';
@@ -51,7 +51,7 @@ export class AppService {
 
   async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
     try {
-      const result = await this.databaseService.query(
+      const result = await this.databaseService.query<IDepth[]>(
         `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" >= :timeFrom AND "E" < :timeTo ORDER BY "E" ASC`,
         {
           replacements: { timeFrom, timeTo },
@@ -73,7 +73,7 @@ export class AppService {
       return {};
     }
 
-    const timeFrom = snapshot.E;
+    const timeFrom = new Date(snapshot.E);
     const depth = await this.getDepthUpdates(
       symbol,
       timeFrom,
@@ -176,8 +176,8 @@ export class AppService {
     });
   }
 
-  private getSnapshot(symbol: string, time: Date) {
-    const result = await this.databaseService.query(
+  private async getSnapshot(symbol: string, time: Date) {
+    const result = await this.databaseService.query<ISnapsoht[]>(
       `SELECT * FROM "OrderBookSnapshot_${symbol}" WHERE "E" < :time ORDER BY "lastUpdateId" DESC LIMIT 1`,
       {
         replacements: { time },

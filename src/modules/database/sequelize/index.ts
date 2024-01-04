@@ -1,8 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { initOrderBookSnapshot } from './models/order-book-snapshot';
 import { initBorders } from './models/borders';
-import { initAggTrades } from './models/agg-trades';
-import { initDepthUpdates } from './models/depth-updates';
 import { Logger } from '@nestjs/common';
 
 export const sequelize = new Sequelize(
@@ -14,10 +11,7 @@ export async function initDB() {
   try {
     Logger.debug('Init DB start');
     await sequelize.authenticate();
-    initOrderBookSnapshot(sequelize);
     initBorders(sequelize);
-    initAggTrades(sequelize);
-    initDepthUpdates(sequelize);
     Logger.log('Connection has been established successfully.');
   } catch (error) {
     console.error(error);

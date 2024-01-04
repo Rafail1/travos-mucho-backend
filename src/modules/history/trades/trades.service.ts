@@ -21,7 +21,7 @@ export class TradesService {
   private prices = new Map<string, number>();
   private borders = new Map<string, { min: number; max: number }>();
   private subscribedSymbols = new Set();
-  private depthBuffer = new Map<string, Map<number, Depth>>();
+  private depthBuffer = new Map<string, Map<Date, Depth>>();
   private aggTradesBuffer = new Map<string, any>();
   private prevDepth = new Map<string, number>();
 
@@ -141,7 +141,7 @@ export class TradesService {
       }
       const values = [..._depthBuffer.values()];
       _depthBuffer.clear();
-      this.flushDepth(values);
+      this.flushDepth(values, symbol);
     }
   }
 
@@ -162,7 +162,17 @@ export class TradesService {
   private async flushAggTrades(buffer: any[]) {
     try {
       Logger.verbose('flushAggTrades');
-      await this.databaseService.aggTrades.bulkCreate(buffer);
+      while (buffer.length) {
+        const data = buffer.splice(0, 20).map((item) => {
+          return `('${item.fields.a}', '${item.fields.E}', '${item.fields.p}', '${item.fields.q}', ${item.fields.m})`;
+        });
+        await this.databaseService.query(
+          `INSERT INTO public."AggTrades_RLCUSDT"(
+            a, "E", p, q, m)
+            VALUES ${data.join(',')}`,
+          {},
+        );
+      }
     } catch (e) {
       Logger.error(`flushAggTrades error ${e?.message}`);
     }
@@ -172,12 +182,24 @@ export class TradesService {
    *
    * @param buffer splice of buffer (don't need to splice it again)
    */
-  private async flushDepth(buffer: Depth[]) {
+  private async flushDepth(buffer: Depth[], symbol: string) {
     try {
       Logger.verbose('flushDepth');
-      await this.databaseService.depthUpdates.bulkCreate(
-        buffer.map((item) => item.fields),
-      );
+      while (buffer.length) {
+        const data = buffer.splice(0, 20).map((item) => {
+          return `('${item.fields.E}',
+           '${JSON.stringify(item.fields.b)}, 
+           '${JSON.stringify(item.fields.a)}',
+          '${item.fields.u}',
+          '${item.fields.pu}')`;
+        });
+        await this.databaseService.query(
+          `INSERT INTO public."DepthUpdates_${symbol}"(
+          "E", b, a, u, pu)
+          VALUES ${data.join(',')}`,
+          {},
+        );
+      }
     } catch (e) {
       Logger.error(`flushDepth error ${e?.message}`);
     }
