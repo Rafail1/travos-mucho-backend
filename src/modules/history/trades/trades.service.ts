@@ -21,7 +21,7 @@ export class TradesService {
   private prices = new Map<string, number>();
   private borders = new Map<string, { min: number; max: number }>();
   private subscribedSymbols = new Set();
-  private depthBuffer = new Map<string, Map<number, Depth>>();
+  private depthBuffer = new Map<string, Map<Date, Depth>>();
   private aggTradesBuffer = new Map<string, any>();
   private prevDepth = new Map<string, number>();
 
@@ -104,34 +104,34 @@ export class TradesService {
     _aggTradesBuffer.push(new AggTrade(aggTrade).fields);
 
     Logger.verbose(`this.aggTradesBuffer: ${_aggTradesBuffer.length}`);
-    this.checkBorders(aggTrade);
+    // this.checkBorders(aggTrade);
     this.prices.set(aggTrade.s, Number(aggTrade.p));
     if (_aggTradesBuffer.length > AGG_TRADES_BUFFER_LENGTH) {
       this.flushAggTrades(_aggTradesBuffer.splice(0));
     }
   }
 
-  private checkBorders(aggTrade: IAggTrade) {
-    if (this.borders[aggTrade.s]) {
-      const topBorderIdx = Math.floor(
-        this.borders[aggTrade.s].max.length * BORDER_PERCENTAGE,
-      );
+  // private checkBorders(aggTrade: IAggTrade) {
+  //   if (this.borders[aggTrade.s]) {
+  //     const topBorderIdx = Math.floor(
+  //       this.borders[aggTrade.s].max.length * BORDER_PERCENTAGE,
+  //     );
 
-      const lowBorderIdx = Math.floor(
-        this.borders[aggTrade.s].min.length * BORDER_PERCENTAGE,
-      );
+  //     const lowBorderIdx = Math.floor(
+  //       this.borders[aggTrade.s].min.length * BORDER_PERCENTAGE,
+  //     );
 
-      if (
-        Number(aggTrade.p) >
-          Number(this.borders[aggTrade.s].max[topBorderIdx][0]) ||
-        Number(aggTrade.p) <
-          Number(this.borders[aggTrade.s].min[lowBorderIdx][0])
-      ) {
-        Logger.debug('out of borders');
-        this.setOrderBook(aggTrade.s, 'out of borders');
-      }
-    }
-  }
+  //     if (
+  //       Number(aggTrade.p) >
+  //         Number(this.borders[aggTrade.s].max[topBorderIdx][0]) ||
+  //       Number(aggTrade.p) <
+  //         Number(this.borders[aggTrade.s].min[lowBorderIdx][0])
+  //     ) {
+  //       Logger.debug('out of borders');
+  //       this.setOrderBook(aggTrade.s, 'out of borders');
+  //     }
+  //   }
+  // }
 
   async flushFullDepth() {
     for (const symbol of this.depthBuffer.keys()) {
@@ -141,7 +141,7 @@ export class TradesService {
       }
       const values = [..._depthBuffer.values()];
       _depthBuffer.clear();
-      this.flushDepth(values);
+      this.flushDepth(values, symbol);
     }
   }
 
@@ -162,7 +162,17 @@ export class TradesService {
   private async flushAggTrades(buffer: any[]) {
     try {
       Logger.verbose('flushAggTrades');
-      await this.databaseService.aggTrades.createMany({ data: buffer });
+      while (buffer.length) {
+        const data = buffer.splice(0, 20).map((item) => {
+          return `('${item.fields.a}', '${item.fields.E}', '${item.fields.p}', '${item.fields.q}', ${item.fields.m})`;
+        });
+        await this.databaseService.query(
+          `INSERT INTO public."AggTrades_RLCUSDT"(
+            a, "E", p, q, m)
+            VALUES ${data.join(',')}`,
+          {},
+        );
+      }
     } catch (e) {
       Logger.error(`flushAggTrades error ${e?.message}`);
     }
@@ -172,12 +182,24 @@ export class TradesService {
    *
    * @param buffer splice of buffer (don't need to splice it again)
    */
-  private async flushDepth(buffer: Depth[]) {
+  private async flushDepth(buffer: Depth[], symbol: string) {
     try {
       Logger.verbose('flushDepth');
-      await this.databaseService.depthUpdates.createMany({
-        data: buffer.map((item) => item.fields),
-      });
+      while (buffer.length) {
+        const data = buffer.splice(0, 20).map((item) => {
+          return `('${item.fields.E}',
+           '${JSON.stringify(item.fields.b)}, 
+           '${JSON.stringify(item.fields.a)}',
+          '${item.fields.u}',
+          '${item.fields.pu}')`;
+        });
+        await this.databaseService.query(
+          `INSERT INTO public."DepthUpdates_${symbol}"(
+          "E", b, a, u, pu)
+          VALUES ${data.join(',')}`,
+          {},
+        );
+      }
     } catch (e) {
       Logger.error(`flushDepth error ${e?.message}`);
     }
@@ -214,11 +236,11 @@ export class TradesService {
 
   private listenBorders(symbol: string) {
     interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
-      const borders = await this.databaseService.borders.findFirst({
+      const borders = await this.databaseService.borders.findOne({
         where: {
           s: symbol,
         },
-        orderBy: [{ E: 'desc' }],
+        order: ['E', 'desc'],
       });
 
       if (!borders) {

@@ -1,7 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { QueryTypes } from 'sequelize';
+import { getExchangeInfo } from './exchange-info';
 import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
-import { Prisma } from '@prisma/client';
+import { IDepth, ISnapsoht } from './modules/websocket/websocket.service';
 export const TIME_WINDOW = 1000 * 30;
 const CLUSTER_WINDOW = 1000 * 60 * 5;
 const saveHistoryFor = '24h';
@@ -37,31 +39,27 @@ export class AppService {
   }
 
   async getAggTradesHistory(symbol: string, time: Date) {
-    const result = await this.databaseService.aggTrades.findMany({
-      where: {
-        AND: [
-          {
-            E: { gte: time },
-          },
-          {
-            E: { lt: new Date(time.getTime() + TIME_WINDOW) },
-          },
-        ],
-        s: symbol,
+    const result = await this.databaseService.query(
+      `SELECT * FROM "AggTrades_${symbol}" WHERE "E" >= :time AND "E" < :timeTo`,
+      {
+        replacements: { time, timeTo: new Date(time.getTime() + TIME_WINDOW) },
+        type: QueryTypes.SELECT,
       },
-    });
+    );
     return result;
   }
 
   async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
     try {
-      return this.databaseService.depthUpdates.findMany({
-        where: {
-          s: symbol,
-          AND: [{ E: { gte: timeFrom } }, { E: { lt: timeTo } }],
+      const result = await this.databaseService.query<IDepth[]>(
+        `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" >= :timeFrom AND "E" < :timeTo ORDER BY "E" ASC`,
+        {
+          replacements: { timeFrom, timeTo },
+          type: QueryTypes.SELECT,
         },
-        orderBy: { E: 'asc' },
-      });
+      );
+
+      return result;
     } catch (e) {
       return [];
     }
@@ -75,7 +73,7 @@ export class AppService {
       return {};
     }
 
-    const timeFrom = snapshot.E;
+    const timeFrom = new Date(snapshot.E);
     const depth = await this.getDepthUpdates(
       symbol,
       timeFrom,
@@ -104,49 +102,57 @@ export class AppService {
 
   async getCluster(symbol: string, time: Date) {
     const from = new Date(time.getTime() - CLUSTER_WINDOW);
-    const clusters = await this.databaseService.$queryRaw`
-    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", ${new Date(
-      from,
-    )}) AS min5_slot
-    FROM feautures."AggTrades"
-    WHERE s = ${symbol}
-    AND "E" >= ${from.toISOString()}::timestamp
-    AND "E" <= ${time.toISOString()}::timestamp
-    GROUP BY min5_slot, p, m`;
+    const clusters = await this.databaseService.query(
+      `
+    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", :from) AS min5_slot
+    FROM feautures."AggTrades_${symbol}"
+    WHERE "E" >= :from
+    AND "E" <= :time
+    GROUP BY min5_slot, p, m`,
+      { type: QueryTypes.SELECT, replacements: { from, time } },
+    );
     return clusters;
   }
 
   private async removeHistory() {
     try {
       Logger.debug(`removeHistory from AggTrades`);
-      const symbols = await this.databaseService.borders.findMany({
-        distinct: Prisma.BordersScalarFieldEnum.s,
-      });
+      const symbols = getExchangeInfo();
       Logger.debug(
         `removeHistory symbols length ${
           symbols.length
         }, first: ${JSON.stringify(symbols[0] || '')}`,
       );
 
-      for (const { s } of symbols) {
+      for (const { symbol: s } of symbols) {
         Logger.debug(`removeHistory for ${s}`);
 
-        await this.databaseService.$executeRaw`DELETE FROM feautures."AggTrades"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."AggTrades_${s}"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
+          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
+        );
         Logger.debug(`removeHistory from DepthUpdates`);
 
-        await this.databaseService
-          .$executeRaw`DELETE FROM feautures."DepthUpdates"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."DepthUpdates_${s}"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
+          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
+        );
         Logger.debug(`removeHistory from OrderBookSnapshot`);
 
-        await this.databaseService
-          .$executeRaw`DELETE FROM feautures."OrderBookSnapshot"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND symbol = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."OrderBookSnapshot_${s}"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
+          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
+        );
         Logger.debug(`removeHistory from Borders`);
 
-        await this.databaseService.$executeRaw`DELETE FROM feautures."Borders"
-          WHERE "E" < now() at time zone 'utc' - ${saveHistoryFor}::TEXT::INTERVAL AND s = ${s}`;
+        await this.databaseService.query(
+          `DELETE FROM feautures."Borders"
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
+          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+        );
         Logger.debug(`removeHistory for ${s} done`);
       }
 
@@ -170,14 +176,15 @@ export class AppService {
     });
   }
 
-  private getSnapshot(symbol: string, time: Date) {
-    return this.databaseService.orderBookSnapshot.findFirst({
-      where: {
-        E: { lte: time },
-        symbol,
+  private async getSnapshot(symbol: string, time: Date) {
+    const result = await this.databaseService.query<ISnapsoht[]>(
+      `SELECT * FROM "OrderBookSnapshot_${symbol}" WHERE "E" < :time ORDER BY "lastUpdateId" DESC LIMIT 1`,
+      {
+        replacements: { time },
+        type: QueryTypes.SELECT,
       },
-      orderBy: { lastUpdateId: 'desc' },
-    });
+    );
+    return result[0];
   }
 
   private checkConsistency(

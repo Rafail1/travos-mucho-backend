@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 import { OrderBookService } from './modules/orderbook/orderbook.service';
 import { SnapshotWorkerService } from './modules/workers/snapshot/snapshot.worker.service';
+import { DatabaseService } from './modules/database/database.service';
 
 async function bootstrap() {
   BigInt.prototype['toJSON'] = function () {
@@ -15,7 +16,12 @@ async function bootstrap() {
     cors: true,
   });
   setTimeout(async () => {
-    if (process.argv.includes('start-sub-first')) {
+    if (process.argv.includes('migrate')) {
+      process.env.PART = process.argv[process.argv.length - 1];
+
+      await app.get(DatabaseService).onModuleInit();
+      await app.get(DatabaseService).syncTables();
+    } else if (process.argv.includes('start-sub-first')) {
       process.env.PART = 'first';
       console.log('start-sub-first');
       await app

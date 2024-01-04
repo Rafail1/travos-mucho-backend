@@ -55,43 +55,45 @@ export class OrderBookService {
               if (!data) {
                 return resolve(null);
               }
-              await this.databaseService.orderBookSnapshot.create({
-                data,
-              });
+
+              await this.databaseService.query(
+                `INSERT INTO public."OrderBookSnapshot_${symbol}"
+                ("lastUpdateId", "E", bids, asks)
+                VALUES (
+                  '${data.lastUpdateId}',
+                  '${data.E}',
+                  '${JSON.stringify(data.bids)}',
+                  '${JSON.stringify(data.asks)}'
+                );`,
+                {},
+              );
 
               if (!data.bids.length || !data.asks.length) {
                 Logger.warn(`symbol ${symbol} have empty borders`);
                 return resolve(null);
               }
 
-              const existsBorders =
-                await this.databaseService.borders.findUnique({
-                  where: { s: symbol },
-                });
+              const existsBorders = await this.databaseService.borders.findByPk(
+                symbol,
+              );
 
               if (existsBorders) {
-                await this.databaseService.borders.update({
-                  where: { s: symbol },
-                  data: {
+                await this.databaseService.borders.update(
+                  {
                     E: new Date(),
                     min: Number(data.bids[data.bids.length - 1][0]),
                     max: Number(data.asks[data.asks.length - 1][0]),
                   },
-                });
+                  {
+                    where: { s: symbol },
+                  },
+                );
               } else {
                 await this.databaseService.borders.upsert({
-                  update: {
-                    E: new Date(),
-                    min: Number(data.bids[data.bids.length - 1][0]),
-                    max: Number(data.asks[data.asks.length - 1][0]),
-                  },
-                  create: {
-                    s: symbol,
-                    E: new Date(),
-                    min: Number(data.bids[data.bids.length - 1][0]),
-                    max: Number(data.asks[data.asks.length - 1][0]),
-                  },
-                  where: { s: symbol },
+                  s: symbol,
+                  E: new Date(),
+                  min: Number(data.bids[data.bids.length - 1][0]),
+                  max: Number(data.asks[data.asks.length - 1][0]),
                 });
               }
 
