@@ -30,6 +30,7 @@ export function initBorders(sequelize: Sequelize) {
     {
       sequelize,
       modelName: 'Borders',
+      timestamps: false,
     },
   );
 }
