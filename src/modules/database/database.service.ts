@@ -48,14 +48,11 @@ export class DatabaseService implements OnModuleInit {
       await this.query(createDUSql);
       await this.query(createATSql);
       const to = this.filterTime(
-        new Date(new Date().getTime() + 1000 * 60 * 60 * 48),
+        new Date(new Date().getTime() + 1000 * 60 * 60 * 3),
         1000 * 60 * 5,
       );
 
-      let from = this.filterTime(
-        new Date(new Date().getTime() - 1000 * 60 * 60 * 24),
-        1000 * 60 * 5,
-      );
+      let from = this.filterTime(new Date(), 1000 * 60 * 5);
 
       while (from.getTime() <= to.getTime()) {
         const partitionTo = new Date(from.getTime() + 5 * 1000 * 60);
