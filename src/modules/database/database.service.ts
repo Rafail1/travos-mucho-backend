@@ -70,6 +70,7 @@ export class DatabaseService implements OnModuleInit {
         });
         from = partitionTo;
       }
+      process.exit(0);
     }
   }
 
