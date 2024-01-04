@@ -4,6 +4,7 @@ import { firstValueFrom, interval } from 'rxjs';
 import { DatabaseService } from '../database/database.service';
 import { Snapshot } from '../websocket/websocket.service';
 import { getExchangeInfo } from 'src/exchange-info';
+import { Borders } from '../database/sequelize/models/borders';
 
 const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
@@ -73,12 +74,10 @@ export class OrderBookService {
                 return resolve(null);
               }
 
-              const existsBorders = await this.databaseService.borders.findByPk(
-                symbol,
-              );
+              const existsBorders = await Borders.findByPk(symbol);
 
               if (existsBorders) {
-                await this.databaseService.borders.update(
+                await Borders.update(
                   {
                     E: new Date(),
                     min: Number(data.bids[data.bids.length - 1][0]),
@@ -89,7 +88,7 @@ export class OrderBookService {
                   },
                 );
               } else {
-                await this.databaseService.borders.upsert({
+                await Borders.upsert({
                   s: symbol,
                   E: new Date(),
                   min: Number(data.bids[data.bids.length - 1][0]),

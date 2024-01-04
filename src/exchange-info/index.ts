@@ -3,7 +3,7 @@ import { symbols } from './symbols';
 export function getExchangeInfo() {
   switch (process.env.PART) {
     case 'first': {
-      return symbols.slice(0, 81);
+      return symbols.slice(0, 1);
     }
     case 'second': {
       return symbols.slice(81, 162);

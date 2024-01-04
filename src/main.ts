@@ -15,11 +15,11 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug'],
     cors: true,
   });
+  await app.init();
+
   setTimeout(async () => {
     if (process.argv.includes('migrate')) {
       process.env.PART = process.argv[process.argv.length - 1];
-
-      await app.get(DatabaseService).onModuleInit();
       await app.get(DatabaseService).syncTables();
     } else if (process.argv.includes('start-sub-first')) {
       process.env.PART = 'first';

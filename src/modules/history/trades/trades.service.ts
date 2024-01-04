@@ -8,6 +8,7 @@ import {
   IDepth,
   WebSocketService,
 } from '../../websocket/websocket.service';
+import { Borders } from 'src/modules/database/sequelize/models/borders';
 
 const GET_DEPTH_PERCENT_FROM_PRICE = 20;
 const AGG_TRADES_BUFFER_LENGTH = 1000;
@@ -164,7 +165,7 @@ export class TradesService {
       Logger.verbose('flushAggTrades');
       while (buffer.length) {
         const data = buffer.splice(0, 20).map((item) => {
-          return `('${item.fields.a}', '${item.fields.E}', '${item.fields.p}', '${item.fields.q}', ${item.fields.m})`;
+          return `('${item.a}', '${item.E}', '${item.p}', '${item.q}', ${item.m})`;
         });
         await this.databaseService.query(
           `INSERT INTO public."AggTrades_RLCUSDT"(
@@ -236,7 +237,7 @@ export class TradesService {
 
   private listenBorders(symbol: string) {
     interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
-      const borders = await this.databaseService.borders.findOne({
+      const borders = await Borders.findOne({
         where: {
           s: symbol,
         },

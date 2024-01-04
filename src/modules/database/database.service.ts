@@ -1,11 +1,9 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { initDB, sequelize } from './sequelize';
-import { Borders } from './sequelize/models/borders';
 import { getExchangeInfo } from 'src/exchange-info';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
-  public borders = Borders;
   public query = <T extends object>(sql, params?) =>
     sequelize.query<T>(sql, params);
   async onModuleInit() {
