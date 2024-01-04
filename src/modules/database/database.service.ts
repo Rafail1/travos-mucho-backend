@@ -8,6 +8,12 @@ export class DatabaseService implements OnModuleInit {
     sequelize.query<T>(sql, params);
   async onModuleInit() {
     await initDB();
+    await this.query(`
+      CREATE TABLE "borders" (
+      "s" TEXT NOT NULL,
+      "E" TIMESTAMP(3) NOT NULL,
+      "min" DOUBLE PRECISION NOT NULL,
+      "max" DOUBLE PRECISION NOT NULL`);
   }
 
   async syncTables() {
