@@ -242,7 +242,6 @@ export class TradesService {
         where: {
           s: symbol,
         },
-        order: ['E', 'desc'],
       });
 
       if (!borders) {
