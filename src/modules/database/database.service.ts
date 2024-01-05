@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { initDB, sequelize } from './sequelize';
 import { getExchangeInfo } from 'src/exchange-info';
+import { QueryTypes } from 'sequelize';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
@@ -15,6 +16,39 @@ export class DatabaseService implements OnModuleInit {
         "min" DOUBLE PRECISION NOT NULL,
         "max" DOUBLE PRECISION NOT NULL
       )`);
+  }
+
+  async removeParts(tableName: string) {
+    const selectParts = (table: string) => `
+    SELECT
+        child.relname as part
+    FROM pg_inherits
+        JOIN pg_class parent            ON pg_inherits.inhparent = parent.oid
+        JOIN pg_class child             ON pg_inherits.inhrelid   = child.oid
+        JOIN pg_namespace nmsp_parent   ON nmsp_parent.oid  = parent.relnamespace
+        JOIN pg_namespace nmsp_child    ON nmsp_child.oid   = child.relnamespace
+    WHERE parent.relname='${table}'`;
+    const removePart = (table: string, part: string) => `
+    ALTER TABLE "${table}" DETACH PARTITION "${part}"`;
+
+    const parts = await this.query<{ part: string }[]>(selectParts(tableName), {
+      type: QueryTypes.SELECT,
+    });
+    for (const { part } of parts) {
+      await this.query(removePart(tableName, part), {
+        type: QueryTypes.SELECT,
+      });
+    }
+  }
+
+  async removeTables() {
+    const symbols = getExchangeInfo();
+    for (const { symbol } of symbols) {
+      Logger.log(symbol);
+      await this.removeParts(`OrderBookSnapshot_${symbol}`);
+      await this.removeParts(`DepthUpdates_${symbol}`);
+      await this.removeParts(`AggTrades_${symbol}`);
+    }
   }
 
   async syncTables() {
@@ -91,7 +125,12 @@ export class DatabaseService implements OnModuleInit {
     await this.query(
       `CREATE TABLE IF NOT EXISTS "${parentTable}_${from.getTime()}" PARTITION OF "${parentTable}"
     FOR VALUES FROM (:from) TO (:partitionTo);`,
-      { replacements: { from, partitionTo } },
+      {
+        replacements: {
+          from: from.toISOString(),
+          partitionTo: partitionTo.toISOString(),
+        },
+      },
     );
   }
 

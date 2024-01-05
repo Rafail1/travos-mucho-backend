@@ -190,7 +190,7 @@ export class TradesService {
       while (buffer.length) {
         const data = buffer.splice(0, 20).map((item) => {
           return `('${item.fields.E.toISOString()}',
-           '${JSON.stringify(item.fields.b)}, 
+           '${JSON.stringify(item.fields.b)}', 
            '${JSON.stringify(item.fields.a)}',
           '${item.fields.u}',
           '${item.fields.pu}')`;

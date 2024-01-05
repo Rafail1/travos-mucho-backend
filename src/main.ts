@@ -18,7 +18,11 @@ async function bootstrap() {
   await app.init();
 
   setTimeout(async () => {
-    if (process.argv.includes('migrate')) {
+    if (process.argv.includes('clean')) {
+      process.env.PART = process.argv[process.argv.length - 1];
+      await app.get(DatabaseService).removeTables();
+    } else if (process.argv.includes('migrate')) {
+      process.env.PART = process.argv[process.argv.length - 1];
       await app.get(DatabaseService).syncTables();
     } else if (process.argv.includes('start-sub-first')) {
       process.env.PART = 'first';
