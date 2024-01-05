@@ -9,3 +9,4 @@ sleep 30
 pm2 --name start-ob start npm -- run start-ob
 sleep 20
 pm2 --name start-remove-history start npm -- run start-remove-history
+pm2 --name start-remove-history start npm -- run init-snapshot-calculated

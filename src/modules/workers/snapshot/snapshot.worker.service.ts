@@ -28,14 +28,14 @@ export class SnapshotWorkerService {
   }
 
   public async initCaclulatedSnapshot() {
-    Logger.debug('start snapshot work');
+    Logger.debug('start initCaclulatedSnapshot work');
     try {
       await this.setSnapshot();
     } catch (e) {
       Logger.error(`initCaclulatedSnapshot ${e?.message}`);
     }
 
-    Logger.debug('snapshot work finished');
+    Logger.debug('initCaclulatedSnapshot work finished');
     setTimeout(async () => {
       await this.initCaclulatedSnapshot().catch((e) => {
         Logger.error(e?.message);
@@ -48,7 +48,7 @@ export class SnapshotWorkerService {
     const symbols = getExchangeInfo();
 
     for (const { symbol } of symbols) {
-      Logger.verbose(`filling orderbook for symbol ${symbol}`);
+      Logger.debug(`filling orderbook for symbol ${symbol}`);
       const tickSize = this.stateService.getTickSize(symbol);
       if (!tickSize) {
         Logger.warn(`no tickSize for ${symbol}`);
@@ -98,7 +98,7 @@ export class SnapshotWorkerService {
         { type: QueryTypes.SELECT },
       );
       let previous_id = null;
-
+      Logger.debug(`run series for ${symbol}`);
       for (const seria of series) {
         if (!seria.previous_id && !previous_id) {
           continue;
@@ -243,6 +243,7 @@ export class SnapshotWorkerService {
 
         previous_id = depthUpdates[depthUpdates.length - 1].u;
       }
+      Logger.debug(`done series for ${symbol}`);
     }
   }
 }
