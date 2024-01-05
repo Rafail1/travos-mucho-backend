@@ -1,6 +1,6 @@
 npm run build
 
-pm2 --name migrate start --cron-restart "0 */2 * * *" --no-autorestart npm -- run migrate
+pm2 --name migrate start --cron-restart "*/30 * * * *" --no-autorestart npm -- run migrate
 sleep 10
 pm2 --name start-sub-all start npm -- run start-sub-all
 sleep 30

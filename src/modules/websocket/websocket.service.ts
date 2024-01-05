@@ -60,7 +60,7 @@ export interface IDepth {
 export interface ISnapsoht {
   lastUpdateId: bigint | number;
   symbol: string;
-  E: Date | string;
+  E: Date;
   /**  Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]*/
   bids: Array<[number, number]>;
   /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */

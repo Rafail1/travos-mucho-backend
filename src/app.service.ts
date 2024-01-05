@@ -51,7 +51,7 @@ export class AppService {
 
   async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
     try {
-      const result = await this.databaseService.query<IDepth[]>(
+      const result = await this.databaseService.query<IDepth>(
         `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" >= :timeFrom AND "E" < :timeTo ORDER BY "E" ASC`,
         {
           replacements: { timeFrom, timeTo },
@@ -81,22 +81,15 @@ export class AppService {
     );
 
     const filteredDepth = [];
-    const name = `updateSnapshot_${Math.random()}`;
-    console.time(name);
 
     for (const depthUpdate of depth) {
       if (depthUpdate.E.getTime() <= time.getTime()) {
-        const name = `updateSnapshotInner_${Math.random()}`;
-        console.time(name);
-
         this.updateSnapshot(depthUpdate.a, snapshot.asks);
         this.updateSnapshot(depthUpdate.b, snapshot.bids);
-        console.timeEnd(name);
       } else {
         filteredDepth.push(depthUpdate);
       }
     }
-    console.timeEnd(name);
 
     if (!filteredDepth.length) {
       Logger.warn('depthUpdates not found');
@@ -180,7 +173,7 @@ export class AppService {
   }
 
   private async getSnapshot(symbol: string, time: Date) {
-    const result = await this.databaseService.query<ISnapsoht[]>(
+    const result = await this.databaseService.query<ISnapsoht>(
       `SELECT * FROM "OrderBookSnapshot_${symbol}" WHERE "E" < :time ORDER BY "lastUpdateId" DESC LIMIT 1`,
       {
         replacements: { time },

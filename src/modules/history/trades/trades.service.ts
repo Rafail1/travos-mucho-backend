@@ -9,6 +9,7 @@ import {
   WebSocketService,
 } from '../../websocket/websocket.service';
 import { Borders } from 'src/modules/database/sequelize/models/borders';
+import { QueryTypes } from 'sequelize';
 
 const GET_DEPTH_PERCENT_FROM_PRICE = 20;
 const AGG_TRADES_BUFFER_LENGTH = 1000;
@@ -172,7 +173,7 @@ export class TradesService {
           `INSERT INTO public."AggTrades_${symbol}"(
             a, "E", p, q, m)
             VALUES ${data.join(',')}`,
-          {},
+          { type: QueryTypes.INSERT },
         );
       }
     } catch (e) {
@@ -199,7 +200,7 @@ export class TradesService {
           `INSERT INTO public."DepthUpdates_${symbol}"(
           "E", b, a, u, pu)
           VALUES ${data.join(',')}`,
-          {},
+          { type: QueryTypes.INSERT },
         );
       }
     } catch (e) {

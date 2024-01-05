@@ -1,12 +1,14 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { initDB, sequelize } from './sequelize';
 import { getExchangeInfo } from 'src/exchange-info';
-import { QueryTypes } from 'sequelize';
+import { QueryOptionsWithType, QueryTypes } from 'sequelize';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
-  public query = <T extends object>(sql, params?) =>
-    sequelize.query<T>(sql, params);
+  public query = <T extends object>(
+    sql: string,
+    params?: QueryOptionsWithType<any>,
+  ) => sequelize.query<T>(sql, params);
   async onModuleInit() {
     await initDB();
     try {
@@ -38,7 +40,7 @@ export class DatabaseService implements OnModuleInit {
   }
 
   async selectParts(table: string) {
-    return this.query<{ part: string }[]>(
+    return this.query<{ part: string }>(
       `
       SELECT
           child.relname as part
@@ -107,7 +109,7 @@ export class DatabaseService implements OnModuleInit {
       await this.query(createDUSql);
       await this.query(createATSql);
       const to = this.filterTime(
-        new Date(new Date().getTime() + 1000 * 60 * 60 * 3),
+        new Date(new Date().getTime() + 1000 * 60 * 60),
         1000 * 60 * 5,
       );
 
@@ -151,6 +153,7 @@ export class DatabaseService implements OnModuleInit {
       `CREATE TABLE IF NOT EXISTS "${parentTable}_${from.getTime()}" PARTITION OF "${parentTable}"
     FOR VALUES FROM (:from) TO (:partitionTo);`,
       {
+        type: QueryTypes.RAW,
         replacements: {
           from: from.toISOString(),
           partitionTo: partitionTo.toISOString(),

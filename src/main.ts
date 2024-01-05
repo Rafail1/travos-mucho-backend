@@ -7,6 +7,8 @@ import { OrderBookService } from './modules/orderbook/orderbook.service';
 import { SnapshotWorkerService } from './modules/workers/snapshot/snapshot.worker.service';
 
 async function bootstrap() {
+  process.env.logging = process.argv.includes('logging') ? '1' : undefined;
+
   BigInt.prototype['toJSON'] = function () {
     return this.toString();
   };
@@ -15,7 +17,6 @@ async function bootstrap() {
     cors: true,
   });
   await app.init();
-
   setTimeout(async () => {
     if (process.argv.includes('reset')) {
       process.env.PART = process.argv[process.argv.length - 1];
@@ -61,6 +62,9 @@ async function bootstrap() {
       console.log('start-sub-ob');
       await app.get(OrderBookService).init();
       await app.get(SnapshotWorkerService).initSnapshotFlow();
+    } else if (process.argv.includes('init-snapshot-calculated')) {
+      console.log('init-snapshot-calculated');
+      await app.get(SnapshotWorkerService).initCaclulatedSnapshot();
     } else if (process.argv.includes('remove-history')) {
       console.log('remove-history');
       await app.get(AppService).removeHistoryInterval();

@@ -7,8 +7,10 @@ export const sequelize = new Sequelize(
     'postgresql://postgres:postgres@localhost:5432/travos-muchos',
   {
     benchmark: true,
-    logging: (sql: string, timingMs?: number) =>
-      console.info(`${sql} - [Execution time: ${timingMs}ms]`),
+    logging: process.env.logging
+      ? (sql: string, timingMs?: number) =>
+          console.info(`${sql} - [Execution time: ${timingMs}ms]`)
+      : false,
   },
 );
 
