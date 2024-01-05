@@ -1,5 +1,4 @@
 npm run build
-npm run migrate
 
 pm2 --name migrate --cron "0 */2 * * *" start npm -- run migrate
 sleep 10
