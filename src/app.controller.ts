@@ -22,7 +22,7 @@ export class AppController {
 
   @Get('depth')
   async getDepth(@Query('symbol') symbol: string, @Query('time') time: string) {
-    const name = `getAggTrades_${Math.random()}`;
+    const name = `depth_${Math.random()}`;
     console.time(name);
 
     const result = await this.appService.getDepthHistory(
@@ -38,7 +38,7 @@ export class AppController {
     @Query('symbol') symbol: string,
     @Query('time') time: string,
   ) {
-    const name = `getAggTrades_${Math.random()}`;
+    const name = `getCluster_${Math.random()}`;
     console.time(name);
 
     const result = await this.appService.getCluster(symbol, new Date(time));
