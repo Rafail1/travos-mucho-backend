@@ -10,24 +10,26 @@ export class AppController {
     @Query('symbol') symbol: string,
     @Query('time') time: string,
   ) {
-    console.time('getAggTrades');
+    const name = `getAggTrades_${Math.random()}`;
+    console.time(name);
     const result = await this.appService.getAggTradesHistory(
       symbol,
       new Date(time),
     );
-    console.timeEnd('getAggTrades');
+    console.timeEnd(name);
     return result;
   }
 
   @Get('depth')
   async getDepth(@Query('symbol') symbol: string, @Query('time') time: string) {
-    console.time('depth');
+    const name = `getAggTrades_${Math.random()}`;
+    console.time(name);
 
     const result = await this.appService.getDepthHistory(
       symbol,
       new Date(time),
     );
-    console.timeEnd('depth');
+    console.timeEnd(name);
     return result;
   }
 
@@ -36,10 +38,11 @@ export class AppController {
     @Query('symbol') symbol: string,
     @Query('time') time: string,
   ) {
-    console.time('depth');
+    const name = `getAggTrades_${Math.random()}`;
+    console.time(name);
 
     const result = await this.appService.getCluster(symbol, new Date(time));
-    console.timeEnd('depth');
+    console.timeEnd(name);
     return result;
   }
 }
