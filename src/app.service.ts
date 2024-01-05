@@ -126,31 +126,15 @@ export class AppService {
 
       for (const { symbol: s } of symbols) {
         Logger.debug(`removeHistory for ${s}`);
-
-        await this.databaseService.query(
-          `DELETE FROM public."AggTrades_${s}"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
-          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
-        );
+        await this.deleteHistoryForTable(`AggTrades_${s}`);
         Logger.debug(`removeHistory from DepthUpdates`);
-
-        await this.databaseService.query(
-          `DELETE FROM public."DepthUpdates_${s}"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
-          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
-        );
+        await this.deleteHistoryForTable(`DepthUpdates_${s}`);
         Logger.debug(`removeHistory from OrderBookSnapshot`);
-
-        await this.databaseService.query(
-          `DELETE FROM public."OrderBookSnapshot_${s}"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
-          { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
-        );
+        await this.deleteHistoryForTable(`OrderBookSnapshot_${s}`);
         Logger.debug(`removeHistory from Borders`);
-
         await this.databaseService.query(
           `DELETE FROM public."Borders"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
+          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor::interval AND s = :s`,
           { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
         );
         Logger.debug(`removeHistory for ${s} done`);
@@ -162,6 +146,17 @@ export class AppService {
       return false;
     }
   }
+
+  private async deleteHistoryForTable(table: string) {
+    const parts = await this.databaseService.selectParts(table);
+    for (const { part } of parts) {
+      const ts = Number(part.slice(part.lastIndexOf('_')));
+      if (new Date(ts).getTime() - Date.now() >= 1000 * 60 * 60 * 24) {
+        await this.databaseService.removePart(part);
+      }
+    }
+  }
+
   private updateSnapshot(items, snapshotItems) {
     items.forEach((leftItem) => {
       const existsIndex = snapshotItems.findIndex(

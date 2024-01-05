@@ -25,26 +25,31 @@ export class DatabaseService implements OnModuleInit {
     }
   }
 
-  async removeParts(tableName: string) {
-    const selectParts = (table: string) => `
-    SELECT
-        child.relname as part
-    FROM pg_inherits
-        JOIN pg_class parent            ON pg_inherits.inhparent = parent.oid
-        JOIN pg_class child             ON pg_inherits.inhrelid   = child.oid
-        JOIN pg_namespace nmsp_parent   ON nmsp_parent.oid  = parent.relnamespace
-        JOIN pg_namespace nmsp_child    ON nmsp_child.oid   = child.relnamespace
-    WHERE parent.relname='${table}'`;
-    const removePart = (table: string) => `
-    DROP TABLE IF EXISTS "${table}"`;
-
-    const parts = await this.query<{ part: string }[]>(selectParts(tableName), {
-      type: QueryTypes.SELECT,
-    });
-    for (const { part } of parts) {
-      await this.query(removePart(part), {
+  async selectParts(table: string) {
+    return this.query<{ part: string }[]>(
+      `
+      SELECT
+          child.relname as part
+      FROM pg_inherits
+          JOIN pg_class parent            ON pg_inherits.inhparent = parent.oid
+          JOIN pg_class child             ON pg_inherits.inhrelid   = child.oid
+          JOIN pg_namespace nmsp_parent   ON nmsp_parent.oid  = parent.relnamespace
+          JOIN pg_namespace nmsp_child    ON nmsp_child.oid   = child.relnamespace
+      WHERE parent.relname='${table}'`,
+      {
         type: QueryTypes.SELECT,
-      });
+      },
+    );
+  }
+
+  async removePart(table: string) {
+    return this.query(`DROP TABLE IF EXISTS "${table}"`);
+  }
+
+  async removeParts(tableName: string) {
+    const parts = await this.selectParts(tableName);
+    for (const { part } of parts) {
+      await this.removePart(part);
     }
   }
 
