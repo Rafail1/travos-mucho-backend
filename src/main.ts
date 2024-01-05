@@ -1,11 +1,10 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { AppController } from './app.controller';
-import { Logger } from '@nestjs/common';
 import { AppService } from './app.service';
+import { DatabaseService } from './modules/database/database.service';
 import { OrderBookService } from './modules/orderbook/orderbook.service';
 import { SnapshotWorkerService } from './modules/workers/snapshot/snapshot.worker.service';
-import { DatabaseService } from './modules/database/database.service';
 
 async function bootstrap() {
   BigInt.prototype['toJSON'] = function () {
