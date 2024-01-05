@@ -28,14 +28,14 @@ export class DatabaseService implements OnModuleInit {
         JOIN pg_namespace nmsp_parent   ON nmsp_parent.oid  = parent.relnamespace
         JOIN pg_namespace nmsp_child    ON nmsp_child.oid   = child.relnamespace
     WHERE parent.relname='${table}'`;
-    const removePart = (table: string, part: string) => `
-    ALTER TABLE "${table}" DROP PARTITION "${part}"`;
+    const removePart = (table: string) => `
+    DROP TABLE IF EXISTS "${table}"`;
 
     const parts = await this.query<{ part: string }[]>(selectParts(tableName), {
       type: QueryTypes.SELECT,
     });
     for (const { part } of parts) {
-      await this.query(removePart(tableName, part), {
+      await this.query(removePart(part), {
         type: QueryTypes.SELECT,
       });
     }
