@@ -105,7 +105,7 @@ export class AppService {
     const clusters = await this.databaseService.query(
       `
     SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", :from) AS min5_slot
-    FROM feautures."AggTrades_${symbol}"
+    FROM public."AggTrades_${symbol}"
     WHERE "E" >= :from
     AND "E" <= :time
     GROUP BY min5_slot, p, m`,
@@ -128,28 +128,28 @@ export class AppService {
         Logger.debug(`removeHistory for ${s}`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."AggTrades_${s}"
+          `DELETE FROM public."AggTrades_${s}"
           WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
           { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
         );
         Logger.debug(`removeHistory from DepthUpdates`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."DepthUpdates_${s}"
+          `DELETE FROM public."DepthUpdates_${s}"
           WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
           { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
         );
         Logger.debug(`removeHistory from OrderBookSnapshot`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."OrderBookSnapshot_${s}"
+          `DELETE FROM public."OrderBookSnapshot_${s}"
           WHERE "E" < now() at time zone 'utc' - :saveHistoryFor`,
           { type: QueryTypes.DELETE, replacements: { saveHistoryFor } },
         );
         Logger.debug(`removeHistory from Borders`);
 
         await this.databaseService.query(
-          `DELETE FROM feautures."Borders"
+          `DELETE FROM public."Borders"
           WHERE "E" < now() at time zone 'utc' - :saveHistoryFor AND s = :s`,
           { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
         );

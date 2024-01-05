@@ -23,7 +23,7 @@
 //   private async setSnapshot() {
 //     const TIME_WINDOW_SEC = `${TIME_WINDOW / 1000} sec`;
 //     const symbols: Array<{ symbol: string }> = await this.databaseService
-//       .$queryRaw`SELECT DISTINCT symbol from feautures."OrderBookSnapshot"`;
+//       .$queryRaw`SELECT DISTINCT symbol from public."OrderBookSnapshot"`;
 
 //     for (const { symbol } of symbols) {
 //       Logger.verbose(`filling orderbook for symbol ${symbol}`);
@@ -41,20 +41,20 @@
 //         previous_id: string;
 //       }> = await this.databaseService.$queryRaw`
 //          with max_ts as (
-//           SELECT date_trunc('minute', max("E")) as time_to from feautures."DepthUpdates" where s = ${symbol}
+//           SELECT date_trunc('minute', max("E")) as time_to from public."DepthUpdates" where s = ${symbol}
 //         ),
 //         min_ts as (
-//           SELECT date_trunc('minute', min("E")) as time_from from feautures."OrderBookSnapshot" where symbol = ${symbol}
+//           SELECT date_trunc('minute', min("E")) as time_from from public."OrderBookSnapshot" where symbol = ${symbol}
 //         ),
 //         intervals as (
 //           select generate_series(time_from, time_to, ${TIME_WINDOW_SEC}::interval) as generated_series_time
-//           from feautures."OrderBookSnapshot" 
+//           from public."OrderBookSnapshot" 
 //           JOIN max_ts ON true
 //           JOIN min_ts ON true
 // 			    GROUP BY time_to, time_from
 //         ), snapshots as (
 //             SELECT date_bin(${TIME_WINDOW_SEC}::interval, "E", time_from) AS snapshot_time_truncated, symbol, "E" as snapshot_time, id 
-//             FROM feautures."OrderBookSnapshot"
+//             FROM public."OrderBookSnapshot"
 //             JOIN min_ts ON true
 //                   WHERE symbol = ${symbol}
 //             GROUP BY time_from, "E", symbol, id
@@ -103,7 +103,7 @@
 
 //         const depthUpdates: Array<IDepth> = await this.databaseService
 //           .$queryRaw`
-//         select * from feautures."DepthUpdates"
+//         select * from public."DepthUpdates"
 //         where s = ${symbol} and "E" >= ${snapshot.E.toISOString()}::timestamp AND "E" <= ${seria.generated_series_time.toISOString()}::timestamp
 //         ORDER by "E" ASC`;
 //         if (!depthUpdates.length) {
