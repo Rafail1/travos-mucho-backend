@@ -25,6 +25,18 @@ export class DatabaseService implements OnModuleInit {
     }
   }
 
+  async reset() {
+    const symbols = getExchangeInfo();
+    for (const { symbol } of symbols) {
+      Logger.log(symbol);
+      await this.removeTable(`OrderBookSnapshot_${symbol}`);
+      await this.removeTable(`DepthUpdates_${symbol}`);
+      await this.removeTable(`AggTrades_${symbol}`);
+      await this.removeTable(`Borders`);
+    }
+    process.exit(0);
+  }
+
   async selectParts(table: string) {
     return this.query<{ part: string }[]>(
       `
@@ -42,14 +54,14 @@ export class DatabaseService implements OnModuleInit {
     );
   }
 
-  async removePart(table: string) {
+  async removeTable(table: string) {
     return this.query(`DROP TABLE IF EXISTS "${table}"`);
   }
 
   async removeParts(tableName: string) {
     const parts = await this.selectParts(tableName);
     for (const { part } of parts) {
-      await this.removePart(part);
+      await this.removeTable(part);
     }
   }
 

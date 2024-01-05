@@ -18,7 +18,10 @@ async function bootstrap() {
   await app.init();
 
   setTimeout(async () => {
-    if (process.argv.includes('clean')) {
+    if (process.argv.includes('reset')) {
+      process.env.PART = process.argv[process.argv.length - 1];
+      await app.get(DatabaseService).reset();
+    } else if (process.argv.includes('clean')) {
       process.env.PART = process.argv[process.argv.length - 1];
       await app.get(DatabaseService).removeTables();
     } else if (process.argv.includes('migrate')) {
