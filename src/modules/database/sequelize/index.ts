@@ -5,7 +5,11 @@ import { Logger } from '@nestjs/common';
 export const sequelize = new Sequelize(
   process.env.DATABASE_URL ||
     'postgresql://postgres:postgres@localhost:5432/travos-muchos',
-  { benchmark: true, logging: console.log },
+  {
+    benchmark: true,
+    logging: (sql: string, timingMs?: number) =>
+      console.info(`${sql} - [Execution time: ${timingMs}ms]`),
+  },
 );
 
 export async function initDB() {
