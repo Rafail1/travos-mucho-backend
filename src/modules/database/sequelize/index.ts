@@ -5,7 +5,7 @@ import { Logger } from '@nestjs/common';
 export const sequelize = new Sequelize(
   process.env.DATABASE_URL ||
     'postgresql://postgres:postgres@localhost:5432/travos-muchos',
-  { logging: false },
+  { benchmark: true, logging: console.log },
 );
 
 export async function initDB() {
