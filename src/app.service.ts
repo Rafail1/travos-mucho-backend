@@ -81,14 +81,22 @@ export class AppService {
     );
 
     const filteredDepth = [];
+    const name = `updateSnapshot_${Math.random()}`;
+    console.time(name);
+
     for (const depthUpdate of depth) {
       if (depthUpdate.E.getTime() <= time.getTime()) {
+        const name = `updateSnapshotInner_${Math.random()}`;
+        console.time(name);
+
         this.updateSnapshot(depthUpdate.a, snapshot.asks);
         this.updateSnapshot(depthUpdate.b, snapshot.bids);
+        console.timeEnd(name);
       } else {
         filteredDepth.push(depthUpdate);
       }
     }
+    console.timeEnd(name);
 
     if (!filteredDepth.length) {
       Logger.warn('depthUpdates not found');
