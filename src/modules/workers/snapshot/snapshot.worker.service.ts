@@ -98,7 +98,7 @@ export class SnapshotWorkerService {
         { type: QueryTypes.SELECT },
       );
       let previous_id = null;
-      Logger.debug(`run series for ${symbol}`);
+      Logger.debug(`run series for ${symbol} ${series.length}`);
       for (const seria of series) {
         if (!seria.previous_id && !previous_id) {
           continue;
