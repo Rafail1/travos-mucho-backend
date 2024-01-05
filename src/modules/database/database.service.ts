@@ -49,6 +49,7 @@ export class DatabaseService implements OnModuleInit {
       await this.removeParts(`DepthUpdates_${symbol}`);
       await this.removeParts(`AggTrades_${symbol}`);
     }
+    process.exit(0);
   }
 
   async syncTables() {
