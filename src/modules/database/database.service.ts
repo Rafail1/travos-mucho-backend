@@ -9,13 +9,20 @@ export class DatabaseService implements OnModuleInit {
     sequelize.query<T>(sql, params);
   async onModuleInit() {
     await initDB();
-    await this.query(`
+    try {
+      await this.query(`
       CREATE TABLE IF NOT EXISTS "Borders" (
         "s" TEXT NOT NULL,
         "E" TIMESTAMP(3) NOT NULL,
         "min" DOUBLE PRECISION NOT NULL,
         "max" DOUBLE PRECISION NOT NULL
       )`);
+      await this.query(
+        `CREATE UNIQUE INDEX "Borders_s_key" ON "Borders"("s");`,
+      );
+    } catch (e) {
+      Logger.debug(e?.message);
+    }
   }
 
   async removeParts(tableName: string) {
@@ -59,8 +66,8 @@ export class DatabaseService implements OnModuleInit {
       const createOBSql = `CREATE TABLE IF NOT EXISTS "OrderBookSnapshot_${symbol}" (
         "lastUpdateId" BIGINT NOT NULL,
         "E" TIMESTAMP(3) NOT NULL,
-        "bids" JSONB[],
-        "asks" JSONB[]
+        "bids" JSONB,
+        "asks" JSONB
     ) PARTITION BY RANGE ("E");`;
 
       const createDUSql = `CREATE TABLE IF NOT EXISTS "DepthUpdates_${symbol}" (

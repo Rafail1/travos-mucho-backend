@@ -5,6 +5,7 @@ import { DatabaseService } from '../database/database.service';
 import { Snapshot } from '../websocket/websocket.service';
 import { getExchangeInfo } from 'src/exchange-info';
 import { Borders } from '../database/sequelize/models/borders';
+import { QueryTypes } from 'sequelize';
 
 const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
@@ -61,12 +62,20 @@ export class OrderBookService {
                 `INSERT INTO public."OrderBookSnapshot_${symbol}"
                 ("lastUpdateId", "E", bids, asks)
                 VALUES (
-                  '${data.lastUpdateId}',
-                  '${data.E}',
-                  '${JSON.stringify(data.bids)}',
-                  '${JSON.stringify(data.asks)}'
+                  :lastUpdateId,
+                  :E,
+                  :bids,
+                  :asks
                 );`,
-                {},
+                {
+                  type: QueryTypes.INSERT,
+                  replacements: {
+                    lastUpdateId: data.lastUpdateId,
+                    bids: JSON.stringify(data.bids),
+                    asks: JSON.stringify(data.asks),
+                    E: data.E.toISOString(),
+                  },
+                },
               );
 
               if (!data.bids.length || !data.asks.length) {
@@ -101,6 +110,7 @@ export class OrderBookService {
               }
               resolve(null);
             } catch (e) {
+              Logger.error(e?.message);
               resolve(e);
             }
           },
