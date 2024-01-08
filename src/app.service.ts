@@ -34,7 +34,7 @@ export class AppService {
 
     this.interval = setInterval(async () => {
       await this.removeHistory();
-    }, 1000 * 60 * 60 * 24);
+    }, 1000 * 60 * 15);
     return await this.removeHistory();
   }
 
