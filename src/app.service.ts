@@ -139,13 +139,28 @@ export class AppService {
           { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
         );
         Logger.debug(`removeHistory for ${s} done`);
+
+        Logger.debug(`vacuum for ${s}`);
+        await this.vacuum(`AggTrades_${s}`);
+        Logger.debug(`vacuum from DepthUpdates`);
+        await this.vacuum(`DepthUpdates_${s}`);
+        Logger.debug(`vacuum from OrderBookSnapshot`);
+        await this.vacuum(`OrderBookSnapshot_${s}`);
+        Logger.debug(`vacuum from Borders`);
+        Logger.debug(`vacuum for ${s} done`);
       }
+
+      await this.vacuum(`Borders`);
 
       return true;
     } catch (e) {
       Logger.error(`removeHistory error ${e?.message}`);
       return false;
     }
+  }
+
+  private async vacuum(table: string) {
+    await this.databaseService.query(`VACUUM (VERBOSE, ANALYZE) "${table}"`);
   }
 
   private async deleteHistoryForTable(table: string) {
