@@ -17,40 +17,16 @@ async function bootstrap() {
     cors: true,
   });
   await app.init();
+  console.log(`part ${process.env.PART}`);
+
   setTimeout(async () => {
     if (process.argv.includes('reset')) {
-      process.env.PART = process.argv[process.argv.length - 1];
       await app.get(DatabaseService).reset();
     } else if (process.argv.includes('clean')) {
-      process.env.PART = process.argv[process.argv.length - 1];
       await app.get(DatabaseService).removeTables();
     } else if (process.argv.includes('migrate')) {
-      process.env.PART = process.argv[process.argv.length - 1];
       await app.get(DatabaseService).syncTables();
-    } else if (process.argv.includes('start-sub-first')) {
-      process.env.PART = 'first';
-      console.log('start-sub-first');
-      await app
-        .get(AppService)
-        .subscribeAll()
-        .catch((e) => {
-          Logger.error(e);
-          process.exit(1);
-        });
-    } else if (process.argv.includes('start-sub-second')) {
-      process.env.PART = 'second';
-      console.log('start-sub-second');
-      await app
-        .get(AppService)
-        .subscribeAll()
-        .catch((e) => {
-          Logger.error(e);
-          process.exit(1);
-        });
-    } else if (process.argv.includes('start-sub-third')) {
-      process.env.PART = 'third';
-      console.log('start-sub-third');
-
+    } else if (process.argv.includes('start-sub-part')) {
       await app
         .get(AppService)
         .subscribeAll()
@@ -71,6 +47,7 @@ async function bootstrap() {
       console.log('remove-history done');
     } else if (process.argv.includes('start-sub-all')) {
       console.log('start-sub-all');
+      process.env.PART = '0';
       app
         .get(AppService)
         .subscribeAll()
