@@ -7,6 +7,4 @@ export function getExchangeInfo() {
     return symbols.slice((part - 1) * partSize, part * partSize);
   }
   return symbols;
-
-  }
 }
