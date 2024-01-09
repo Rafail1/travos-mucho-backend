@@ -166,8 +166,8 @@ export class AppService {
   private async deleteHistoryForTable(table: string) {
     const parts = await this.databaseService.selectParts(table);
     for (const { part } of parts) {
-      const ts = Number(part.lastIndexOf('_') + 1);
-      console.log(ts, new Date(ts).getTime() - Date.now());
+      const ts = Number(part.slice(part.lastIndexOf('_') + 1));
+      console.log(new Date(ts).getTime() - Date.now());
       if (new Date(ts).getTime() - Date.now() >= 1000 * 60 * 60 * 24) {
         console.log(part);
         await this.databaseService.removeTable(part);
