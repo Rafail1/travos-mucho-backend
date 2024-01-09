@@ -1,6 +1,7 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export class Borders extends Model {
+  s: string;
   min: number;
   max: number;
 }
@@ -11,7 +12,6 @@ export function initBorders(sequelize: Sequelize) {
     {
       s: {
         type: DataTypes.STRING,
-        allowNull: false,
         primaryKey: true,
       },
       min: {

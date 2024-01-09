@@ -41,7 +41,6 @@ export class TradesService {
     this.subscribedSymbols.add(symbol);
     try {
       await this.webSocketService.subscribe(symbol);
-      this.listenBorders(symbol.toUpperCase());
     } catch (e) {
       Logger.error(e?.message);
       return null;
@@ -237,26 +236,29 @@ export class TradesService {
     // }
   }
 
-  private listenBorders(symbol: string) {
-    interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
-      try {
-        const borders = await Borders.findOne({
-          where: {
-            s: symbol,
-          },
-        });
-
-        if (!borders) {
-          Logger.debug(`empty borders ${symbol}`);
+  private listenBorders() {
+    Borders.findAll()
+      .then((borders) => {
+        if (!borders.length) {
+          Logger.debug(`empty borders`);
         }
 
-        this.borders.set(symbol, {
-          min: borders?.min,
-          max: borders?.max,
-        });
-      } catch (e) {
+        for (const border of borders) {
+          this.borders.set(border.s, {
+            min: border.min,
+            max: border.max,
+          });
+        }
+
+        setTimeout(() => {
+          this.listenBorders();
+        }, BORDERS_QUEUE_INTERVAL);
+      })
+      .catch((e) => {
         Logger.error(e?.message);
-      }
-    });
+        setTimeout(() => {
+          this.listenBorders();
+        }, BORDERS_QUEUE_INTERVAL * 4);
+      });
   }
 }
