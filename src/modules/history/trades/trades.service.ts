@@ -239,20 +239,24 @@ export class TradesService {
 
   private listenBorders(symbol: string) {
     interval(BORDERS_QUEUE_INTERVAL).subscribe(async () => {
-      const borders = await Borders.findOne({
-        where: {
-          s: symbol,
-        },
-      });
+      try {
+        const borders = await Borders.findOne({
+          where: {
+            s: symbol,
+          },
+        });
 
-      if (!borders) {
-        Logger.debug(`empty borders ${symbol}`);
+        if (!borders) {
+          Logger.debug(`empty borders ${symbol}`);
+        }
+
+        this.borders.set(symbol, {
+          min: borders?.min,
+          max: borders?.max,
+        });
+      } catch (e) {
+        Logger.error(e?.message);
       }
-
-      this.borders.set(symbol, {
-        min: borders?.min,
-        max: borders?.max,
-      });
     });
   }
 }
