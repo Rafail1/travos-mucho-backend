@@ -1,5 +1,5 @@
 read part
-git clone https://Rafail1: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@github.com/Rafail1/travos-mucho-backend
+git clone https://github.com/Rafail1/travos-mucho-backend
 cd travos-mucho-backend/
 sudo apt update
 sudo apt upgrade
