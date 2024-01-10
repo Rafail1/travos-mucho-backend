@@ -149,7 +149,7 @@ export class OrderBookService {
         );
         Logger.debug(`snapshot: ${snapshotData.status}`);
         if (!snapshotData.data.asks || !snapshotData.data.bids) {
-          console.log(snapshotData.data);
+          console.log(snapshotData);
         }
         const snapshot = {
           ...snapshotData.data,
