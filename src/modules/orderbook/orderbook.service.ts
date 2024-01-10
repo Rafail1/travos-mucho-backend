@@ -12,7 +12,7 @@ const DEPTH_LIMIT = 1000;
 
 @Injectable()
 export class OrderBookService {
-  private proxyUrl = 'https://scalp24.store';
+  private proxyUrl = 'https://fapi.binance.com/fapi/v1';
   private messageQueueMap = new Map();
 
   private orderBookSetting = new Map();
@@ -144,7 +144,7 @@ export class OrderBookService {
       try {
         const snapshotData = await firstValueFrom(
           this.httpService.get(
-            `${this.proxyUrl}/rest/binance/depth.php?symbol=${symbol}&limit=${DEPTH_LIMIT}`,
+            `${this.proxyUrl}/depth?symbol=${symbol}&limit=${DEPTH_LIMIT}`,
           ),
         );
         Logger.debug(`snapshot: ${snapshotData.status}`);
