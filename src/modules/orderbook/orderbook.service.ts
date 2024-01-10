@@ -148,14 +148,16 @@ export class OrderBookService {
           ),
         );
         Logger.debug(`snapshot: ${snapshotData.status}`);
-
+        if (!snapshotData.data.asks || !snapshotData.data.bids) {
+          console.log(snapshotData.data);
+        }
         const snapshot = {
           ...snapshotData.data,
-          asks: snapshotData.data.asks.map((item) => [
+          asks: snapshotData.data.asks?.map((item) => [
             Number(item[0]),
             Number(item[1]),
           ]),
-          bids: snapshotData.data.bids.map((item) => [
+          bids: snapshotData.data.bids?.map((item) => [
             Number(item[0]),
             Number(item[1]),
           ]),
