@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { initBorders } from './models/borders';
 import { Logger } from '@nestjs/common';
-
+console.log(process.env.DATABASE_URL);
 export const sequelize = new Sequelize(
   process.env.DATABASE_URL ||
     'postgresql://postgres:postgres@localhost:5432/travos-muchos',
