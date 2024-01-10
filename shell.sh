@@ -1,3 +1,4 @@
+read part
 git clone https://Rafail1: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@github.com/Rafail1/travos-mucho-backend
 cd travos-mucho-backend/
 sudo apt update
@@ -16,7 +17,7 @@ quit
 
 npm install pm2@latest -g
 
-echo 'PART="2"' >> /etc/environment
+echo 'PART="' + $part + ' "' >> /etc/environment
 echo 'DATABASE_URL="postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos"' >> /etc/environment
 
 sh pm2run.sh
