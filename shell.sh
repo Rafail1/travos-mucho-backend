@@ -19,5 +19,5 @@ npm install pm2@latest -g
 
 echo 'PART="' + $part + ' "' >> /etc/environment
 echo 'DATABASE_URL="postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos"' >> /etc/environment
-
+source /etc/environment
 sh pm2run.sh
