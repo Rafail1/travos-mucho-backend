@@ -7,8 +7,7 @@ curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
 
 sudo apt install postgresql
 
-
-echo 'PART="'$part'"' >> /etc/environment
+echo 'PART="8"' >> /etc/environment
 echo 'DATABASE_URL="postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos"' >> /etc/environment
 
 echo "" >> /etc/hosts
