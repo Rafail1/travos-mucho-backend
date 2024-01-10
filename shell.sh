@@ -1,4 +1,3 @@
-read part
 git clone https://github.com/Rafail1/travos-mucho-backend
 cd travos-mucho-backend/
 sudo apt update
