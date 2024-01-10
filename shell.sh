@@ -12,12 +12,14 @@ sudo apt install postgresql
 echo 'PART="'$part'"' >> /etc/environment
 echo 'DATABASE_URL="postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos"' >> /etc/environment
 
+echo "" >> /etc/hosts
 echo "185.251.38.11 scalp24.store" >> /etc/hosts
 echo "185.251.38.12 scalp24.store" >> /etc/hosts
 echo "185.251.38.40 scalp24.store" >> /etc/hosts
 # source /etc/environment
 # source ~/.bashrc
 # nvm install --lts
+# nvm use --lts
 # npm i
 
 # sudo -u postgres psql
