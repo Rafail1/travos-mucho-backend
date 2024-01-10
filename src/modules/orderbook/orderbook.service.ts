@@ -12,7 +12,7 @@ const DEPTH_LIMIT = 1000;
 
 @Injectable()
 export class OrderBookService {
-  private proxyUrl = 'https://scalp24.store';
+  private proxyUrl = 'https://scalpsto.isp27by.testvps.site';
   private messageQueueMap = new Map();
 
   private orderBookSetting = new Map();
