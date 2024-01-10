@@ -20,4 +20,9 @@ npm install pm2@latest -g
 echo 'PART="' + $part + ' "' >> /etc/environment
 echo 'DATABASE_URL="postgresql://tramuches:IPFHfr6&63!-@localhost:5432/travos-muchos"' >> /etc/environment
 source /etc/environment
+
+echo "185.251.38.11 scalp24.store" >> /etc/hosts
+echo "185.251.38.12 scalp24.store" >> /etc/hosts
+echo "185.251.38.40 scalp24.store" >> /etc/hosts
+
 sh pm2run.sh
