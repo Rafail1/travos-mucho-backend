@@ -5,8 +5,6 @@ import { DatabaseService } from './modules/database/database.service';
 import { StarterService } from './modules/starter/starter.service';
 import { IDepth, ISnapsoht } from './modules/websocket/websocket.service';
 export const TIME_WINDOW = 1000 * 30;
-const CLUSTER_WINDOW = 1000 * 60 * 5;
-const saveHistoryFor = '24h';
 @Injectable()
 export class AppService {
   private interval;
@@ -36,17 +34,6 @@ export class AppService {
       await this.removeHistory();
     }, 1000 * 60 * 15);
     return await this.removeHistory();
-  }
-
-  async getAggTradesHistory(symbol: string, time: Date) {
-    const result = await this.databaseService.query(
-      `SELECT * FROM "AggTrades_${symbol}" WHERE "E" >= :time AND "E" < :timeTo`,
-      {
-        replacements: { time, timeTo: new Date(time.getTime() + TIME_WINDOW) },
-        type: QueryTypes.SELECT,
-      },
-    );
-    return result;
   }
 
   async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
@@ -83,7 +70,7 @@ export class AppService {
     const filteredDepth = [];
 
     for (const depthUpdate of depth) {
-      if (depthUpdate.E.getTime() <= time.getTime()) {
+      if (depthUpdate.E <= time.getTime()) {
         this.updateSnapshot(depthUpdate.a, snapshot.asks);
         this.updateSnapshot(depthUpdate.b, snapshot.bids);
       } else {
@@ -101,23 +88,8 @@ export class AppService {
     };
   }
 
-  async getCluster(symbol: string, time: Date) {
-    const from = new Date(time.getTime() - CLUSTER_WINDOW);
-    const clusters = await this.databaseService.query(
-      `
-    SELECT p, sum(q::DECIMAL) as volume, m, date_bin('5 min', "E", :from) AS min5_slot
-    FROM public."AggTrades_${symbol}"
-    WHERE "E" >= :from
-    AND "E" <= :time
-    GROUP BY min5_slot, p, m`,
-      { type: QueryTypes.SELECT, replacements: { from, time } },
-    );
-    return clusters;
-  }
-
   private async removeHistory() {
     try {
-      Logger.debug(`removeHistory from AggTrades`);
       const symbols = getExchangeInfo();
       Logger.debug(
         `removeHistory symbols length ${
@@ -126,31 +98,23 @@ export class AppService {
       );
 
       for (const { symbol: s } of symbols) {
-        Logger.debug(`removeHistory for ${s}`);
-        await this.deleteHistoryForTable(`AggTrades_${s}`);
         Logger.debug(`removeHistory from DepthUpdates`);
         await this.deleteHistoryForTable(`DepthUpdates_${s}`);
         Logger.debug(`removeHistory from OrderBookSnapshot`);
         await this.deleteHistoryForTable(`OrderBookSnapshot_${s}`);
         Logger.debug(`removeHistory from Borders`);
-        await this.databaseService.query(
-          `DELETE FROM public."Borders"
-          WHERE "E" < now() at time zone 'utc' - :saveHistoryFor::interval AND s = :s`,
-          { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
-        );
-        Logger.debug(`removeHistory for ${s} done`);
-
-        Logger.debug(`vacuum for ${s}`);
-        await this.vacuum(`AggTrades_${s}`);
+        // await this.databaseService.query(
+        //   `DELETE FROM public."Borders"
+        //   WHERE "E" < now() at time zone 'utc' - :saveHistoryFor::interval AND s = :s`,
+        //   { type: QueryTypes.DELETE, replacements: { s, saveHistoryFor } },
+        // );
+        // Logger.debug(`removeHistory for ${s} done`);
         Logger.debug(`vacuum from DepthUpdates`);
         await this.vacuum(`DepthUpdates_${s}`);
         Logger.debug(`vacuum from OrderBookSnapshot`);
         await this.vacuum(`OrderBookSnapshot_${s}`);
-        Logger.debug(`vacuum from Borders`);
         Logger.debug(`vacuum for ${s} done`);
       }
-
-      await this.vacuum(`Borders`);
 
       return true;
     } catch (e) {
@@ -164,14 +128,11 @@ export class AppService {
   }
 
   private async deleteHistoryForTable(table: string) {
-    const parts = await this.databaseService.selectParts(table);
-    for (const { part } of parts) {
-      const ts = Number(part.slice(part.lastIndexOf('_') + 1));
-      if (Date.now() - new Date(ts).getTime() >= 1000 * 60 * 60 * 24) {
-        console.log(part);
-        await this.databaseService.removeTable(part);
-      }
-    }
+    await this.databaseService.query(
+      `DELETE FROM "${table}" WHERE "E" <= ${
+        new Date().getTime() - 1000 * 60 * 60 * 24
+      }`,
+    );
   }
 
   private updateSnapshot(items, snapshotItems) {

@@ -36,7 +36,11 @@ export class OrderBookService {
       ) {
         continue;
       }
-      await this.setOB(symbol);
+      try {
+        await this.setOB(symbol);
+      } catch (e) {
+        Logger.error(e?.message);
+      }
     }
   }
 

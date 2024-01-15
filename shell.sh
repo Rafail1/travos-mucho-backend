@@ -1,5 +1,6 @@
 git clone https://github.com/Rafail1/travos-mucho-backend
 cd travos-mucho-backend/
+git config --global credential.helper store
 sudo apt update
 sudo apt upgrade
 sudo apt install curl 

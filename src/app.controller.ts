@@ -5,21 +5,6 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('agg-trades')
-  async getAggTrades(
-    @Query('symbol') symbol: string,
-    @Query('time') time: string,
-  ) {
-    const name = `getAggTrades_${Math.random()}`;
-    console.time(name);
-    const result = await this.appService.getAggTradesHistory(
-      symbol,
-      new Date(time),
-    );
-    console.timeEnd(name);
-    return result;
-  }
-
   @Get('depth')
   async getDepth(@Query('symbol') symbol: string, @Query('time') time: string) {
     const name = `depth_${Math.random()}`;
@@ -33,16 +18,16 @@ export class AppController {
     return result;
   }
 
-  @Get('cluster')
-  async getCluster(
-    @Query('symbol') symbol: string,
-    @Query('time') time: string,
-  ) {
-    const name = `getCluster_${Math.random()}`;
-    console.time(name);
+  // @Get('cluster')
+  // async getCluster(
+  //   @Query('symbol') symbol: string,
+  //   @Query('time') time: string,
+  // ) {
+  //   const name = `getCluster_${Math.random()}`;
+  //   console.time(name);
 
-    const result = await this.appService.getCluster(symbol, new Date(time));
-    console.timeEnd(name);
-    return result;
-  }
+  //   const result = await this.appService.getCluster(symbol, new Date(time));
+  //   console.timeEnd(name);
+  //   return result;
+  // }
 }

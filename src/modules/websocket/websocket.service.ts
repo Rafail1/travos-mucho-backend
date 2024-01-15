@@ -1,50 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { WebsocketClient } from 'binance';
 export const DEPTH_UPDATE_GAP = 100;
 const MARKET = 'usdm';
-export class AggTrade {
-  public fields: Prisma.AggTradesCreateInput;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor({ E, a, s, p, q, m }: IAggTrade) {
-    this.fields = {
-      a,
-      s,
-      p,
-      q,
-      m,
-      E: new Date(E),
-    };
-  }
-}
-
-export interface IAggTrade {
-  /** ex: aggTrade  // Event type */
-  e: string;
-  /**  ex: 1822767676; // Aggregate trade ID */
-  a: number;
-  /**  ex: 1691652206099; // Event time */
-  E: number;
-  /**  ex: 4000633105; // First trade ID */
-  f: number;
-  /**  ex: 4000633105; // Last trade ID */
-  l: number;
-  /**  ex: true; // Is the buyer the market maker? */
-  m: boolean;
-  /**  ex: '29550.20'; // Price */
-  p: string;
-  /**  ex: '0.018'; // Quantity */
-  q: string;
-  /**  ex: 'BTCUSDT'; // Symbol */
-  s: string;
-  /**  ex: 1691652205944; // Trade time */
-  T: number;
-}
 
 export interface IDepth {
   /** Event time */
-  E: Date; // Event time
+  E: number; // Event time
   /**Symbol */
   s: string;
   /**Final update ID in event */
@@ -52,9 +13,9 @@ export interface IDepth {
   /** Final update Id in last stream(ie `u` in last stream) */
   pu: number;
   /**  Bids to be updated [ '0.0024', // Price level to be updated '10', // Quantity]*/
-  b: Array<[number, number]>;
+  b: Array<[string, string]>;
   /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */
-  a: Array<[number, number]>;
+  a: Array<[string, string]>;
 }
 
 export interface ISnapsoht {
@@ -65,26 +26,6 @@ export interface ISnapsoht {
   bids: Array<[number, number]>;
   /** Asks to be updated  [ '0.0026', // Price level to be updated '100', // Quantity] */
   asks: Array<[number, number]>;
-}
-
-export class Depth {
-  public fields: IDepth;
-  u: number;
-  pu: number;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor({ E, a, b, s, u, pu }: IDepth) {
-    this.u = u;
-    this.pu = pu;
-    this.fields = {
-      a: a.map((item) => [Number(item[0]), Number(item[1])]),
-      b: b.map((item) => [Number(item[0]), Number(item[1])]),
-      s,
-      E: new Date(E),
-      u,
-      pu,
-    };
-  }
 }
 
 export class Snapshot {
@@ -112,7 +53,6 @@ export class WebSocketService {
   }
 
   public subscribe(symbol: string) {
-    this.wsClient.subscribeAggregateTrades(symbol, MARKET);
     this.wsClient.subscribeDiffBookDepth(symbol, DEPTH_UPDATE_GAP, MARKET);
     this.listenersCnt++;
   }
@@ -121,12 +61,10 @@ export class WebSocketService {
     Logger.warn('unsubscribe not possible');
   }
 
-  public listen(aggTradeCallback, depthCallback) {
+  public listen(depthCallback) {
     this.wsClient.on('message', (message: any) => {
       try {
         switch (message.e) {
-          case 'aggTrade':
-            return aggTradeCallback(message);
           case 'depthUpdate':
             return depthCallback(message);
 
