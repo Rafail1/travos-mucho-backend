@@ -19,14 +19,9 @@ export class TradesService {
     private databaseService: DatabaseService,
     private webSocketService: WebSocketService,
   ) {
-    this.setSnapshot();
     for (const { symbol } of getExchangeInfo()) {
       this.depthBuffer.set(symbol, []);
     }
-
-    setInterval(async () => {
-      this.flushFullDepth();
-    }, FLUSH_FULL_INTERVAL);
   }
 
   async subscribe(symbol: string) {
@@ -50,6 +45,10 @@ export class TradesService {
     }
     this.listening = true;
     this.webSocketService.listen(this.depthCallback.bind(this));
+    this.initSnapshot();
+    setInterval(async () => {
+      this.flushFullDepth();
+    }, FLUSH_FULL_INTERVAL);
   }
 
   async depthCallback(depth: IDepth) {
@@ -177,7 +176,7 @@ export class TradesService {
   //   });
   // }
 
-  private async setSnapshot() {
+  async initSnapshot() {
     const symbols = getExchangeInfo().map((item) => item.symbol);
     let i = 0;
     const _setSnapshot = () => {
