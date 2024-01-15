@@ -4,6 +4,7 @@ export const DEPTH_UPDATE_GAP = 100;
 const MARKET = 'usdm';
 
 export interface IDepth {
+  U: number;
   /** Event time */
   E: number; // Event time
   /**Symbol */
@@ -28,18 +29,6 @@ export interface ISnapsoht {
   asks: Array<[number, number]>;
 }
 
-export class Snapshot {
-  public fields: ISnapsoht;
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(symbol: string, data: ISnapsoht) {
-    this.fields = {
-      symbol,
-      ...data,
-      E: new Date(data.E),
-    };
-  }
-}
 @Injectable()
 export class WebSocketService {
   private listenersCnt = 0;

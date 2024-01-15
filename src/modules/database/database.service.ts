@@ -99,11 +99,11 @@ export class DatabaseService implements OnModuleInit {
       await this.query(createOBSql);
       await this.query(createDUSql);
       await this.query(
-        `CREATE UNIQUE INDEX "DepthUpdates_${symbol}_E_key" ON "DepthUpdates_${symbol}"("E");`,
+        `CREATE UNIQUE INDEX IF NOT EXISTS "DepthUpdates_${symbol}_E_key" ON "DepthUpdates_${symbol}"("E");`,
       );
 
       await this.query(
-        `CREATE UNIQUE INDEX "OrderBookSnapshot_${symbol}_E_key" ON "OrderBookSnapshot_${symbol}"("E");`,
+        `CREATE UNIQUE INDEX IF NOT EXISTS "OrderBookSnapshot_${symbol}_E_key" ON "OrderBookSnapshot_${symbol}"("E");`,
       );
 
       // const to = this.filterTime(

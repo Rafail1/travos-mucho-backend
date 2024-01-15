@@ -138,7 +138,7 @@ export class AppService {
   private updateSnapshot(items, snapshotItems) {
     items.forEach((leftItem) => {
       const existsIndex = snapshotItems.findIndex(
-        (item) => Number(item[0]) === Number(leftItem[0]),
+        (item) => item[0] === leftItem[0],
       );
 
       if (existsIndex === -1) {

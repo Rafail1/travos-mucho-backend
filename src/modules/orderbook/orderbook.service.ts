@@ -1,11 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { firstValueFrom, interval } from 'rxjs';
-import { DatabaseService } from '../database/database.service';
-import { Snapshot } from '../websocket/websocket.service';
-import { getExchangeInfo } from 'src/exchange-info';
-import { Borders } from '../database/sequelize/models/borders';
 import { QueryTypes } from 'sequelize';
+import { getExchangeInfo } from 'src/exchange-info';
+import { DatabaseService } from '../database/database.service';
+import { Borders } from '../database/sequelize/models/borders';
 
 const MESSAGE_QUEUE_INTERVAL = 500;
 const DEPTH_LIMIT = 1000;
@@ -151,29 +150,10 @@ export class OrderBookService {
             `${this.proxyUrl}/depth?symbol=${symbol}&limit=${DEPTH_LIMIT}`,
           ),
         );
-        Logger.debug(`snapshot: ${snapshotData.status}`);
-        if (!snapshotData.data.asks || !snapshotData.data.bids) {
-          console.log(snapshotData);
-        }
-        const snapshot = {
+        cb({
           ...snapshotData.data,
-          asks: snapshotData.data.asks?.map((item) => [
-            Number(item[0]),
-            Number(item[1]),
-          ]),
-          bids: snapshotData.data.bids?.map((item) => [
-            Number(item[0]),
-            Number(item[1]),
-          ]),
           symbol: symbol.toUpperCase(),
-        };
-
-        if (snapshot) {
-          const data = new Snapshot(symbol, snapshot).fields;
-          cb(data);
-        } else {
-          cb(null);
-        }
+        });
       } catch (e) {
         Logger.error(e?.message);
         cb(null, e);

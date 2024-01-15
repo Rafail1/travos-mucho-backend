@@ -1,13 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { QueryTypes } from 'sequelize';
-import { TIME_WINDOW } from 'src/app.service';
-import { getExchangeInfo } from 'src/exchange-info';
 import { DatabaseService } from 'src/modules/database/database.service';
 import { OrderBookService } from 'src/modules/orderbook/orderbook.service';
-import { IDepth, ISnapsoht } from 'src/modules/websocket/websocket.service';
 import { StateService } from 'src/state/state.service';
 const FULL_SNAPSHOT_INTERVAL = 2000;
-const CALCULATED_SNAPSHOT_INTERVAL = 60000;
 @Injectable()
 export class SnapshotWorkerService {
   constructor(
