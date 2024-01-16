@@ -102,7 +102,7 @@ export class AppService {
         await this.deleteHistoryForTable(`DepthUpdates_${s}`);
         Logger.debug(`removeHistory from OrderBookSnapshot`);
         await this.deleteHistoryForTable(`OrderBookSnapshot_${s}`);
-        Logger.debug(`removeHistory from Borders`);
+        // Logger.debug(`removeHistory from Borders`);
         // await this.databaseService.query(
         //   `DELETE FROM public."Borders"
         //   WHERE "E" < now() at time zone 'utc' - :saveHistoryFor::interval AND s = :s`,
