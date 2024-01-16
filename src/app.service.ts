@@ -129,9 +129,9 @@ export class AppService {
 
   private async deleteHistoryForTable(table: string) {
     await this.databaseService.query(
-      `DELETE FROM "${table}" WHERE "E" <= ${
-        new Date().getTime() - 1000 * 60 * 60 * 24
-      }`,
+      `DELETE FROM "${table}" WHERE "E" <= '${new Date(
+        new Date().getTime() - 1000 * 60 * 60 * 24,
+      ).toISOString()}'`,
     );
   }
 
