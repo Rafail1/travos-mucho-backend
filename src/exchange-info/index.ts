@@ -6,6 +6,6 @@ export function getExchangeInfo() {
   if (part) {
     return symbols.slice((part - 1) * partSize, part * partSize);
   } else {
-    return symbols.slice(0, partSize);
+    return symbols.slice(0, 1);
   }
 }
