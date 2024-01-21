@@ -41,7 +41,7 @@ export class AppService {
       const result = await this.databaseService.query<any>(
         `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" = :time`,
         {
-          replacements: { time },
+          replacements: { time: new Date(time.getTime() + TIME_WINDOW) },
           type: QueryTypes.SELECT,
         },
       );
