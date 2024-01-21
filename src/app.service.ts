@@ -36,12 +36,12 @@ export class AppService {
     return await this.removeHistory();
   }
 
-  async getDepthUpdates(symbol: string, timeFrom: Date, timeTo: Date) {
+  async getDepthUpdates(symbol: string, time: Date) {
     try {
       const result = await this.databaseService.query<IDepth>(
-        `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" >= :timeFrom AND "E" < :timeTo ORDER BY "E" ASC`,
+        `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" = :time`,
         {
-          replacements: { timeFrom, timeTo },
+          replacements: { time },
           type: QueryTypes.SELECT,
         },
       );
@@ -60,30 +60,10 @@ export class AppService {
       return {};
     }
 
-    const timeFrom = new Date(snapshot.E);
-    const depth = await this.getDepthUpdates(
-      symbol,
-      timeFrom,
-      new Date(time.getTime() + TIME_WINDOW),
-    );
-
-    const filteredDepth = [];
-
-    for (const depthUpdate of depth) {
-      if (depthUpdate.E <= time.getTime()) {
-        this.updateSnapshot(depthUpdate.a, snapshot.asks);
-        this.updateSnapshot(depthUpdate.b, snapshot.bids);
-      } else {
-        filteredDepth.push(depthUpdate);
-      }
-    }
-
-    if (!filteredDepth.length) {
-      Logger.warn('depthUpdates not found');
-    }
+    const depth = await this.getDepthUpdates(symbol, time);
 
     return {
-      depth: filteredDepth,
+      depth,
       snapshot,
     };
   }
