@@ -69,7 +69,7 @@ export class OrderBookService {
                   :E,
                   :bids,
                   :asks
-                );`,
+                ) ON CONFLICT DO NOTHING;`,
                 {
                   type: QueryTypes.INSERT,
                   replacements: {

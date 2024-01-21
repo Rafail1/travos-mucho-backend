@@ -152,7 +152,7 @@ export class TradesService {
               '${JSON.stringify(data)}'
             )`;
           })
-          .join(',')}`,
+          .join(',')} ON CONFLICT DO NOTHING`,
         { type: QueryTypes.INSERT },
       );
 
@@ -199,7 +199,7 @@ export class TradesService {
               :E,
               :bids,
               :asks
-            );`,
+            ) ON CONFLICT DO NOTHING`,
             {
               type: QueryTypes.INSERT,
               replacements: {
