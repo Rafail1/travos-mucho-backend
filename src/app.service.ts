@@ -38,7 +38,7 @@ export class AppService {
 
   async getDepthUpdates(symbol: string, time: Date) {
     try {
-      const result = await this.databaseService.query<IDepth>(
+      const result = await this.databaseService.query<any>(
         `SELECT * FROM "DepthUpdates_${symbol}" WHERE "E" = :time`,
         {
           replacements: { time },
@@ -46,7 +46,7 @@ export class AppService {
         },
       );
 
-      return result;
+      return result?.[0]?.data;
     } catch (e) {
       return [];
     }
